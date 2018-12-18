@@ -4,7 +4,7 @@ namespace WPSP;
 
 use SiteEngine;
 
-class PerUserSiteEngine extends SiteEngine {
+class MultiSiteEngine extends SiteEngine {
 
     private $sites = array();
 

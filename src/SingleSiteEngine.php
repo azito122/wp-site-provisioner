@@ -4,7 +4,7 @@ namespace WPSP;
 
 use SiteEngine;
 
-class OneSiteEngine extends SiteEngine {
+class SingleSiteEngine extends SiteEngine {
 
     private $siteid;
 
