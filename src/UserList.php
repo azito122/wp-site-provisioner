@@ -2,7 +2,7 @@
 
 namespace WPSP;
 
-class Userlist {
+class UserList {
 
     private $users;
 

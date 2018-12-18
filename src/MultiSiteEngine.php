@@ -3,22 +3,19 @@
 namespace WPSP;
 
 use SiteEngine;
+use SingleSiteEngine;
 
 class MultiSiteEngine extends SiteEngine {
 
-    private $sites = array();
+    private $siteengines = array();
 
     public function createSiteForUser( User $user ) {
 
-        $siteinfo = array(
-            'title' => $this->resolveConfig( 'title' ),
-        );
+        $this->sitengines[] = new SingleSiteEngine( $this->config, $user );
 
     }
 
-    // public function resolveConfig( )
-
-    public function updateSites( Userlist $users ) {
+    public function updateSites( UserList $users ) {
 
         $updateduserids = $users->getUserIds();
         $currentuserids = array_keys( $this->sites );

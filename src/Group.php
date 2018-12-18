@@ -6,7 +6,7 @@ class Group {
 
     private $typemeta;
     private $userlist;
-    private $query;
+    private $userprovider;
     private $siteengines;
 
     public function __construct__( $typemeta ) {
@@ -18,8 +18,7 @@ class Group {
     }
 
     public function updateMembers() {
-        $userdata = $this->query->run;
-        $this->userlist->update($userdata);
+        $this->userlist = $this->userprovider->getUsers();
         foreach( $this->siteengines as $se) {
             $se->updateSites( $this->userlist );
         }

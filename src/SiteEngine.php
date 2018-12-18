@@ -26,7 +26,7 @@ abstract class SiteEngine {
         return wpmu_delete_blog( $id, true );
     }
 
-    abstract public function updateSites(Userlist $userlist );
+    abstract public function updateSites(UserList $userlist );
 
     public function updateSite( $id ) {
         $this->updateSiteAccess( $id, $userlist->getUsers() );
