@@ -7,7 +7,11 @@ class UserList {
     private $users;
 
     public function __construct__( $users ) {
-        $this->users = $users;
+        if ( $user instanceof User ) {
+            $this->users = array( $user );
+        } else if ( is_array( $users ) ) {
+            $this->$users = $users;
+        }
     }
 
     public function add( User $user ) {
@@ -22,5 +26,15 @@ class UserList {
         } else {
             return;
         }
+    }
+
+    public function getUsers() {
+        return $this->users;
+    }
+
+    public function getUserIds() {
+        return array_map( function( $u ) {
+            return $u->getId();
+        }, $this->users );
     }
 }

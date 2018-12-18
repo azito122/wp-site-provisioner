@@ -13,15 +13,26 @@ class Group {
         $this->typemeta = $typemeta;
     }
 
-    public function addMember(User $user) {
-        $this->userlist->add($user);
-    }
+    // public function addMember(User $user) {
+    //     $this->userlist->add($user);
+    // }
 
     public function updateMembers() {
         $this->userlist = $this->userprovider->getUsers();
-        foreach( $this->siteengines as $se) {
-            $se->updateSites( $this->userlist );
+
+        foreach( $this->siteengines as $se ) {
+            $se->update( $this->userlist );
         }
+    }
+
+    public function addSiteEngine( $type, $filter = null ) {
+        if ( $type = ADDSE_SINGLE ) {
+            $newse = new SingleSiteEngine();
+        } else if ( $type = ADDSE_MULTI ) {
+            $newse = new MultiSiteEngine( $filter );
+        }
+        $newse->update( $this->userlist );
+        $this->siteengines[] = $newse;
     }
 
 }
