@@ -6,10 +6,9 @@ class Query {
 
     private $remote;
     private $params;
-    // private $properties;
     private $latest;
 
-    public function __construct__(Remote $remote, $params) {
+    public function __construct__(Remote $remote = null, $params = null ) {
         $this->remote = $remote;
         $this->params = $params;
     }
@@ -23,44 +22,23 @@ class Query {
         $args = array(
             'timeout' => 5,
         );
-        $args = array_merge($args, $this->params);
+        $args = array_merge( $args, $this->getParams );
         $result = wp_remote_get( $url, $args );
         $this->latest = $result;
         return $result;
     }
 
-    // public function addProperty( $key, $datapath ) {
-    //     if ( ! array_key_exists( $key, $this->properties ) ) {
-    //         $this->properties[ $key ] = $datapath;
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
-    public function addParam( $key, $value ) {
-        if ( ! array_key_exists( $key, $this->params ) ) {
-            $this->params[ $key ] = $value;
-            return true;
-        }
-        return false;
+    public function getParams() {
+        return array_map( function( $p ) {
+            return $p->getFull();
+        }, $this->params );
     }
 
-    public function setParam( $key, $value ) {
-        if ( array_key_exists( $key, $this->params ) ) {
-            $this->params[ $key ] = $value;
-            return true;
-        }
-        return false;
+    public function addParam( QueryParam $param ) {
+        $this->params[] = $param;
     }
 
-    // public function getData( $datapath ) {
-    //     if ( array_key_exists( $datapath, $this->properties ) ) {
-    //         return $this->resolveDataPath( $this->properties[ $datapath ] );
-    //     }
-    //     return $this->resolveDataPath( $datapath );
-    // }
-
-    // public function resolveDataPath( $datapath ) {
-    //     return;
-    // }
+    public function deleteParam( QueryParam $param ) {
+        unset( $this->params[ array_search( $param, $this->params ) ] );
+    }
 }

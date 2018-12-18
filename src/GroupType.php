@@ -2,7 +2,7 @@
 
 namespace WPSP;
 
-use WPSP\Query;
+use Query;
 
 class GroupType {
 
