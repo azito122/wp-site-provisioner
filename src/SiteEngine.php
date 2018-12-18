@@ -14,9 +14,9 @@ abstract class SiteEngine {
     public function createSite( $siteinfo = array() ) {
 
         $domain = 'd';
-        $path = $siteinfo[ 'path' ] ?? $this->resolveConfig( 'path' );
-        $title = $siteinfo[ 'title' ] ?? $this->resolveConfig( 'title' );
-        $adminuserid = $siteinfo[ 'adminuserid' ] ?? $this->resolveConfig( 'adminuserid ');
+        $path = array_key_exists( 'path', $siteinfo ) ? $siteinfo[ 'path' ] : $this->resolveConfig( 'path' );
+        $title = array_key_exists( 'title', $siteinfo[ 'title' ] ) ? $siteinfo[ 'title' ] : $this->resolveConfig( 'title' );
+        $adminuserid = array_key_exists( 'adminuserid', $siteinfo[ 'adminuserid' ] ) ? $siteinfo[ 'adminuserid' ] : $this->resolveConfig( 'adminuserid' );
 
         $siteid = wpmu_create_blog( $domain, $path, $title, $adminuserid );
         update_blog_option( $siteid, 'blogdescription', $this->resolveConfig( 'tagline' ) );
