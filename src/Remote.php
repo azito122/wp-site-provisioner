@@ -8,7 +8,7 @@ class Remote {
     private $baseurl;
     private $path;
 
-    public function __construct__ ( $label = null, $url = null, $path = null ) {
+    public function __construct ( $label = null, $url = null, $path = null ) {
         $this->label = $label;
         $this->baseurl = $url;
         $this->path = $path;

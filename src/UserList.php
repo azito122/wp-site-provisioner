@@ -6,7 +6,7 @@ class UserList {
 
     private $users;
 
-    public function __construct__( $users ) {
+    public function __construct( $users ) {
         if ( $user instanceof User ) {
             $this->users = array( $user );
         } else if ( is_array( $users ) ) {

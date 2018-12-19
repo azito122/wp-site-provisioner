@@ -8,7 +8,7 @@ class Query {
     private $params;
     private $latest;
 
-    public function __construct__(Remote $remote = null, $params = null ) {
+    public function __construct(Remote $remote = null, $params = null ) {
         $this->remote = $remote;
         $this->params = $params;
     }
@@ -29,9 +29,7 @@ class Query {
     }
 
     public function getParams() {
-        return array_map( function( $p ) {
-            return $p->getFull();
-        }, $this->params );
+        return $this->params;
     }
 
     public function addParam( QueryParam $param ) {

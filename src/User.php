@@ -8,7 +8,7 @@ class User {
     private $login;
     private $roles;
 
-    public function __construct__($id, $login, $roles) {
+    public function __construct($id, $login, $roles) {
         $this->id = $id;
         $this->login = $login;
         $this->roles = $roles;

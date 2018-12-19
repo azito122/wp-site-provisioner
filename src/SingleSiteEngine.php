@@ -10,7 +10,7 @@ class SingleSiteEngine extends SiteEngine {
     private $siteid;
     private $owner;
 
-    public function __construct__( $ownerid = null ) {
+    public function __construct( $ownerid = null ) {
         if ( isset( $ownerid ) ) {
             $this->setOwner( $initialusers->getById( $ownerid ) );
         }

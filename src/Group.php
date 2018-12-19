@@ -9,7 +9,7 @@ class Group {
     private $userprovider;
     private $siteengines;
 
-    public function __construct__( $typemeta ) {
+    public function __construct( $typemeta ) {
         $this->typemeta = $typemeta;
     }
 

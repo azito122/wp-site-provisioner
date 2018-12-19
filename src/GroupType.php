@@ -2,8 +2,6 @@
 
 namespace WPSP;
 
-use Query;
-
 class GroupType {
 
     private $label;
@@ -11,8 +9,12 @@ class GroupType {
     private $templatequery;
     private $properties;
 
-    public function __construct__() {
+    public function __construct() {
         $this->templatequery = new Query();
+    }
+
+    public function getTemplateQuery() {
+        return $this->templatequery;
     }
 
     public function setLabel( $label ) {
@@ -29,13 +31,20 @@ class GroupType {
         $template = $this->templatequery;
         $Q = clone $template;
 
-        $labelkey = $template->getLabel();
-        $Q->setLabel( $data[ $labelkey ] );
+        // $labelkey = $template->getLabel();
+        // $Q->setLabel( $data[ $labelkey ] );
 
-        foreach( $template->getParams() as $key => $val ) {
-            if ( preg_match( '//', $val ) ) {
-                $Q->setParam( $key, $data[ $val ]);
+        foreach( $template->getParams() as $param ) {
+            $matches = array();
+            $val = $param->getValue();
+            if ( preg_match( '/.*\{(.*?)\}.*/', $val, $matches ) ) {
+                foreach ( $matches as $match ) {
+                    if ( array_key_exists( $match, $data ) ) {
+                        $val = preg_replace( "/\{$match\}/", $data[ $match ], $val );
+                    }
+                }
             }
+            $param->setValue( $val );
         }
         return $Q;
     }

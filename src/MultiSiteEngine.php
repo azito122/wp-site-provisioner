@@ -10,7 +10,7 @@ class MultiSiteEngine extends SiteEngine {
     private $filter;
     private $siteengines = array();
 
-    public function __construct__( $initialusers, $filter = null ) {
+    public function __construct( $initialusers, $filter = null ) {
         if ( $filter ) {
             $this->filter = $filter;
         }
