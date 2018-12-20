@@ -2,6 +2,8 @@
 
 namespace WPSP;
 
+include_once(__DIR__ . '/Query.php');
+
 class GroupType {
 
     private $label;
@@ -16,6 +18,10 @@ class GroupType {
 
     public function getTemplateQuery() {
         return $this->templatequery;
+    }
+
+    public function getLabel() {
+        return $this->label;
     }
 
     public function setLabel( $label ) {

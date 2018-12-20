@@ -2,6 +2,9 @@
 
 namespace WPSP;
 
+include_once(__DIR__ . '/Remote.php');
+include_once(__DIR__ . '/QueryParam.php');
+
 class Query {
 
     private $remote;
