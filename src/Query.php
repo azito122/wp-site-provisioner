@@ -9,8 +9,12 @@ class Query {
     private $latest;
 
     public function __construct(Remote $remote = null, $params = null ) {
-        $this->remote = $remote;
+        $this->remote = isset( $remote ) ? $remote : new Remote();
         $this->params = $params;
+    }
+
+    public function getRemote() {
+        return $this->remote;
     }
 
     public function setRemote(Remote $remote) {
@@ -32,8 +36,12 @@ class Query {
         return $this->params;
     }
 
-    public function addParam( QueryParam $param ) {
+    public function addParam( $param = null ) {
+        if ( ! $param instanceof QueryParam ) {
+            $param = new QueryParam();
+        }
         $this->params[] = $param;
+        return $param;
     }
 
     public function deleteParam( QueryParam $param ) {

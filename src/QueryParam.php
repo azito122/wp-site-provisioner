@@ -28,6 +28,11 @@ class QueryParam {
         $this->value = $value;
     }
 
+    public function set( $key, $value ) {
+        $this->key = $key;
+        $this->value = $value;
+    }
+
     public function getFull() {
         return array( $this->key => $this->value );
     }

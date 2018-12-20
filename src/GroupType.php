@@ -11,6 +11,7 @@ class GroupType {
 
     public function __construct() {
         $this->templatequery = new Query();
+        $this->sourcequery = new Query();
     }
 
     public function getTemplateQuery() {
@@ -23,8 +24,16 @@ class GroupType {
         }
     }
 
+    public function getSourceQuery() {
+        return $this->sourcequery;
+    }
+
     public function setSourceQuery( Query $query ) {
         $this->sourcequery = $query;
+    }
+
+    public function getData() {
+        return $this->sourcequery->run();
     }
 
     public function makeQuery( $data ) {

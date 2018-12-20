@@ -10,13 +10,13 @@ class QueryUserProvider extends UserProvider {
 
     private $query;
 
-    public function construct(Query $query) {
+    public function construct( Query $query ) {
         $this->query = $query;
     }
 
     public function getUsers() {
         $userdata = $this->query->run();
-        return new UserList($userdata);
+        return new UserList( $userdata );
     }
 
 }
