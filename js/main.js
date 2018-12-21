@@ -25,6 +25,12 @@ WPSP.render = function(template, selector) {
 
 $(document).ready(function() {
 
+    $('.save.button').on( 'click', function(e) {
+        form = $(e).parent();
+        derendered = WPSP.derender(form);
+        WPSP.store(derendered);
+    })
+
     $('.add-group').on( 'click', function( e ) {
         WPSP.render('group-type-form', '.group-types');
     })

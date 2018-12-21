@@ -4,13 +4,20 @@ namespace WPSP\render;
 
 include_once(__DIR__ . '/../GroupType.php');
 include_once(__DIR__ . '/GroupTypeRenderer.php');
+include_once(__DIR__ . '/QueryRenderer.php');
 include_once(__DIR__ . '/TemplateVariables.php');
+include_once(__DIR__ . '/../infrastructure/Store.php');
 
 abstract class Renderer {
 
     private $dataobject;
 
     abstract public function __construct( $object );
+
+    public static function pageGroupTypes() {
+        $grouptypes = self::entity( \WPSP\Store::unstore( 'GroupType' ) );
+        return self::template( 'group-types', array( 'group-types' => $grouptypes ) );
+    }
 
     public static function select( $id, $label, $options, $default ) {
         $o = "<select name=\"$id\" id=\"$id\">";
@@ -30,17 +37,24 @@ abstract class Renderer {
         return $o;
     }
 
-    public static function textinput( $id, $label, $default = '' ) {
-        return '<input type="text" name="' . $id . '" value="' . $default . '">';
+    public static function textinput( $id, $label, $placeholder = '', $default = '' ) {
+        return '<input type="text" name="' . $id . '" value="' . $default . '" placeholder="' . $placeholder . '">';
     }
 
-    public static function entity( $object ) {
-        $reflect = new \ReflectionClass( $object );
-        $classname = "\WPSP\\render\\" . $reflect->getShortName() . "Renderer";
-        if ( class_exists( $classname ) ) {
-            return $classname::render( $object );
+    public static function entity( $data ) {
+        if ( is_array( $data ) ) {
+            $o = "";
+            foreach( $data as $entity ) {
+                $o .= self::entity( $entity );
+            }
+        } else {
+            $reflect = new \ReflectionClass( $data );
+            $classname = "\WPSP\\render\\" . $reflect->getShortName() . "Renderer";
+            if ( class_exists( $classname ) ) {
+                return $classname::render( $data );
+            }
+            return '';
         }
-        return '';
     }
 
     public static function template( $name, $data = array() ) {

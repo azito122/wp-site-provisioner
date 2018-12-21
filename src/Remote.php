@@ -4,6 +4,7 @@ namespace WPSP;
 
 class Remote {
 
+    public $storeid;
     private $label;
     private $baseurl;
     private $path;

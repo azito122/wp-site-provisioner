@@ -2,17 +2,13 @@
 
 namespace WPSP\render;
 
-class GroupTypeRenderer extends Renderer {
+abstract class GroupTypeRenderer extends Renderer {
 
-    public function __construct( $object ) {
-        $this->dataobject = $object;
-    }
-
-    public function render( $instance ) {
+    public static function render( $instance ) {
         $data = array(
             'group-type-label' => $instance->getLabel(),
-            'sourcequery' => $instance->getSourceQuery(),
-            'templatequery' => $instance->getTemplateQuery(),
+            'source-query' => self::entity( $instance->getSourceQuery() ),
+            'template-query' => self::entity( $instance->getTemplateQuery() ),
         );
         return self::template( 'group-type-form', $data );
     }

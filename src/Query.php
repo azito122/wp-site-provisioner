@@ -4,28 +4,63 @@ namespace WPSP;
 
 include_once(__DIR__ . '/Remote.php');
 include_once(__DIR__ . '/QueryParam.php');
+include_once(__DIR__ . '/infrastructure/Store.php');
 
 class Query {
 
+    private $remoteid;
     private $remote;
     private $params;
     private $latest;
+    private $label;
 
-    public function __construct(Remote $remote = null, $params = null ) {
-        $this->remote = isset( $remote ) ? $remote : new Remote();
+    public function __sleep() {
+        return array(
+            'remoteid',
+            'params',
+            'label'
+        );
+    }
+
+    public function __construct( $remoteid = null, $params = null ) {
+        $this->remoteid = $remoteid;
         $this->params = $params;
     }
 
+    public function getLabel() {
+        return $this->label;
+    }
+
+    public function setLabel( $label ) {
+        $this->label = is_string( $label ) ? $label : $this->label;
+    }
+
+    public function getRemoteId() {
+        return $this->remoteid;
+    }
+
     public function getRemote() {
+        if ( $this->remote ) {
+            return $this->remote;
+        }
+        $remote = Store::getEntity( 'Remote', $this->remoteid );
+        if ( $remote ) {
+            $this->remote = $remote;
+        }
         return $this->remote;
     }
 
-    public function setRemote(Remote $remote) {
-        $this->remote = $remote;
+    public function setRemote( $remote ) {
+        if ( is_numeric( $remote ) ) {
+            $this->remoteid = (int)$remote;
+        } else if ( $remote instanceof Remote ) {
+            $this->remoteid = $remote->getId();
+        }
+        $this->getRemote();
     }
 
     public function run() {
-        $url = $this->remote->getFullUrl();
+        $url = $this->getRemote()->getFullUrl();
         $args = array(
             'timeout' => 5,
         );
