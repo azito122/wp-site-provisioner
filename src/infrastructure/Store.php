@@ -6,21 +6,6 @@ define( 'WPSP_TBLNAME', 'wpsp' );
 
 class Store {
 
-    // public static function getGroupTypes() {
-    //     $result = array();
-    //     foreach ( $data as $gt ) {
-    //         array_push( $result, self::unstore( $gt ) );
-    //     }
-    // }
-
-    // public static function getEntity( $class, $id = null ) {
-    //     $serial = self::select( array( 'id' => $id ) );
-    //     if ( $serial ) {
-    //         return unserialize( $serial );
-    //     }
-    //     return false;
-    // }
-
     public static function unstore( $type, $id = null ) {
         $conditions = array( 'type' => $type );
         if ( $id ) {
@@ -97,44 +82,6 @@ class Store {
 
         $conditionstring = implode( ' AND ', $conditionjoin );
         return $wpdb->get_results( "SELECT * FROM $table_name WHERE $conditionstring", ARRAY_A );
-    }
-
-    // public static function getQuery( $id ) {
-    //     global $wpdb;
-
-    //     $q = $this->select( TBL_QUERIES, array( 'id' => $id ) );
-
-    //     $data = $wpdb->get_row( $q, ARRAY_A );
-
-    //     return Query::instanceFromData( $data, $this );
-    // }
-
-    // public static function getGroupTypes() {
-    //     global $wpdb;
-
-    //     $table_name = $wpdb->prefix . TBL_GROUPTYPES;
-    //     $sql = "SELECT * FROM $table_name";
-
-    //     $data = $wpdb->get_results( $sql, ARRAY_A );
-
-    //     $grouptypes = array();
-    //     foreach ( $data as $d ) {
-    //         $grouptypes[] = GroupType::instanceFromData( $d );
-    //     }
-    //     return $grouptypes;
-    // }
-
-    public static function resolve( $object ) {
-        $reflect = new ReflectionClass( $object );
-        $name = $reflect->getShortName();
-        if ( method_exists( $this, "Store$name" ) ) {
-            return "Store$name";
-        }
-        return false;
-    }
-
-    public function storeGroupType( $data ) {
-        // wpdb->insert(etc)
     }
 
 }
