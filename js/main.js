@@ -3,19 +3,12 @@
 WPSP = {};
 
 WPSP.render = function(template, selector) {
-    console.log(WPSP_AJAX.ajaxurl);
     $.ajax({
         type: 'post',
         url: WPSP_AJAX.ajaxurl,
         dataType: 'html',
         data: {type: 'entity', entity: 'GroupType', action: 'wpsp_render'},
-        error: function(jqxhr, status, exception) {
-            console.log(jqxhr);
-            console.log(exception);
-        },
         success: function(response, status) {
-            console.log("status:" + status);
-            console.log(response);
             if(status == 'success') {
                 $(selector).append(response);
             }
@@ -23,18 +16,28 @@ WPSP.render = function(template, selector) {
     })
 }
 
-$(document).ready(function() {
+WPSP.getValue = function(e) {
+    var tag = $(e).prop('tagName');
+    if (tag === 'INPUT') {
+        return $(e).val();
+    } else if (tag === 'SELECT') {
+        $.foreach($(select).children('option'), function(i, e) {
+            if ($(e).attr('selected') === 'selected') {
+                return $(e).val();
+            }
+        })
+    }
+}
 
-    $('.save.button').on( 'click', function(e) {
-        form = $(e).parent();
-        derendered = WPSP.derender(form);
-        WPSP.store(derendered);
+WPSP.derender = function(html) {
+    var result = {};
+    $.each($(html).children(), function(i, e) {
+        var datakey = $(e).attr('datakey');
+        if (typeof datakey === 'string') {
+            result[datakey] = WPSP.getValue(e);
+        }
     })
-
-    $('.add-group').on( 'click', function( e ) {
-        WPSP.render('group-type-form', '.group-types');
-    })
-
-})
+    console.log(result);
+}
 
 })(jQuery)
