@@ -1,6 +1,6 @@
-<form class="group-type form">
+<div class="group-type form">
     <h2><?php echo $D->get( 'group-type-label', 'Unlabeled Group Type' ); ?></h2>
-    <?php echo $R::textinput( 'group-type-label', 'Label', 'Label', $D->get( 'group-type-label' ) ); ?>
+    <?php echo $R::textinput( 'group-type-label', 'label', 'Label', $D->get( 'group-type-label' ), 'Label' ); ?>
     <?php echo $D->get( 'source-query' ); ?>
     <?php echo $D->get( 'template-query' ); ?>
     <div class="group-type-permissions">
@@ -13,4 +13,4 @@
         ?>
     </div>
     <button class="save button">Save</button>
-</form>
+</div>
