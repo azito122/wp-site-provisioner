@@ -37,8 +37,9 @@ abstract class Renderer {
         return $o;
     }
 
-    public static function textinput( $id, $label, $placeholder = '', $default = '' ) {
-        return '<input type="text" name="' . $id . '" value="' . $default . '" placeholder="' . $placeholder . '">';
+    public static function textinput( $id, $datakey, $label, $default = '', $placeholder = '' ) {
+        $o = "<input type=\"text\" name=\"$id\" datakey=\"$datakey\" value=\"$default\" placeholder=\"$placeholder\">";
+        return $o;
     }
 
     public static function entity( $data ) {
