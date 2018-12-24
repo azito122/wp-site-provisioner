@@ -25,6 +25,14 @@ class SiteProvisioner {
         add_action( 'init', array( $this, 'css_init') );
 
         register_activation_hook( __FILE__, array( $this, 'create_database_tables' ) );
+        $this->cron_init();
+    }
+
+    public function cron_init() {
+        if ( ! wp_next_scheduled( 'wpsp_cron' ) ) {
+            wp_schedule_event( time(), 'daily', 'wpsp_cron' );
+        }
+        add_action( 'wpsp_cron', array( $this, 'cron' ) );
     }
 
     public function js_init() {
@@ -38,6 +46,13 @@ class SiteProvisioner {
     public function css_init() {
         wp_register_style( 'wpsp_style', WP_PLUGIN_URL . '/wpsp/css/main.css' );
         wp_enqueue_style( 'wpsp_style' );
+    }
+
+    public function cron() {
+        $groups = Store::unstore( 'Group' );
+        foreach( $groups as $group ) {
+            $group->update();
+        }
     }
 
     public function ajax_render() {
