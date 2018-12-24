@@ -7,8 +7,6 @@ use UserList;
 
 abstract class UserProvider {
 
-    private $userlist;
-
     abstract public function getUsers();
 
 }

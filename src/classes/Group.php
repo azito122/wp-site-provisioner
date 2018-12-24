@@ -17,7 +17,7 @@ class Group {
     //     $this->userlist->add($user);
     // }
 
-    public function updateMembers() {
+    public function update() {
         $this->userlist = $this->userprovider->getUsers();
 
         foreach( $this->siteengines as $se ) {
