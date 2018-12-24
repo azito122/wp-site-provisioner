@@ -18,7 +18,11 @@ class Group {
     // }
 
     public function update() {
-        $this->userlist = $this->userprovider->getUsers();
+        // $this->userlist = $this->userprovider->getUsers();
+
+        $grouptype = Store::unstore( 'GroupType', $this->grouptypeid );
+        $query = $grouptype->makeQuery( $this->typemeta );
+        $this->userlist = $query->run();
 
         foreach( $this->siteengines as $se ) {
             $se->update( $this->userlist );
