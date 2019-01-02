@@ -23,6 +23,20 @@ class GroupType {
         return $group;
     }
 
+    public function getPossibleMetas() {
+        $options = array();
+        $currentuser = wp_get_current_user();
+        $metadata = $this->getMetaQuery()->run( array(
+            'userid' => $currentuser->ID,
+            'userlogin' => $currentuser->login,
+        ));
+
+        foreach ( $metadata as $m ) {
+            array_push( $options, $m );
+        }
+        return $options;
+    }
+
     public function getUserQuery() {
         return $this->userquery;
     }
