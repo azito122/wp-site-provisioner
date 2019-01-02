@@ -17,7 +17,7 @@ abstract class QueryRenderer extends Renderer {
             'remotes' => $remotemenu,
             'remoteid' => $instance->getRemoteId(),
         );
-        return self::template( 'query-form', $data );
+        return self::template( 'query', $data );
     }
 
 }

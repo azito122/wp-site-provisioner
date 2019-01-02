@@ -16,7 +16,7 @@ abstract class Renderer {
 
     public static function pageGroupTypes() {
         $grouptypes = self::entity( \WPSP\Store::unstore( 'GroupType' ) );
-        return self::template( 'group-types', array( 'group-types' => $grouptypes ) );
+        return self::template( 'page-group-type', array( 'group-types' => $grouptypes ) );
     }
 
     public static function select( $id, $label, $options, $default ) {

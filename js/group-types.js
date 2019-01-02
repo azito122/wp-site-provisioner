@@ -10,7 +10,7 @@ $(document).ready(function() {
     })
 
     $('.add-group').on( 'click', function( e ) {
-        WPSP.render('group-type-form', '.group-types');
+        WPSP.render('group-type', '.group-types');
     })
 
 })

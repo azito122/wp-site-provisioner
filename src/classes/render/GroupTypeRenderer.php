@@ -10,7 +10,7 @@ abstract class GroupTypeRenderer extends Renderer {
             'source-query' => self::entity( $instance->getSourceQuery() ),
             'template-query' => self::entity( $instance->getTemplateQuery() ),
         );
-        return self::template( 'group-type-form', $data );
+        return self::template( 'group-type', $data );
     }
 
 }
