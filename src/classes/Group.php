@@ -2,7 +2,11 @@
 
 namespace WPSP;
 
+include_once(__DIR__ . '/infrastructure/Store.php');
+
 class Group {
+
+    public $storeid;
 
     private $meta;
     private $queryid;
@@ -17,6 +21,11 @@ class Group {
             'queryid',
             'siteengines',
         );
+    }
+
+    public function __wakeup() {
+        global $Store;
+        $this->query = $Store->unstore( 'Query', $this->queryid );
     }
 
     public function __construct( $meta, $queryid ) {

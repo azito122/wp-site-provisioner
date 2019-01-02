@@ -2,11 +2,13 @@
 
 namespace WPSP;
 
-include_once(__DIR__ . '/Remote.php');
+include_once(__DIR__ . '/../Remote.php');
 include_once(__DIR__ . '/QueryParam.php');
-include_once(__DIR__ . '/infrastructure/Store.php');
+include_once(__DIR__ . '/../infrastructure/Store.php');
 
 class Query {
+
+    public $storeid;
 
     private $label;
     private $remoteid;
@@ -22,6 +24,11 @@ class Query {
             'remoteid',
             'params',
         );
+    }
+
+    public function __wakeup() {
+        global $Store;
+        $this->remote = $Store->unstore( 'Remote', $this->remoteid );
     }
 
     public function __construct( $remoteid = null, $params = null ) {
