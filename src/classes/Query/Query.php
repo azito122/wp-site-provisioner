@@ -8,23 +8,51 @@ include_once(__DIR__ . '/infrastructure/Store.php');
 
 class Query {
 
-    private $remoteid;
-    private $remote;
-    private $params;
-    private $latest;
     private $label;
+    private $remoteid;
+    private $params;
+
+    private $remote;
+    private $latest;
+    private $data;
 
     public function __sleep() {
         return array(
+            'label',
             'remoteid',
             'params',
-            'label'
         );
     }
 
     public function __construct( $remoteid = null, $params = null ) {
         $this->remoteid = $remoteid;
         $this->params = $params;
+    }
+
+    public function run( $data = array() ) {
+        $this->data = $data;
+
+        $url = $this->getRemote()->getFullUrl();
+        $args = array(
+            'timeout' => 5,
+        );
+        $args = array_merge( $args, $this->getParams() );
+        $result = wp_remote_get( $url, $args );
+        $this->latest = $result;
+        return $result;
+    }
+
+    public function resolve( $string ) {
+        $matches = array();
+        if ( preg_match( '/.*\{(.*?)\}.*/', $string, $matches ) ) {
+            foreach ( $matches as $match ) {
+                if ( array_key_exists( $match, $this->data ) ) {
+                    $string = preg_replace( "/\{$match\}/", $this->data[ $match ], $string );
+                }
+            }
+        }
+
+        return $string;
     }
 
     public function getLabel() {
@@ -59,19 +87,20 @@ class Query {
         $this->getRemote();
     }
 
-    public function run() {
-        $url = $this->getRemote()->getFullUrl();
-        $args = array(
-            'timeout' => 5,
-        );
-        $args = array_merge( $args, $this->getParams );
-        $result = wp_remote_get( $url, $args );
-        $this->latest = $result;
-        return $result;
+    public function getParams() {
+        $params = array();
+        foreach ( $this->params as $id => $val ) {
+            array_merge( $params, $this->getParam( $id ) );
+        }
+        return $params;
     }
 
-    public function getParams() {
-        return $this->params;
+    public function getParam( $id ) {
+        if ( ! array_key_exists( $id, $this->params ) ) {
+            return;
+        }
+
+        return array( $id => $this->resolve( $this->params[ $id ] ) );
     }
 
     public function addParam( $param = null ) {

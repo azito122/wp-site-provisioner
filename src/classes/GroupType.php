@@ -7,17 +7,24 @@ include_once(__DIR__ . '/Query.php');
 class GroupType {
 
     private $label;
-    private $sourcequery;
-    private $templatequery;
-    private $properties;
+    private $metaqueryid;
+    private $userqueryid;
+
+    private $metaquery;
+    private $userquery;
 
     public function __construct() {
-        $this->templatequery = new Query();
-        $this->sourcequery = new Query();
+        $this->userquery = new Query();
+        $this->metaquery = new Query();
     }
 
-    public function getTemplateQuery() {
-        return $this->templatequery;
+    public function makeGroup( $meta ) {
+        $group = new Group( $meta, $this->userqueryid );
+        return $group;
+    }
+
+    public function getUserQuery() {
+        return $this->userquery;
     }
 
     public function getLabel() {
@@ -30,37 +37,15 @@ class GroupType {
         }
     }
 
-    public function getSourceQuery() {
-        return $this->sourcequery;
+    public function getMetaQuery() {
+        return $this->metaquery;
     }
 
-    public function setSourceQuery( Query $query ) {
-        $this->sourcequery = $query;
+    public function setMetaQuery( Query $query ) {
+        $this->metaquery = $query;
     }
 
     public function getData() {
-        return $this->sourcequery->run();
-    }
-
-    public function makeQuery( $data ) {
-        $template = $this->templatequery;
-        $Q = clone $template;
-
-        // $labelkey = $template->getLabel();
-        // $Q->setLabel( $data[ $labelkey ] );
-
-        foreach( $template->getParams() as $param ) {
-            $matches = array();
-            $val = $param->getValue();
-            if ( preg_match( '/.*\{(.*?)\}.*/', $val, $matches ) ) {
-                foreach ( $matches as $match ) {
-                    if ( array_key_exists( $match, $data ) ) {
-                        $val = preg_replace( "/\{$match\}/", $data[ $match ], $val );
-                    }
-                }
-            }
-            $param->setValue( $val );
-        }
-        return $Q;
+        return $this->metaquery->run();
     }
 }

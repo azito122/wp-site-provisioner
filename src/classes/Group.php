@@ -4,28 +4,31 @@ namespace WPSP;
 
 class Group {
 
-    private $typemeta;
-    private $userlist;
-    private $userprovider;
+    private $meta;
+    private $queryid;
     private $siteengines;
 
-    public function __construct( $typemeta ) {
-        $this->typemeta = $typemeta;
+    private $query;
+    private $members;
+
+    public function __sleep() {
+        return array(
+            'meta',
+            'queryid',
+            'siteengines',
+        );
     }
 
-    // public function addMember(User $user) {
-    //     $this->userlist->add($user);
-    // }
+    public function __construct( $meta, $queryid ) {
+        $this->meta = $meta;
+        $this->queryid = $queryid;
+    }
 
     public function update() {
-        // $this->userlist = $this->userprovider->getUsers();
-
-        $grouptype = Store::unstore( 'GroupType', $this->grouptypeid );
-        $query = $grouptype->makeQuery( $this->typemeta );
-        $this->userlist = $query->run();
+        $this->members = $this->getUsers();
 
         foreach( $this->siteengines as $se ) {
-            $se->update( $this->userlist );
+            $se->update( $this->members );
         }
     }
 
@@ -35,8 +38,11 @@ class Group {
         } else if ( $type = ADDSE_MULTI ) {
             $newse = new MultiSiteEngine( $filter );
         }
-        $newse->update( $this->userlist );
+        $newse->update( $this->members );
         $this->siteengines[] = $newse;
     }
 
+    private function getUsers() {
+        return $this->query->run();
+    }
 }
