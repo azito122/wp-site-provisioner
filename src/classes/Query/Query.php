@@ -12,6 +12,7 @@ class Query {
 
     private $label;
     private $remoteid;
+    private $extrapath;
     private $params;
 
     private $remote;
@@ -39,7 +40,7 @@ class Query {
     public function run( $data = array() ) {
         $this->data = $data;
 
-        $url = $this->getRemote()->getFullUrl();
+        $url = $this->getUrl();
         $args = array(
             'timeout' => 5,
         );
@@ -92,6 +93,18 @@ class Query {
             $this->remoteid = $remote->getId();
         }
         $this->getRemote();
+    }
+
+    public function getExtraPath() {
+        return $this->extrapath;
+    }
+
+    public function setExtraPath( $path ) {
+        $this->extrapath = $path;
+    }
+
+    public function getUrl() {
+        return $this->remote->getUrl() . $this->getExtraPath();
     }
 
     public function getParams() {

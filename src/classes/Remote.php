@@ -6,30 +6,18 @@ class Remote {
 
     public $storeid;
     private $label;
-    private $baseurl;
-    private $path;
+    private $url;
 
-    public function __construct ( $label = null, $url = null, $path = null ) {
+    public function __construct ( $label = null, $url = null ) {
         $this->label = $label;
-        $this->baseurl = $url;
-        $this->path = $path;
+        $this->url = $url;
     }
 
-    public function getFullUrl() {
-        return $this->baseurl . '/' . $this->path;
+    public function getUrl() {
+        return $this->url;
     }
 
-    public function setBaseUrl( $url ) {
-        $this->baseurl = $url;
-    }
-
-    public function setPath( $path ) {
-        $this->path = $path;
-    }
-
-    public function setFullUrl( $url ) {
-        $parsed = parse_url( $url );
-        $this->setBaseUrl ( $parsed['scheme'] . '://' . $parsed[ 'host' ] );
-        $this->setPath( $parsed[ 'path' ] );
+    public function setUrl( $url ) {
+        $this->url = $url;
     }
 }
