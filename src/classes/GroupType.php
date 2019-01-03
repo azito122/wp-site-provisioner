@@ -13,6 +13,20 @@ class GroupType {
     private $metaquery;
     private $userquery;
 
+    public function __sleep() {
+        return array(
+            'label',
+            'metaqueryid',
+            'userqueryid',
+        );
+    }
+
+    public function __wakeup() {
+        global $Store;
+        $this->metaquery = $Store->unstore( 'Query', $this->metaqueryid );
+        $this->userquery = $Store->unstore( 'Query', $this->userqueryid );
+    }
+
     public function __construct() {
         $this->userquery = new Query();
         $this->metaquery = new Query();
@@ -37,10 +51,6 @@ class GroupType {
         return $options;
     }
 
-    public function getUserQuery() {
-        return $this->userquery;
-    }
-
     public function getLabel() {
         return $this->label;
     }
@@ -56,7 +66,17 @@ class GroupType {
     }
 
     public function setMetaQuery( Query $query ) {
+        $this->metaqueryid = $query->storeid;
         $this->metaquery = $query;
+    }
+
+    public function getUserQuery() {
+        return $this->userquery;
+    }
+
+    public function setUserQuery( Query $query ) {
+        $this->userqueryid = $query->storeid;
+        $this->userquery = $query;
     }
 
     public function getData() {

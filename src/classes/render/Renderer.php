@@ -33,7 +33,12 @@ abstract class Renderer {
         global $Store;
 
         $grouptypes = self::entity( $Store->unstore( 'GroupType' ) );
-        return self::template( 'page-group-types', array( 'group-types' => $grouptypes ) );
+        return self::template( 'page-entities', array(
+                'existing-entities' => $grouptypes,
+                'entity-type' => 'group-type',
+                'entity-type-name' => 'Group Type',
+            )
+        );
     }
 
     public static function pageRemotes() {
@@ -83,7 +88,6 @@ abstract class Renderer {
     }
 
     public static function classnameFrontToBack( $string ) {
-        return $string;
         $string = ucwords( $string, '-' );
         $string = str_replace( '-', '', $string );
         return $string;

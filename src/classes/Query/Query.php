@@ -69,6 +69,7 @@ class Query {
 
     public function setLabel( $label ) {
         $this->label = is_string( $label ) ? $label : $this->label;
+        $this->label = $label;
     }
 
     public function getRemoteId() {

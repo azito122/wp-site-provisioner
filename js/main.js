@@ -52,9 +52,11 @@ WPSP.storeEntity = function(element) {
         return;
     }
     derendered = WPSP.derender(element);
+    console.log(derendered);
     isnew = $('.new-entity').has(element).length > 0 ? true : false;
     if ( isnew ) {
         success = function(response, status) {
+            console.log(response);
             if (response && response['rerendered']) {
                 type = $(element).attr('entity-type');
                 $(element).remove();
@@ -72,6 +74,9 @@ WPSP.storeEntity = function(element) {
         url: WPSP_AJAX.ajaxurl,
         data: {type: $(element).attr('entity-type'), action: 'wpsp_store', data: derendered, rerender: isnew ? false : true},
         success: success,
+        error: function(xhr, status, error) {
+            console.log(xhr, status, error);
+        }
     })
 }
 
@@ -105,7 +110,9 @@ WPSP.derender = function(html) {
     var result = {};
     $.each($(html).children(), function(i, e) {
         var datakey = $(e).attr('datakey');
-        if (typeof datakey === 'string') {
+        if ($(e).hasClass('sub-entity')) {
+            result[datakey] = WPSP.derender($(e).children('.entity.form'));
+        } else if (typeof datakey === 'string') {
             result[datakey] = WPSP.getValue(e);
         }
     })

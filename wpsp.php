@@ -95,7 +95,7 @@ class SiteProvisioner {
         global $Store;
         header('Content-Type: application/json');
 
-        $type = $_REQUEST[ 'type' ];
+        $type = render\Renderer::classnameFrontToBack( $_REQUEST[ 'type' ] );
         $data = $_REQUEST[ 'data' ];
 
         $derendered = render\Renderer::derender( $type, $data );
@@ -170,12 +170,12 @@ class SiteProvisioner {
     }
 
     public function page_group_types() {
-        echo render\Renderer::pageRemotes();
+        echo render\Renderer::pageGroupTypes();
     }
 
-    // public function page_remotes() {
-    //     echo render\Renderer::
-    // }
+    public function page_remotes() {
+        echo render\Renderer::pageRemotes();
+    }
 }
 
 new SiteProvisioner();
