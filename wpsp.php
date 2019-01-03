@@ -52,8 +52,8 @@ class SiteProvisioner {
         wp_register_script( 'wpsp_main', WP_PLUGIN_URL . '/wpsp/js/main.js', array( 'jquery' ) );
         wp_localize_script( 'wpsp_main', 'WPSP_AJAX', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
         wp_enqueue_script( 'wpsp_main' );
-        wp_register_script( 'wpsp_grouptypes', WP_PLUGIN_URL . '/wpsp/js/group-types.js', array( 'jquery' ) );
-        wp_enqueue_script( 'wpsp_grouptypes' );
+        wp_register_script( 'wpsp_page_entities', WP_PLUGIN_URL . '/wpsp/js/page-entities.js', array( 'jquery' ) );
+        wp_enqueue_script( 'wpsp_page_entities' );
     }
 
     public function css_init() {
