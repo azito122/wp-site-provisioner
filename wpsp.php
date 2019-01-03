@@ -74,7 +74,7 @@ class SiteProvisioner {
         //     'type' => 'entity',
         //     'entity' => 'GroupType',
         // );
-        $type = $_REQUEST[ 'type' ];
+        $type = $_REQUEST[ 'rendertype' ];
         if ( $type == 'template' ) {
             echo render\Renderer::template( $template );
         } else if ( $type == 'entity' ) {

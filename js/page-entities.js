@@ -6,7 +6,7 @@ $(document).ready(function() {
 
     $('.add-button').on( 'click', function( e ) {
         entitytype = $(e.target).attr( 'entity-type' );
-        WPSP.renderEntity(entitytype, '.new-entity');
+        WPSP.renderNewEntity(entitytype);
     })
 
 })
