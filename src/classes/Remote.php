@@ -13,6 +13,10 @@ class Remote {
         $this->url = $url;
     }
 
+    public function getLabel() {
+        return $this->label;
+    }
+
     public function getUrl() {
         return $this->url;
     }

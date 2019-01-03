@@ -5,6 +5,7 @@ namespace WPSP\render;
 include_once(__DIR__ . '/../GroupType.php');
 include_once(__DIR__ . '/GroupTypeRenderer.php');
 include_once(__DIR__ . '/QueryRenderer.php');
+include_once(__DIR__ . '/RemoteRenderer.php');
 include_once(__DIR__ . '/TemplateVariables.php');
 include_once(__DIR__ . '/../infrastructure/Store.php');
 
@@ -14,9 +15,26 @@ abstract class Renderer {
 
     abstract public function __construct( $object );
 
+    public static function derender( $type, $data ) {
+        $classname = "\WPSP\\render\\{$type}Renderer";
+
+        if ( class_exists( $classname ) ) {
+            return $classname::derender( $type, $data );
+        }
+    }
+
     public static function pageGroupTypes() {
-        $grouptypes = self::entity( \WPSP\Store::unstore( 'GroupType' ) );
-        return self::template( 'page-group-type', array( 'group-types' => $grouptypes ) );
+        global $Store;
+
+        $grouptypes = self::entity( $Store->unstore( 'GroupType' ) );
+        return self::template( 'page-group-types', array( 'group-types' => $grouptypes ) );
+    }
+
+    public static function pageRemotes() {
+        global $Store;
+
+        $remotes = self::entity( $Store->unstore( 'Remote' ) );
+        return self::template( 'page-remotes', array( 'remotes' => $remotes ) );
     }
 
     public static function select( $id, $label, $options, $default ) {
@@ -37,8 +55,8 @@ abstract class Renderer {
         return $o;
     }
 
-    public static function textinput( $id, $datakey, $label, $default = '', $placeholder = '' ) {
-        $o = "<input type=\"text\" name=\"$id\" datakey=\"$datakey\" value=\"$default\" placeholder=\"$placeholder\">";
+    public static function textinput( $id, $label, $default = '', $placeholder = '' ) {
+        $o = "<input type=\"text\" name=\"$id\" datakey=\"$id\" value=\"$default\" placeholder=\"$placeholder\">";
         return $o;
     }
 
@@ -62,7 +80,7 @@ abstract class Renderer {
         ob_start();
         $D = new \WPSP\render\TemplateVariables( $data );
         $R = __CLASS__;
-        include __DIR__ . '/../templates/' . $name . '.php';
+        include __DIR__ . '/../../templates/' . $name . '.php';
         return ob_get_clean();
     }
 

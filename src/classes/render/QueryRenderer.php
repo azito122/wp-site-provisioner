@@ -7,7 +7,10 @@ include_once(__DIR__ . '/../infrastructure/Store.php');
 abstract class QueryRenderer extends Renderer {
 
     public static function render( $instance ) {
-        $remotes = \WPSP\Store::unstore( 'Remote' );
+        global $Store;
+
+
+        $remotes = $Store->unstore( 'Remote' );
         $remotemenu = array();
         foreach ( $remotes as $remote ) {
             $remotemenu[ $remote->storeid ] = $remote->getLabel();

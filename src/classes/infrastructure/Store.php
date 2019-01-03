@@ -85,6 +85,7 @@ class Store {
 
 
     public function store( $object ) {
+        print_r($object);
         if ( ! property_exists( $object, 'storeid' ) ) {
             return false;
         }
@@ -148,9 +149,6 @@ class Store {
         }
 
         $conditionstring = implode( ' AND ', $conditionjoin );
-        echo "<pre>";
-        echo "select: $conditionstring";
-        echo "</pre>";
         return $wpdb->get_results( "SELECT * FROM $this->tblname WHERE $conditionstring", ARRAY_A );
     }
 
