@@ -1,5 +1,11 @@
 (function($) {
 
+$(document).ready(function() {
+    $(document).on( 'input', '.devalidated', function(e) {
+        $(e.target).removeClass('devalidated');
+    });
+})
+
 WPSP = {};
 
 WPSP.renderEntity = function(entitytype, selector, id) {
@@ -42,13 +48,18 @@ WPSP.renderNewEntity = function(entitytype) {
 // }
 
 WPSP.storeEntity = function(element) {
+    if ( ! WPSP.validate( element ) ) {
+        return;
+    }
     derendered = WPSP.derender(element);
     isnew = $('.new-entity').has(element).length > 0 ? true : false;
     if ( isnew ) {
         success = function(response, status) {
-            type = $(element).attr('entity-type');
-            $(element).remove();
-            $('.existing-entities').append(response['rerendered']);
+            if (response && response['rerendered']) {
+                type = $(element).attr('entity-type');
+                $(element).remove();
+                $('.existing-entities').append(response['rerendered']);
+            }
         }
     } else {
         success = function(response, status) {
@@ -62,6 +73,19 @@ WPSP.storeEntity = function(element) {
         data: {type: $(element).attr('entity-type'), action: 'wpsp_store', data: derendered, rerender: isnew ? false : true},
         success: success,
     })
+}
+
+WPSP.validate = function(element) {
+    let check = true;
+    $.each($(element).children(), function(i, e) {
+        let required = $(e).attr('required');
+        let val = WPSP.getValue(e);
+        if (required && ( ! val || val == '' ) ) {
+            check = false;
+            $(e).addClass('devalidated');
+        }
+    })
+    return check;
 }
 
 WPSP.getValue = function(e) {

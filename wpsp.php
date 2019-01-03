@@ -93,15 +93,18 @@ class SiteProvisioner {
 
     public function ajax_store() {
         global $Store;
+        header('Content-Type: application/json');
 
         $type = $_REQUEST[ 'type' ];
         $data = $_REQUEST[ 'data' ];
 
         $derendered = render\Renderer::derender( $type, $data );
 
-        $id = $Store->store( $derendered );
+        if ( ! $derendered ) {
+            die();
+        }
 
-        header('Content-Type: application/json');
+        $id = $Store->store( $derendered );
 
         $return = array(
             'id' => $id,

@@ -11,7 +11,13 @@ include_once(__DIR__ . '/../infrastructure/Store.php');
 
 abstract class Renderer {
 
-    private $dataobject;
+    private static $defaultinputprops = array(
+        'name' => '',
+        'label' => '',
+        'placeholder' => '',
+        'default' => '',
+        'required' => false,
+    );
 
     abstract public function __construct( $object );
 
@@ -60,8 +66,14 @@ abstract class Renderer {
         return $o;
     }
 
-    public static function textinput( $id, $label, $default = '', $placeholder = '' ) {
-        $o = "<input type=\"text\" name=\"$id\" datakey=\"$id\" value=\"$default\" placeholder=\"$placeholder\">";
+    public static function textinput( $props = array() ) {
+        $props = array_merge( self::$defaultinputprops, $props );
+        $name = $props['name'];
+        $datakey = $props['name'];
+        $default = $props['default'];
+        $placeholder = $props['placeholder'];
+        $required = $props['required'] ? 'required="required"' : '';
+        $o = "<input type=\"text\" name=\"$name\" datakey=\"$datakey\" value=\"$default\" placeholder=\"$placeholder\" $required>";
         return $o;
     }
 

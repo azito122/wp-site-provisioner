@@ -5,6 +5,9 @@ $(document).ready(function() {
     })
 
     $('.add-button').on( 'click', function( e ) {
+        if ( $('.new-entity').has('.entity').length > 0 ) {
+            return;
+        }
         entitytype = $(e.target).attr( 'entity-type' );
         WPSP.renderNewEntity(entitytype);
     })

@@ -4,3 +4,7 @@
     padding: 2rem;
     margin: 0.5rem;
 }
+
+.devalidated {
+    border-color: red !important;
+}
