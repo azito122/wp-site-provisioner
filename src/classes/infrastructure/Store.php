@@ -38,17 +38,23 @@ class Store {
         }
 
         if ( $id ) {
-            return unserialize( $this->cache[ $id ][ 'data' ] );
+            return $this->reconstitute( $this->cache[ $id ][ 'data' ], $id );
         } else {
             $data = array_filter( $this->cache, function( $d ) use ( $type ) {
                 return $d[ 'type' ] == $type;
             });
             $results = array();
             foreach ( $data as $entity ) {
-                array_push( $results, unserialize( $entity[ 'data' ] ) );
+                array_push( $results, $this->reconstitute( $entity[ 'data' ], $entity[ 'id' ] ) );
             }
             return $results;
         }
+    }
+
+    public function reconstitute( $serial, $id ) {
+        $object = unserialize( $serial );
+        $object->storeid = $id;
+        return $object;
     }
 
     public function getDataForTypes( $types ) {
@@ -85,7 +91,6 @@ class Store {
 
 
     public function store( $object ) {
-        print_r($object);
         if ( ! property_exists( $object, 'storeid' ) ) {
             return false;
         }

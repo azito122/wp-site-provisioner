@@ -34,7 +34,12 @@ abstract class Renderer {
         global $Store;
 
         $remotes = self::entity( $Store->unstore( 'Remote' ) );
-        return self::template( 'page-remotes', array( 'remotes' => $remotes ) );
+        return self::template( 'page-entities', array(
+                'existing-entities' => $remotes,
+                'entity-type' => 'remote',
+                'entity-type-name' => 'Remote',
+            )
+        );
     }
 
     public static function select( $id, $label, $options, $default ) {
@@ -60,12 +65,31 @@ abstract class Renderer {
         return $o;
     }
 
+    public static function hidden( $id, $value ) {
+        $o = "<input type=\"hidden\" name=\"$id\" datakey=\"$id\" value=\"$value\">";
+        return $o;
+    }
+
+    public static function classnameFrontToBack( $string ) {
+        return $string;
+        $string = ucwords( $string, '-' );
+        $string = str_replace( '-', '', $string );
+        return $string;
+    }
+
+    public static function classnameBackToFront( $string ) {
+        $string = preg_replace( '/(?<!^)([A-Z])/', '-$1', $string );
+        $string = strtolower( $string );
+        return $string;
+    }
+
     public static function entity( $data ) {
         if ( is_array( $data ) ) {
             $o = "";
             foreach( $data as $entity ) {
                 $o .= self::entity( $entity );
             }
+            return $o;
         } else {
             $reflect = new \ReflectionClass( $data );
             $classname = "\WPSP\\render\\" . $reflect->getShortName() . "Renderer";

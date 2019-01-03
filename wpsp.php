@@ -78,10 +78,11 @@ class SiteProvisioner {
         if ( $type == 'template' ) {
             echo render\Renderer::template( $template );
         } else if ( $type == 'entity' ) {
-            $classname = '\WPSP\\' . $_REQUEST[ 'entity' ];
+            $name = render\Renderer::classnameFrontToBack( $_REQUEST[ 'entity' ] );
+            $classname = '\WPSP\\' . $name;
             $id = array_key_exists( 'entityid', $_REQUEST ) ? $_REQUEST[ 'entityid' ] : false;
             if ( $id ) {
-                $object = $Store->unstore( $classname, $id );
+                $object = $Store->unstore( $name, $id );
             } else {
                 $object = new $classname();
             }
@@ -98,7 +99,17 @@ class SiteProvisioner {
 
         $derendered = render\Renderer::derender( $type, $data );
 
-        $try = $Store->store( $derendered );
+        $id = $Store->store( $derendered );
+
+        header('Content-Type: application/json');
+
+        $return = array(
+            'id' => $id,
+        );
+
+        $return[ 'rerendered' ] = render\Renderer::entity( $derendered );
+
+        echo json_encode($return);
 
         die();
     }

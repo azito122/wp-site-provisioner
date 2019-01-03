@@ -1,6 +1,7 @@
 <div class="group-type form">
     <h2><?php echo $D->get( 'group-type-label', 'Unlabeled Group Type' ); ?></h2>
-    <?php echo $R::textinput( 'group-type-label', 'label', 'Label', $D->get( 'group-type-label' ), 'Label' ); ?>
+    <?php echo $R::hidden( 'storeid', $D->get( 'storeid' ) ); ?>
+    <?php echo $R::textinput( 'label', 'label', 'Label', $D->get( 'group-type-label' ), 'Label' ); ?>
     <?php echo $D->get( 'meta-query' ); ?>
     <?php echo $D->get( 'user-query' ); ?>
     <div class="group-type-permissions">

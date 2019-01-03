@@ -1,21 +1,16 @@
 (function($) {
 $(document).ready(function() {
-    console.log("grouptypes code loaded");
-
-    $(document).on( 'click', '.save.button', function(e) {
-        form = $(e.target).parent();
-        derendered = WPSP.derender(form);
-        console.log(derendered);
-        WPSP.store( 'Remote', derendered);
+    $(document).on( 'click', '.entity.form .save.button', function(e) {
+        WPSP.storeEntity( $(e.target).parent() );
     })
 
-    $('.add-group').on( 'click', function( e ) {
-        WPSP.render('group-type', '.group-types');
-    })
+    // $('.add-group').on( 'click', function( e ) {
+    //     WPSP.render('group-type', '.group-types');
+    // })
 
-    $('.add-remote').on( 'click', function( e ) {
-        console.log('add remote');
-        WPSP.renderEntity('Remote', '.remotes');
+    $('.add-button').on( 'click', function( e ) {
+        entitytype = $(e.target).attr( 'entity-type' );
+        WPSP.renderEntity(entitytype, '.new-entity');
     })
 
 })

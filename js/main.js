@@ -2,13 +2,12 @@
 
 WPSP = {};
 
-WPSP.renderEntity = function(entity, selector) {
-    console.log('prep ajax for rendering ' + entity);
+WPSP.renderEntity = function(entity, selector, id) {
     $.ajax({
         type: 'post',
         url: WPSP_AJAX.ajaxurl,
         dataType: 'html',
-        data: {type: 'entity', entity: entity, action: 'wpsp_render'},
+        data: {type: 'entity', entity: entity, entityid: id, action: 'wpsp_render'},
         success: function(response, status) {
             if(status == 'success') {
                 $(selector).append(response);
@@ -17,6 +16,48 @@ WPSP.renderEntity = function(entity, selector) {
     })
 }
 
+WPSP.rerenderEntity = function(element, id) {
+    type = $(element).attr('entity-type');
+    $.ajax({
+        type: 'post',
+        url: WPSP_AJAX.ajaxurl,
+        dataType: 'html',
+        element: element,
+        data: {type: 'entity', entity: type, entityid: id, action: 'wpsp_render'},
+        success: function(response, status) {
+            if(status == 'success') {
+                $(this.element).replaceWith(response);
+            }
+        }
+    })
+}
+
+WPSP.storeEntity = function(element) {
+    derendered = WPSP.derender(element);
+    isnew = $('.new-entity').has(element).length > 0 ? true : false;
+    if ( isnew ) {
+        success = function(response, status) {
+            type = $(element).attr('entity-type');
+            $(element).remove();
+            // WPSP.renderEntity(type, '.existing-entities', response['id']);
+            $('.existing-entities').append(response['rerendered']);
+        }
+    } else {
+        success = function(response, status) {
+            // WPSP.rerenderEntity(element, response);
+            console.log(response);
+            id = response['id'];
+            $('input[type="hidden"][value="' + id + '"]').parent().replaceWith(response['rerendered']);
+        }
+    }
+    $.ajax({
+        type: 'post',
+        url: WPSP_AJAX.ajaxurl,
+        // dataType: 'json',
+        data: {type: $(element).attr('entity-type'), action: 'wpsp_store', data: derendered, rerender: isnew ? false : true},
+        success: success,
+    })
+}
 WPSP.getValue = function(e) {
     var tag = $(e).prop('tagName');
     if (tag === 'INPUT') {
@@ -38,20 +79,7 @@ WPSP.derender = function(html) {
             result[datakey] = WPSP.getValue(e);
         }
     })
-    // console.log(result);
     return result;
-}
-
-WPSP.store = function(type, data) {
-    $.ajax({
-        type: 'post',
-        url: WPSP_AJAX.ajaxurl,
-        // dataType: 'html',
-        data: {type: type, action: 'wpsp_store', data: data},
-        success: function(response, status) {
-            console.log(status, response);
-        }
-    })
 }
 
 })(jQuery)
