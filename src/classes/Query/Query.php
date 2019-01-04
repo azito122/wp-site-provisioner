@@ -4,6 +4,7 @@ namespace WPSP;
 
 include_once(__DIR__ . '/../Remote.php');
 include_once(__DIR__ . '/QueryParam.php');
+include_once(__DIR__ . '/../UserList.php');
 include_once(__DIR__ . '/../infrastructure/Store.php');
 
 class Query {
@@ -14,6 +15,7 @@ class Query {
     private $remoteid;
     private $extrapath;
     private $params;
+    private $response;
 
     private $remote;
     private $latest;
@@ -23,6 +25,7 @@ class Query {
         return array(
             'label',
             'remoteid',
+            'extrapath',
             'params',
         );
     }
@@ -32,9 +35,10 @@ class Query {
         $this->remote = $Store->unstore( 'Remote', $this->remoteid );
     }
 
-    public function __construct( $remoteid = null, $params = null ) {
+    public function __construct( $response, $remoteid = null, $params = null ) {
         $this->remoteid = $remoteid;
         $this->params = $params;
+        $this->response = $response;
     }
 
     public function run( $data = array() ) {
@@ -45,9 +49,23 @@ class Query {
             'timeout' => 5,
         );
         $args = array_merge( $args, $this->getParams() );
-        $result = wp_remote_get( $url, $args );
-        $this->latest = $result;
-        return $result;
+
+        $response = wp_remote_get( $url, $args );
+        $response = $this->normalizeResponse( $response );
+
+        $this->latest = $response;
+
+        return $response;
+    }
+
+    public function normalizeResponse( $response ) {
+        if ( ! $response || empty( $response ) || ! is_array( $response ) ) {
+            return false;
+        }
+
+        $normalized = $this->getResponse()->normalize( $response );
+
+        return $normalized;
     }
 
     public function resolve( $string ) {

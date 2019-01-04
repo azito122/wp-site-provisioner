@@ -25,4 +25,8 @@ class User {
     public function getRoles() {
         return $this->roles;
     }
+
+    public function setRoles( $roles ) {
+        $this->roles = $roles;
+    }
 }
