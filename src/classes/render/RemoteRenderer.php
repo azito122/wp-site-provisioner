@@ -2,7 +2,8 @@
 
 namespace WPSP\render;
 
-include_once( __DIR__ . '/../Remote.php' );
+use WPSP\render\Renderer as Renderer;
+use WPSP\query\Remote as Remote;
 
 abstract class RemoteRenderer extends Renderer {
 
@@ -19,7 +20,7 @@ abstract class RemoteRenderer extends Renderer {
         if (! array_key_exists( 'label', $data ) || empty( $data[ 'label' ] ) ) {
             return false;
         }
-        $object = new \WPSP\Remote( $data[ 'label' ], $data[ 'url' ] );
+        $object = new Remote( $data[ 'label' ], $data[ 'url' ] );
         $object->storeid = $data[ 'storeid' ];
         return $object;
     }

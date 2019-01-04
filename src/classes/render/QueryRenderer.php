@@ -2,7 +2,8 @@
 
 namespace WPSP\render;
 
-include_once(__DIR__ . '/../Query/Query.php');
+use WPSP\render\Renderer as Renderer;
+use WPSP\query\Query as Query;
 
 abstract class QueryRenderer extends Renderer {
 
@@ -26,7 +27,7 @@ abstract class QueryRenderer extends Renderer {
         if (! array_key_exists( 'label', $data ) || empty( $data[ 'label' ] ) ) {
             return false;
         }
-        $object = new \WPSP\Query();
+        $object = new Query();
 
         $object->setLabel( $data[ 'label' ] );
 

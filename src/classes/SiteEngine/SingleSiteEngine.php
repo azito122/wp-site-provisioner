@@ -2,8 +2,7 @@
 
 namespace WPSP\siteengine;
 
-use SiteEngine;
-use UserList;
+use WPSP\siteengine\SiteEngine as SiteEngine;
 
 class SingleSiteEngine extends SiteEngine {
 

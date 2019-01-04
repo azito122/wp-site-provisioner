@@ -2,6 +2,8 @@
 
 namespace WPSP\query\response;
 
+use WPSP\query\response\Response as Response;
+
 class ResponseMapping {
 
     private $localkey;

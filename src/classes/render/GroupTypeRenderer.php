@@ -2,8 +2,9 @@
 
 namespace WPSP\render;
 
-include_once(__DIR__ . '/../GroupType.php');
-include_once(__DIR__ . '/QueryRenderer.php');
+use WPSP\render\Renderer as Renderer;
+use WPSP\render\QueryRenderer as QueryRenderer;
+use WPSP\GroupType as GroupType;
 
 abstract class GroupTypeRenderer extends Renderer {
 
@@ -20,7 +21,7 @@ abstract class GroupTypeRenderer extends Renderer {
         if (! array_key_exists( 'label', $data ) || empty( $data[ 'label' ] ) ) {
             return false;
         }
-        $object = new \WPSP\GroupType();
+        $object = new GroupType();
 
         $object->setLabel( $data[ 'label' ] );
 

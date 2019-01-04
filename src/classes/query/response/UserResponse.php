@@ -2,6 +2,9 @@
 
 namespace WPSP\query\response;
 
+use WPSP\query\response\Response as Response;
+use WPSP\query\response\ResponseMapping as ResponseMapping;
+
 class UserResponse extends Response {
 
     public function __construct( $map, $depth = 0, $position = null  ) {

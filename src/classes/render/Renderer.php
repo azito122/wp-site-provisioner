@@ -2,12 +2,9 @@
 
 namespace WPSP\render;
 
-include_once(__DIR__ . '/../GroupType.php');
-include_once(__DIR__ . '/GroupTypeRenderer.php');
-include_once(__DIR__ . '/QueryRenderer.php');
-include_once(__DIR__ . '/RemoteRenderer.php');
-include_once(__DIR__ . '/TemplateVariables.php');
-include_once(__DIR__ . '/../infrastructure/Store.php');
+use WPSP\render\TemplateVariables as TemplateVariables;
+
+// include_once( __DIR__ . '/../Store.php');
 
 abstract class Renderer {
 
@@ -118,7 +115,7 @@ abstract class Renderer {
 
     public static function template( $name, $data = array() ) {
         ob_start();
-        $D = new \WPSP\render\TemplateVariables( $data );
+        $D = new TemplateVariables( $data );
         $R = __CLASS__;
         include __DIR__ . '/../../templates/' . $name . '.php';
         return ob_get_clean();

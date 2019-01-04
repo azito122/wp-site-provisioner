@@ -2,8 +2,8 @@
 
 namespace WPSP\siteengine;
 
-use SiteEngine;
-use SingleSiteEngine;
+use WPSP\siteengine\SiteEngine as SiteEngine;
+use WPSP\siteengine\SingleSiteEngine as SingleSiteEngine;
 
 class MultiSiteEngine extends SiteEngine {
 

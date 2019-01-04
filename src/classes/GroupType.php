@@ -2,7 +2,8 @@
 
 namespace WPSP;
 
-include_once(__DIR__ . '/Query/Query.php');
+use WPSP\query\Query as Query;
+use WPSP\Group as Group;
 
 class GroupType {
 

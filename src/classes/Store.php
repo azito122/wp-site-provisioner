@@ -2,6 +2,8 @@
 
 namespace WPSP;
 
+use WPSP\query\Query as Query;
+
 define( 'WPSP_TBLNAME', 'wpsp' );
 
 class Store {

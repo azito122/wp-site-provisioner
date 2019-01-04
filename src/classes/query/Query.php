@@ -2,10 +2,8 @@
 
 namespace WPSP\query;
 
-include_once(__DIR__ . '/../Remote.php');
-include_once(__DIR__ . '/QueryParam.php');
-include_once(__DIR__ . '/../UserList.php');
-include_once(__DIR__ . '/../infrastructure/Store.php');
+use WPSP\Store as Store;
+use WPSP\query\QueryParam as QueryParam;
 
 class Query {
 
@@ -35,7 +33,7 @@ class Query {
         $this->remote = $Store->unstore( 'Remote', $this->remoteid );
     }
 
-    public function __construct( $response, $remoteid = null, $params = null ) {
+    public function __construct( $response = null, $remoteid = null, $params = null ) {
         $this->remoteid = $remoteid;
         $this->params = $params;
         $this->response = $response;
@@ -95,10 +93,12 @@ class Query {
     }
 
     public function getRemote() {
+        global $Store;
+
         if ( $this->remote ) {
             return $this->remote;
         }
-        $remote = Store::getEntity( 'Remote', $this->remoteid );
+        $remote = $Store->unstore( 'Remote', $this->remoteid );
         if ( $remote ) {
             $this->remote = $remote;
         }

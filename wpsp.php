@@ -14,14 +14,46 @@
 namespace WPSP;
 
 spl_autoload_register( function( $class ) {
-    include_once( __DIR__ . "/src/classes/$class" );
+    if ( strpos( $class, 'WPSP' ) === 0 ) {
+        $path = str_replace( 'WPSP\\', '/src/classes/', $class );
+        $path = str_replace( '\\', '/', $path);
+        include __DIR__ . "$path.php";
+    }
 });
 
-// include_once(__DIR__ . '/src/classes/render/Renderer.php');
-// include_once(__DIR__ . '/src/classes/GroupType.php');
-// include_once(__DIR__ . '/src/classes/Group.php');
-// include_once(__DIR__ . '/src/classes/infrastructure/Store.php');
-// include_once(__DIR__ . '/src/classes/Remote.php');
+function resolve_classname( $class ) {
+    $namespace = '';
+    switch ( $class ) {
+        case 'Query':
+        case 'QueryParam':
+        case 'Remote':
+            $namespace = 'query\\';
+        case 'Response':
+        case 'ResponseMapping':
+        case 'UserResponse':
+            $namespace = 'query\response\\';
+        case 'Renderer':
+        case 'GroupTypeRenderer':
+        case 'QueryRenderer':
+        case 'RemoteRenderer':
+        case 'TemplateVariables':
+            $namespace = 'render\\';
+        case 'SiteEngine':
+        case 'SingleSiteEngine':
+        case 'MultiSiteEngine':
+            $namespace = 'siteengine\\';
+    }
+    return "WPSP\\$namespace$class";
+}
+
+use WPSP\render\Renderer as Renderer;
+use WPSP\GroupType as GroupType;
+use WPSP\Group as Group;
+use WPSP\Store as Store;
+use WPSP\query\Query as Query;
+use WPSP\query\Remote as Remote;
+
+include_once( __DIR__ . '/src/classes/Store.php');
 
 class SiteProvisioner {
     public function __construct() {
@@ -80,17 +112,17 @@ class SiteProvisioner {
         // );
         $type = $_REQUEST[ 'rendertype' ];
         if ( $type == 'template' ) {
-            echo render\Renderer::template( $template );
+            echo Renderer::template( $template );
         } else if ( $type == 'entity' ) {
-            $name = render\Renderer::classnameFrontToBack( $_REQUEST[ 'entity' ] );
-            $classname = '\WPSP\\' . $name;
+            $name = Renderer::classnameFrontToBack( $_REQUEST[ 'entity' ] );
+            $classname = resolve_classname( $name );
             $id = array_key_exists( 'entityid', $_REQUEST ) ? $_REQUEST[ 'entityid' ] : false;
             if ( $id ) {
                 $object = $Store->unstore( $name, $id );
             } else {
                 $object = new $classname();
             }
-            echo render\Renderer::entity( $object );
+            echo Renderer::entity( $object );
         }
         die();
     }
@@ -99,10 +131,10 @@ class SiteProvisioner {
         global $Store;
         header('Content-Type: application/json');
 
-        $type = render\Renderer::classnameFrontToBack( $_REQUEST[ 'type' ] );
+        $type = Renderer::classnameFrontToBack( $_REQUEST[ 'type' ] );
         $data = $_REQUEST[ 'data' ];
 
-        $derendered = render\Renderer::derender( $type, $data );
+        $derendered = Renderer::derender( $type, $data );
 
         if ( ! $derendered ) {
             die();
@@ -114,7 +146,7 @@ class SiteProvisioner {
             'id' => $id,
         );
 
-        $return[ 'rerendered' ] = render\Renderer::entity( $derendered );
+        $return[ 'rerendered' ] = Renderer::entity( $derendered );
 
         echo json_encode($return);
 
@@ -174,11 +206,11 @@ class SiteProvisioner {
     }
 
     public function page_group_types() {
-        echo render\Renderer::pageGroupTypes();
+        echo Renderer::pageGroupTypes();
     }
 
     public function page_remotes() {
-        echo render\Renderer::pageRemotes();
+        echo Renderer::pageRemotes();
     }
 }
 

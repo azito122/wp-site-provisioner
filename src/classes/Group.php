@@ -2,7 +2,8 @@
 
 namespace WPSP;
 
-include_once(__DIR__ . '/infrastructure/Store.php');
+use WPSP\siteengine\SingleSiteEngine as SingleSiteEngine;
+use WPSP\siteengine\MultiSiteEngine as MultiSiteEngine;
 
 class Group {
 
