@@ -1,6 +1,6 @@
 <?php
 
-namespace WPSP;
+namespace WPSP\query\response;
 
 include_once(__DIR__ . '/../Remote.php');
 include_once(__DIR__ . '/QueryParam.php');

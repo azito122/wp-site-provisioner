@@ -13,11 +13,15 @@
  */
 namespace WPSP;
 
-include_once(__DIR__ . '/src/classes/render/Renderer.php');
-include_once(__DIR__ . '/src/classes/GroupType.php');
-include_once(__DIR__ . '/src/classes/Group.php');
-include_once(__DIR__ . '/src/classes/infrastructure/Store.php');
-include_once(__DIR__ . '/src/classes/Remote.php');
+spl_autoload_register( function( $class ) {
+    include_once( __DIR__ . "/src/classes/$class" );
+});
+
+// include_once(__DIR__ . '/src/classes/render/Renderer.php');
+// include_once(__DIR__ . '/src/classes/GroupType.php');
+// include_once(__DIR__ . '/src/classes/Group.php');
+// include_once(__DIR__ . '/src/classes/infrastructure/Store.php');
+// include_once(__DIR__ . '/src/classes/Remote.php');
 
 class SiteProvisioner {
     public function __construct() {

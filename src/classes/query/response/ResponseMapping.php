@@ -1,6 +1,6 @@
 <?php
 
-namespace WPSP;
+namespace WPSP\query\response;
 
 class ResponseMapping {
 

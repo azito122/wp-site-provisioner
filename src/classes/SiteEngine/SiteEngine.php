@@ -1,6 +1,6 @@
 <?php
 
-namespace WPSP;
+namespace WPSP\siteengine;
 
 abstract class SiteEngine {
 
