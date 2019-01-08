@@ -21,6 +21,7 @@ class Query {
 
     public function __sleep() {
         return array(
+            'storeid',
             'label',
             'remoteid',
             'extrapath',
@@ -90,6 +91,10 @@ class Query {
 
     public function getRemoteId() {
         return $this->remoteid;
+    }
+
+    public function setRemoteId( $id ) {
+        $this->remoteid = $id;
     }
 
     public function getRemote() {

@@ -8,6 +8,8 @@ $(document).ready(function() {
 
 WPSP = {};
 
+WPSP.rerendermap = {};
+
 WPSP.renderEntity = function(entitytype, selector, id) {
     $.ajax({
         type: 'post',
@@ -47,42 +49,47 @@ WPSP.renderNewEntity = function(entitytype) {
 //     })
 // }
 
-WPSP.storeEntity = function(element) {
+WPSP.storeEntity = function(element, callback = function(){}, rerender = true) {
     if ( ! WPSP.validate( element ) ) {
         return;
     }
+    // $.each( $(element).children(), function(i,e) {
+    //     if ( $(e).hasClass('sub-entity') ) {
+    //         var entity = $(e).children('.entity')[0];
+    //         WPSP.storeEntity(entity, function(response, status) {
+    //             rerenderel = WPSP.rerendermap[response['rerenderid']];
+    //             $(rerenderel).replaceWith(response['rerendered']);
+    //         });
+    //     }
+    // })
     derendered = WPSP.derender(element);
-    console.log(derendered);
-    isnew = $('.new-entity').has(element).length > 0 ? true : false;
-    if ( isnew ) {
-        success = function(response, status) {
-            console.log(response);
-            if (response && response['rerendered']) {
-                type = $(element).attr('entity-type');
-                $(element).remove();
-                $('.existing-entities').append(response['rerendered']);
-            }
-        }
-    } else {
-        success = function(response, status) {
-            id = response['id'];
-            $('input[type="hidden"][value="' + id + '"]').parent().replaceWith(response['rerendered']);
-        }
+    rerenderid = '';
+    if (rerender) {
+        rerenderid = Math.random();
+        WPSP.rerendermap[rerenderid] = element;
     }
+    console.log(callback);
     $.ajax({
         type: 'post',
         url: WPSP_AJAX.ajaxurl,
-        data: {type: $(element).attr('entity-type'), action: 'wpsp_store', data: derendered, rerender: isnew ? false : true},
-        success: success,
+        data: {type: $(element).attr('entity-type'), action: 'wpsp_store', data: derendered, rerenderid: rerenderid},
+        success: callback,
         error: function(xhr, status, error) {
             console.log(xhr, status, error);
         }
     })
 }
 
+WPSP.store = function( derendered, callback = function(){}, rerender ) {
+
+}
+
 WPSP.validate = function(element) {
     let check = true;
     $.each($(element).children(), function(i, e) {
+        if ( $(e).hasClass( 'sub-entity' ) ) {
+            check = WPSP.validate( $(e).children('.entity')[0] );
+        }
         let required = $(e).attr('required');
         let val = WPSP.getValue(e);
         if (required && ( ! val || val == '' ) ) {
@@ -98,7 +105,7 @@ WPSP.getValue = function(e) {
     if (tag === 'INPUT') {
         return $(e).val();
     } else if (tag === 'SELECT') {
-        $.foreach($(select).children('option'), function(i, e) {
+        $.each($(e).children('option'), function(i, e) {
             if ($(e).attr('selected') === 'selected') {
                 return $(e).val();
             }
@@ -117,6 +124,10 @@ WPSP.derender = function(html) {
         }
     })
     return result;
+}
+
+WPSP.getElementByStoreId = function(id) {
+    return $('input[datakey="storeid"][value="' + id + '"]').parent();
 }
 
 })(jQuery)

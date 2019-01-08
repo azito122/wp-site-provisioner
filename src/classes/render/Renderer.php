@@ -50,21 +50,33 @@ abstract class Renderer {
         );
     }
 
-    public static function select( $id, $label, $options, $default ) {
-        $o = "<select name=\"$id\" id=\"$id\">";
-        foreach ( $options as $value => $name ) {
-            $default = $default == $value ? 'select="selected"' : '';
-            $o .= "<option value=\"$value\" $default>$name</option>";
+    public static function select( $props = array() ) {
+        $props = array_merge( self::$defaultinputprops, $props );
+        $name = $props[ 'name' ];
+        $datakey = $props['name'];
+        $options = $props['options'];
+        $default = $props['default'];
+        $label = $props['label'];
+
+        $o = "<select name=\"$name\" datakey=\"$datakey\">";
+        foreach ( $options as $value => $opname ) {
+            $isdefault = $default == $value ? 'select="selected"' : '';
+            $o .= "<option value=\"$value\" $default>$opname</option>";
         }
         $o .= "</select>";
-        $o .= "<label for=\"$id\">$label</label>";
+        $o .= "<label for=\"$name\">$label</label>";
         return $o;
     }
 
-    public static function checkbox( $label, $name, $default = 0 ) {
+    public static function checkbox( $props = array() ) {
+        $props = array_merge( self::$defaultinputprops, $props );
+        $label = $props['label'];
+        $default = $props['default'];
+        $name = $props[ 'name' ];
+
         $checked = $default ? 'checked' : '';
-        $o = '<input type="checkbox" ' . $checked . ' >';
-        $o .= '<label for="' . $name . '">' . $label . '</label>';
+        $o = "<input type=\"checkbox\" name=\"$name\" $checked>";
+        $o .= "<label for=\"$name\">$label</label>";
         return $o;
     }
 

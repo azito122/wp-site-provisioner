@@ -3,9 +3,12 @@
 namespace WPSP;
 
 use WPSP\query\Query as Query;
+use WPSP\query\response\UserResponse as UserResponse;
 use WPSP\Group as Group;
 
 class GroupType {
+
+    public $storeid;
 
     private $label;
     private $metaqueryid;
@@ -16,6 +19,7 @@ class GroupType {
 
     public function __sleep() {
         return array(
+            'storeid',
             'label',
             'metaqueryid',
             'userqueryid',
@@ -29,7 +33,8 @@ class GroupType {
     }
 
     public function __construct() {
-        $this->userquery = new Query();
+        $userresponse = new UserResponse();
+        $this->userquery = new Query( $userresponse );
         $this->metaquery = new Query();
     }
 
@@ -78,6 +83,14 @@ class GroupType {
     public function setUserQuery( Query $query ) {
         $this->userqueryid = $query->storeid;
         $this->userquery = $query;
+    }
+
+    public function setUserQueryId( $id ) {
+        $this->userqueryid = $id;
+    }
+
+    public function setMetaQueryId( $id ) {
+        $this->metaqueryid = $id;
     }
 
     public function getData() {

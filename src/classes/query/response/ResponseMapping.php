@@ -11,7 +11,7 @@ class ResponseMapping {
     private $type;
     private $subresponse;
 
-    public function __construct( $localkey, $responsekey, $type = 'singlevalue', $subresponsemap = null ) {
+    public function __construct( $localkey = '', $responsekey = '', $type = 'singlevalue', $subresponsemap = null ) {
         $this->localkey    = $localkey;
         $this->responsekey = $responsekey;
         $this->type        = $type;

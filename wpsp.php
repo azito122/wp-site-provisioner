@@ -28,20 +28,24 @@ function resolve_classname( $class ) {
         case 'QueryParam':
         case 'Remote':
             $namespace = 'query\\';
+            break;
         case 'Response':
         case 'ResponseMapping':
         case 'UserResponse':
             $namespace = 'query\response\\';
+            break;
         case 'Renderer':
         case 'GroupTypeRenderer':
         case 'QueryRenderer':
         case 'RemoteRenderer':
         case 'TemplateVariables':
             $namespace = 'render\\';
+            break;
         case 'SiteEngine':
         case 'SingleSiteEngine':
         case 'MultiSiteEngine':
             $namespace = 'siteengine\\';
+            break;
     }
     return "WPSP\\$namespace$class";
 }
@@ -140,15 +144,20 @@ class SiteProvisioner {
             die();
         }
 
-        $id = $Store->store( $derendered );
+        $stored = $Store->store( $derendered );
+        $object = $stored['object'];
 
         $return = array(
-            'id' => $id,
+            'id' => $stored['id'],
         );
 
-        $return[ 'rerendered' ] = Renderer::entity( $derendered );
+        $rerenderid = $_REQUEST[ 'rerenderid' ];
 
-        echo json_encode($return);
+        if ( ! empty( $rerenderid ) ) {
+            $return[ 'rerenderid' ] = $rerenderid;
+            $return[ 'rerendered' ] = Renderer::entity( $object );
+        }
+        echo json_encode( $return );
 
         die();
     }

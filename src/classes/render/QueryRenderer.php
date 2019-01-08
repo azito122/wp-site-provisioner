@@ -16,7 +16,8 @@ abstract class QueryRenderer extends Renderer {
             $remotemenu[ $remote->storeid ] = $remote->getLabel();
         }
         $data = array(
-            'query-label' => $instance->getLabel(),
+            'storeid' => $instance->storeid,
+            'label' => $instance->getLabel(),
             'remotes' => $remotemenu,
             'remoteid' => $instance->getRemoteId(),
         );
@@ -30,6 +31,8 @@ abstract class QueryRenderer extends Renderer {
         $object = new Query();
 
         $object->setLabel( $data[ 'label' ] );
+
+        $object->setRemoteId( $data[ 'remoteid' ] );
 
         $object->storeid = $data[ 'storeid' ];
         return $object;

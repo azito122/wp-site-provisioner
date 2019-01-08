@@ -7,7 +7,7 @@ use WPSP\query\response\ResponseMapping as ResponseMapping;
 
 class UserResponse extends Response {
 
-    public function __construct( $map, $depth = 0, $position = null  ) {
+    public function __construct( $map = array(), $depth = 0, $position = null  ) {
         $rolemap = array(
             new ResponseMapping( 'displayname', 'name' ),
             new ResponseMapping( 'identifier', 'shortname' ),

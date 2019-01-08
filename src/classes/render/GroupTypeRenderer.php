@@ -10,6 +10,7 @@ abstract class GroupTypeRenderer extends Renderer {
 
     public static function render( $instance ) {
         $data = array(
+            'storeid' => $instance->storeid,
             'label' => $instance->getLabel(),
             'meta-query' => self::entity( $instance->getMetaQuery() ),
             'user-query' => self::entity( $instance->getUserQuery() ),
@@ -18,7 +19,7 @@ abstract class GroupTypeRenderer extends Renderer {
     }
 
     public static function derender( $type, $data ) {
-        if (! array_key_exists( 'label', $data ) || empty( $data[ 'label' ] ) ) {
+        if ( ! array_key_exists( 'label', $data ) || empty( $data[ 'label' ] ) ) {
             return false;
         }
         $object = new GroupType();

@@ -2,19 +2,16 @@
 
 namespace WPSP\query\response;
 
-include_once(__DIR__ . '/../Remote.php');
-include_once(__DIR__ . '/QueryParam.php');
-include_once(__DIR__ . '/../UserList.php');
-include_once(__DIR__ . '/../infrastructure/Store.php');
+use WPSP\query\response\ResponseMapping as ResponseMapping;
 
 class Response {
 
-    private $normalized;
     private $map;
     private $depth;
     private $position;
+    private $allowadd;
 
-    public function __construct( $map, $depth = 0, $position = null ) {
+    public function __construct( $map = array(), $allowdadd = true, $depth = 0, $position = null ) {
         $this->map = $map;
         $this->depth = $depth;
         $this->position = $position;
@@ -23,11 +20,21 @@ class Response {
     public function normalize( $response ) {
         $result = array();
 
-        foreach ( $response as $piece ) {
-            foreach ( $this->map as $mapping ) {
-                $value = $mapping->getValue( $piece );
-                $result[ $mapping->getLocalKey() ] = $value;
+        foreach ( $response as $key => $val ) {
+            $mapkeys = $this->getMapKeys();
+            if ( in_array( $key, $mapkeys ) ) {
+                $resultkey = $this->map[ $key ]->getLocalKey();
+                $resultvalue = $this->map[ $key ]->getValue( $response );
+            } else {
+                $resultkey = $key;
+                if ( is_array( $val ) ) {
+                    $baseresponse = new Response();
+                    $resultvalue = $baseresponse->normalize( $val );
+                } else {
+                    $resultvalue = $val;
+                }
             }
+            $result[ $resultkey ] = $resultvalue;
         }
 
         return $result;
@@ -35,5 +42,13 @@ class Response {
 
     public function setMapping( $localkey, $responsekey ) {
         $this->map[ $localkey ] = $responsekey;
+    }
+
+    public function addMapping( $mapping ) {
+        if ( $mapping instanceof ResponseMapping ) {
+            array_push( $this->map, $mapping );
+        } else {
+            array_push( $this->map, new ResponseMapping() );
+        }
     }
 }

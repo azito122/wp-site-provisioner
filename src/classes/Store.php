@@ -24,6 +24,13 @@ class Store {
         )
     );
 
+    private $subentitymap = array(
+        'GroupType' => array(
+            'MetaQuery',
+            'UserQuery',
+        )
+    );
+
     public function __construct() {
         global $wpdb;
 
@@ -89,24 +96,50 @@ class Store {
         return $result;
     }
 
-
-
-
     public function store( $object ) {
         if ( ! property_exists( $object, 'storeid' ) ) {
             return false;
+        }
+
+        $reflect = new \ReflectionClass( $object );
+        $classname = $reflect->getShortName();
+
+        if ( array_key_exists( $classname, $this->subentitymap ) ) {
+            foreach ( $this->subentitymap[ $classname ] as $prop ) {
+                $stored = $this->store( $object->{"get$prop"}() );
+                $object->{"set$prop"}( $stored[ 'object' ] );
+            }
         }
 
         $id = $object->storeid;
         $serial = serialize( $object );
 
         if ( $id ) {
-            return self::update( $id, $serial );
+            $storedid = self::update( $id, $serial );
         } else {
             $reflection =new \ReflectionClass( $object );
             $classname = $reflection->getShortName();
-            return self::insert( $classname, $serial );
+            $storedid = self::insert( $classname, $serial );
         }
+
+        $object->storeid = $storedid;
+
+        return array(
+            'id' => $storedid,
+            'object' => $object,
+        );
+    }
+
+    public function store_grouptype( $object, $rerenderid = '' ) {
+        global $Store;
+
+        $metaqueryid = $Store->store( $object->getMetaQuery() );
+        $userqueryid = $Store->store( $object->getUserQuery() );
+
+        $object->setMetaQueryId( $metaqueryid );
+        $object->setUserQueryId( $userqueryid );
+
+        return $this->store( $object, $rerenderid );
     }
 
     public function update( $id, $serial ) {

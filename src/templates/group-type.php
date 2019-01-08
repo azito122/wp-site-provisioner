@@ -1,4 +1,4 @@
-<div class="entity form" entity-type="group-type">
+<div class="entity form storable" entity-type="group-type">
     <h2><?php echo $D->get( 'label', 'Unlabeled Group Type' ); ?></h2>
 
     <?php echo $R::hidden( 'storeid', $D->get( 'storeid' ) ); ?>
