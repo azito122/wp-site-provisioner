@@ -9,10 +9,9 @@ class Query {
 
     public $storeid;
 
-    private $label;
     private $remoteid;
     private $extrapath;
-    private $params;
+    private $params = array();
     private $response;
 
     private $remote;
@@ -21,8 +20,6 @@ class Query {
 
     public function __sleep() {
         return array(
-            'storeid',
-            'label',
             'remoteid',
             'extrapath',
             'params',
@@ -34,7 +31,7 @@ class Query {
         $this->remote = $Store->unstoreEntity( 'Remote', $this->remoteid );
     }
 
-    public function __construct( $response = null, $remoteid = null, $params = null ) {
+    public function __construct( $response = null, $remoteid = null, $params = array() ) {
         $this->remoteid = $remoteid;
         $this->params = $params;
         $this->response = $response;
@@ -47,7 +44,7 @@ class Query {
         $args = array(
             'timeout' => 5,
         );
-        $args = array_merge( $args, $this->getParams() );
+        $args = array_merge( $args, $this->getParamsArray() );
 
         $response = wp_remote_get( $url, $args );
         $response = $this->normalizeResponse( $response );
@@ -132,12 +129,17 @@ class Query {
         return $this->remote->getUrl() . $this->getExtraPath();
     }
 
-    public function getParams() {
+    public function getParamsArray() {
         $params = array();
-        foreach ( $this->params as $id => $val ) {
-            array_merge( $params, $this->getParam( $id ) );
+        foreach ( $this->params as $param ) {
+            $params[ $param->getKey() ] = $this->resolve( $param->getValue() );
+            // array_merge( $params, $this->getParam( $id ) );
         }
         return $params;
+    }
+
+    public function getParams() {
+        return $this->params;
     }
 
     public function getParam( $id ) {
@@ -158,5 +160,9 @@ class Query {
 
     public function deleteParam( QueryParam $param ) {
         unset( $this->params[ array_search( $param, $this->params ) ] );
+    }
+
+    public function setParams( $params ) {
+        $this->params = $params;
     }
 }

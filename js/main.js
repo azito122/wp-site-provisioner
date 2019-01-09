@@ -23,6 +23,7 @@ WPSP.renderEntity = function(entitytype, selector, id) {
         },
         success: function(response, status) {
             if(status == 'success') {
+                console.log(selector);
                 $(selector).append(response);
             }
         }
@@ -63,12 +64,12 @@ WPSP.storeEntity = function(element, callback = function(){}, rerender = true) {
     //     }
     // })
     derendered = WPSP.derender(element);
+    console.log(derendered);
     rerenderid = '';
     if (rerender) {
         rerenderid = Math.random();
         WPSP.rerendermap[rerenderid] = element;
     }
-    console.log(callback);
     $.ajax({
         type: 'post',
         url: WPSP_AJAX.ajaxurl,
@@ -117,10 +118,23 @@ WPSP.derender = function(html) {
     var result = {};
     $.each($(html).children(), function(i, e) {
         var datakey = $(e).attr('datakey');
-        if ($(e).hasClass('sub-entity')) {
-            result[datakey] = WPSP.derender($(e).children('.entity.form'));
-        } else if (typeof datakey === 'string') {
-            result[datakey] = WPSP.getValue(e);
+        if (typeof datakey === 'string') {
+            var datatype = $(e).attr('datatype');
+            if (datatype == 'subentity') {
+                result[datakey] = WPSP.derender($(e).children('.entity.form'));
+            } else if (datatype == 'array') {
+                console.log('data array!');
+                var dataarrayselector = $(e).attr('dataarrayselector');
+                console.log('data array selector: ' + dataarrayselector);
+                var dataarray = [];
+                console.log('data array for', e);
+                $.each($(e).find(dataarrayselector), function(i, e) {
+                    dataarray.push(WPSP.derender(e));
+                });
+                result[datakey] = dataarray;
+            } else {
+                result[datakey] = WPSP.getValue(e);
+            }
         }
     })
     return result;

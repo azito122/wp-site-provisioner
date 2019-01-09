@@ -10,10 +10,10 @@
         'required'    => true,
     ) ); ?>
 
-    <div class="sub-entity" datakey="meta-query">
+    <div datakey="meta-query" datatype="subentity">
         <?php echo $D->get( 'meta-query' ); ?>
     </div>
-    <div class="sub-entity" datakey="user-query">
+    <div datakey="user-query" datatype="subentity">
         <?php echo $D->get( 'user-query' ); ?>
     </div>
 
