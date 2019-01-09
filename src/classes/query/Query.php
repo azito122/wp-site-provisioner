@@ -58,6 +58,7 @@ class Query {
     }
 
     public function normalizeResponse( $response ) {
+        $response = json_decode( $response[ 'body' ] );
         if ( ! $response || empty( $response ) || ! is_array( $response ) ) {
             return false;
         }
@@ -78,6 +79,10 @@ class Query {
         }
 
         return $string;
+    }
+
+    public function getResponse() {
+        return $this->response;
     }
 
     public function getLabel() {
@@ -111,12 +116,8 @@ class Query {
     }
 
     public function setRemote( $remote ) {
-        if ( is_numeric( $remote ) ) {
-            $this->remoteid = (int)$remote;
-        } else if ( $remote instanceof Remote ) {
-            $this->remoteid = $remote->getId();
-        }
-        $this->getRemote();
+        $this->setRemoteId( $remote->storeid );
+        $this->remote = $remote;
     }
 
     public function getExtraPath() {

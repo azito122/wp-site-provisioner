@@ -13,6 +13,10 @@
  */
 namespace WPSP;
 
+use WPSP\query\response\Response as Response;
+use WPSP\query\response\ResponseMapping as ResponseMapping;
+// use WPSP\query\Query as Query;
+
 spl_autoload_register( function( $class ) {
     if ( strpos( $class, 'WPSP' ) === 0 ) {
         $path = str_replace( 'WPSP\\', '/src/classes/', $class );
@@ -191,9 +195,27 @@ class SiteProvisioner {
         global $Store;
         // $Store = new Store();
 
+        echo "<pre>";
         $remote = new Remote();
-        $remote->setUrl('https://moodle.lafayette.edu/ret/path/get/stuff');
+        $remote->setUrl('http://andycodesthings.com:3000/users');
         $remoteid = $Store->storeEntity($remote);
+
+        $map = array(
+            // new ResponseMapping( 'alastname', 'lastname' ),
+            // new ResponseMapping( 'afirstname', 'firstname' ),
+            new ResponseMapping( 'login', 'username' ),
+        );
+        $response = new Response( $map );
+
+        $params = array();
+
+        $query = new Query( $response, $remoteid, $params );
+        $query->setRemote( $remote );
+
+        $result = $query->run();
+
+        print_r($result);
+        echo "</pre>";
 
         // $query = new Query($remoteid);
         // $queryid = $Store->storeEntity($query);

@@ -23,10 +23,17 @@ class ResponseMapping {
 
     public function getValue( $responsepiece ) {
         if ( $this->type == 'singlevalue' ) {
-            return $responsepiece[ $responsekey ];
+            return $responsepiece[ $this->responsekey ];
         } else {
             return $subresponse->normalize( $responsepiece[ $responsekey ] );
         }
     }
 
+    public function getLocalKey() {
+        return $this->localkey;
+    }
+
+    public function getResponseKey() {
+        return $this->responsekey;
+    }
 }

@@ -18,26 +18,31 @@ class Response {
     }
 
     public function normalize( $response ) {
-        $result = array();
-
-        foreach ( $response as $key => $val ) {
-            $mapkeys = $this->getMapKeys();
-            if ( in_array( $key, $mapkeys ) ) {
-                $resultkey = $this->map[ $key ]->getLocalKey();
-                $resultvalue = $this->map[ $key ]->getValue( $response );
-            } else {
-                $resultkey = $key;
-                if ( is_array( $val ) ) {
-                    $baseresponse = new Response();
-                    $resultvalue = $baseresponse->normalize( $val );
+        $normalized = array();
+        foreach ( $response as $piece ) {
+            $normalizedpiece = array();
+            $piece = (array)$piece;
+            foreach ( $piece as $key => $val ) {
+                $mapkeys = $this->getMapKeys();
+                if ( in_array( $key, $mapkeys ) ) {
+                    $mapping = $this->getMappingByResponseKey( $key );
+                    $resultkey = $mapping->getLocalKey();
+                    $resultvalue = $mapping->getValue( $piece );
                 } else {
-                    $resultvalue = $val;
+                    $resultkey = $key;
+                    if ( is_array( $val ) ) {
+                        $baseresponse = new Response();
+                        $resultvalue = $baseresponse->normalize( $val );
+                    } else {
+                        $resultvalue = $val;
+                    }
                 }
+                $normalizedpiece[ $resultkey ] = $resultvalue;
             }
-            $result[ $resultkey ] = $resultvalue;
+            array_push( $normalized, $normalizedpiece );
         }
 
-        return $result;
+        return $normalized;
     }
 
     public function setMapping( $localkey, $responsekey ) {
@@ -50,5 +55,22 @@ class Response {
         } else {
             array_push( $this->map, new ResponseMapping() );
         }
+    }
+
+    public function getMapKeys() {
+        $keys = array();
+        foreach ( $this->map as $mapping ) {
+            array_push( $keys, $mapping->getResponseKey() );
+        }
+        return $keys;
+    }
+
+    public function getMappingByResponseKey( $key ) {
+        foreach ( $this->map as $mapping ) {
+            if ( $mapping->getResponseKey() == $key ) {
+                return $mapping;
+            }
+        }
+        return false;
     }
 }
