@@ -10,7 +10,7 @@ abstract class QueryRenderer extends Renderer {
     public static function render( $instance ) {
         global $Store;
 
-        $remotes = $Store->unstore( 'Remote' );
+        $remotes = $Store->unstoreEntity( 'Remote' );
         $remotemenu = array();
         foreach ( $remotes as $remote ) {
             $remotemenu[ $remote->storeid ] = $remote->getLabel();

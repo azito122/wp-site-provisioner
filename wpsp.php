@@ -122,7 +122,7 @@ class SiteProvisioner {
             $classname = resolve_classname( $name );
             $id = array_key_exists( 'entityid', $_REQUEST ) ? $_REQUEST[ 'entityid' ] : false;
             if ( $id ) {
-                $object = $Store->unstore( $name, $id );
+                $object = $Store->unstoreEntity( $name, $id );
             } else {
                 $object = new $classname();
             }
@@ -144,7 +144,7 @@ class SiteProvisioner {
             die();
         }
 
-        $stored = $Store->store( $derendered );
+        $stored = $Store->storeEntity( $derendered );
         $object = $stored['object'];
 
         $return = array(
@@ -172,7 +172,7 @@ class SiteProvisioner {
         $sql = "CREATE TABLE $table_name (
                 id varchar(255) NOT NULL,
                 type varchar(255) NOT NULL,
-                data longblob NOT NULL
+                serial longblob NOT NULL
                 ) $charset_collate;";
 
         dbDelta( $sql );
@@ -192,25 +192,25 @@ class SiteProvisioner {
         // $Store = new Store();
 
         $remote = new Remote();
-        $remote->setFullUrl('https://moodle.lafayette.edu/ret/path/get/stuff');
-        $remoteid = $Store->store($remote);
+        $remote->setUrl('https://moodle.lafayette.edu/ret/path/get/stuff');
+        $remoteid = $Store->storeEntity($remote);
 
-        $query = new Query($remoteid);
-        $queryid = $Store->store($query);
+        // $query = new Query($remoteid);
+        // $queryid = $Store->storeEntity($query);
 
-        $group = new Group( array(), $queryid);
-        $groupid = $Store->store($group);
+        // $group = new Group( array(), $queryid);
+        // $groupid = $Store->storeEntity($group);
 
-        // $group2 = $Store->unstore( 'Group', 'fd02d65b137ffe92e0c3dea3813ca472' );
-        $group2 = $Store->unstore( 'Group' );
-        echo "<pre>";
-        print_r($group2);
-        echo "</pre>";
+        // // $group2 = $Store->unstoreEntity( 'Group', 'fd02d65b137ffe92e0c3dea3813ca472' );
+        // $group2 = $Store->unstoreEntity( 'Group' );
+        // echo "<pre>";
+        // print_r($group2);
+        // echo "</pre>";
 
 
         // print_r($Store->getRequiredTypes('Remote'));
         // print_r(Store::store($remote));
-        // $remote2 = $Store->unstore( 'Remote', '03c8daeeee8cba218012b321e5290938');
+        // $remote2 = $Store->unstoreEntity( 'Remote', '03c8daeeee8cba218012b321e5290938');
         // print_r($remote2);
     }
 

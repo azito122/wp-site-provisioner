@@ -29,7 +29,7 @@ abstract class Renderer {
     public static function pageGroupTypes() {
         global $Store;
 
-        $grouptypes = self::entity( $Store->unstore( 'GroupType' ) );
+        $grouptypes = self::entity( $Store->unstoreEntity( 'GroupType' ) );
         return self::template( 'page-entities', array(
                 'existing-entities' => $grouptypes,
                 'entity-type' => 'group-type',
@@ -41,13 +41,30 @@ abstract class Renderer {
     public static function pageRemotes() {
         global $Store;
 
-        $remotes = self::entity( $Store->unstore( 'Remote' ) );
+        $remotes = self::entity( $Store->unstoreEntity( 'Remote' ) );
         return self::template( 'page-entities', array(
                 'existing-entities' => $remotes,
                 'entity-type' => 'remote',
                 'entity-type-name' => 'Remote',
             )
         );
+    }
+
+    public static function pageMyGroups() {
+        global $Store;
+
+        $groupids = $Store->unstoreEntityUserGroupIds();
+        $mygroups = $Store->unstoreEntity( 'Group', $groupids );
+        // $grouptypes = $Store->unstoreEntity( 'GroupType' );
+        // $grouptypemenus = array();
+        // foreach ( $grouptypes as $grouptype ) {
+        //     array_push( $grouptypemenus, $grouptype->getPossibleMetas );
+        // }
+        return self::template( 'page-entities', array(
+            'existing-entities' => $mygroups,
+            'entity-type'       => 'group',
+            'entity-type-name'  => 'Group',
+        ) );
     }
 
     public static function select( $props = array() ) {

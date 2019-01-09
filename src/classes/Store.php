@@ -37,8 +37,17 @@ class Store {
         $this->tblname = $wpdb->prefix . WPSP_TBLNAME;
     }
 
-    public function unstore( $type, $id = null ) {
-        $allreqtypes = array_merge( $this->getRequiredTypes( $type ) );
+    /**
+     * Unstore a storable Entity.
+     *
+     * @param string $type A string representing the type of the entity (matches class shortname).
+     * @param int|null $id The id of the entity to unstore.
+     *
+     * @return object|array The entity or entities matching the given criteria.
+     */
+    public function unstoreEntity( $type, $id = null ) {
+        // Find which types we need to load for unserialization.
+        $allreqtypes = $this->getRequiredTypes( $type );
         $reqtypes = array_diff( $allreqtypes, $this->cachedtypes );
 
         if ( count( $reqtypes ) > 0 ) {
@@ -47,17 +56,70 @@ class Store {
         }
 
         if ( $id ) {
-            return $this->reconstitute( $this->cache[ $id ][ 'data' ], $id );
+            // If unstoring a single entity, grab from cache.
+            return $this->reconstitute( $this->cache[ $id ][ 'serial' ], $id );
         } else {
-            $data = array_filter( $this->cache, function( $d ) use ( $type ) {
-                return $d[ 'type' ] == $type;
+            // Get data for all matching type entries in the cache.
+            $cacheentries = array_filter( $this->cache, function( $cacheentry ) use ( $type ) {
+                return $cacheentry[ 'type' ] == $type;
             });
             $results = array();
-            foreach ( $data as $entity ) {
-                array_push( $results, $this->reconstitute( $entity[ 'data' ], $entity[ 'id' ] ) );
+            // Reconstitute and return.
+            foreach ( $cacheentries as $cacheentry ) {
+                array_push( $results, $this->reconstitute( $cacheentry[ 'serial' ], $cacheentry[ 'id' ] ) );
             }
             return $results;
         }
+    }
+
+    /**
+     * Store a given serialized data object, with id and type.
+     *
+     * @param string $serial An object that has been serialized.
+     * @param string $id The id to store this serialized data under.
+     * @param string $type The type which identifies this serialized data (should match classname if applicable).
+     */
+    private function store( $serial, $type, $id = null ) {
+        if ( $id ) {
+            $storedid = self::update( $id, $serial );
+        } else {
+            $storedid = self::insert( $type, $serial );
+        }
+
+        return $storedid;
+    }
+
+    public function storeEntity( $object ) {
+        // If this is not a storable entity, die.
+        if ( ! property_exists( $object, 'storeid' ) ) {
+            return false;
+        }
+
+        // Get entity type.
+        $reflect = new \ReflectionClass( $object );
+        $type = $reflect->getShortName();
+
+        // Find any sub-entities that need stored first.
+        if ( array_key_exists( $type, $this->subentitymap ) ) {
+            foreach ( $this->subentitymap[ $type ] as $prop ) {
+                // Store them and update parent object.
+                $stored = $this->storeEntity( $object->{"get$prop"}() );
+                $object->{"set$prop"}( $stored[ 'object' ] );
+            }
+        }
+
+        // Get entity id and serial.
+        $id = $object->storeid;
+        $serial = serialize( $object );
+
+        $storedid = $this->store( $serial, $type, $id );
+
+        $object->storeid = $storedid;
+
+        return array(
+            'id' => $storedid,
+            'object' => $object,
+        );
     }
 
     public function reconstitute( $serial, $id ) {
@@ -86,6 +148,22 @@ class Store {
         }
     }
 
+    public function unstoreUserGroupIds( $user = null ) {
+        if ( ! isset( $user ) ) {
+            $user = wp_get_current_user();
+        }
+        $serial = $this->select( array( 'id' => $user->id, 'type' => 'usergroupids' ) )[ 'serial'];
+        return unserialize( $serial );
+    }
+
+    public function storeUserGroupIds( $ids, $user = null ) {
+        if ( ! isset( $user ) ) {
+            $user = wp_get_current_user();
+        }
+        $serial = serialize( $ids );
+        $this->store( $serial, 'usergroupids', $user->id );
+    }
+
     public function getRequiredTypes( $type ) {
         $result = array( $type );
         if ( array_key_exists( $type, $this->typemap ) ) {
@@ -96,58 +174,25 @@ class Store {
         return $result;
     }
 
-    public function store( $object ) {
-        if ( ! property_exists( $object, 'storeid' ) ) {
-            return false;
-        }
+    // public function store_grouptype( $object, $rerenderid = '' ) {
+    //     global $Store;
 
-        $reflect = new \ReflectionClass( $object );
-        $classname = $reflect->getShortName();
+    //     $metaqueryid = $Store->storeEntity( $object->getMetaQuery() );
+    //     $userqueryid = $Store->storeEntity( $object->getUserQuery() );
 
-        if ( array_key_exists( $classname, $this->subentitymap ) ) {
-            foreach ( $this->subentitymap[ $classname ] as $prop ) {
-                $stored = $this->store( $object->{"get$prop"}() );
-                $object->{"set$prop"}( $stored[ 'object' ] );
-            }
-        }
+    //     $object->setMetaQueryId( $metaqueryid );
+    //     $object->setUserQueryId( $userqueryid );
 
-        $id = $object->storeid;
-        $serial = serialize( $object );
-
-        if ( $id ) {
-            $storedid = self::update( $id, $serial );
-        } else {
-            $reflection =new \ReflectionClass( $object );
-            $classname = $reflection->getShortName();
-            $storedid = self::insert( $classname, $serial );
-        }
-
-        $object->storeid = $storedid;
-
-        return array(
-            'id' => $storedid,
-            'object' => $object,
-        );
-    }
-
-    public function store_grouptype( $object, $rerenderid = '' ) {
-        global $Store;
-
-        $metaqueryid = $Store->store( $object->getMetaQuery() );
-        $userqueryid = $Store->store( $object->getUserQuery() );
-
-        $object->setMetaQueryId( $metaqueryid );
-        $object->setUserQueryId( $userqueryid );
-
-        return $this->store( $object, $rerenderid );
-    }
+    //     return $this->store( $object, $rerenderid );
+    // }
 
     public function update( $id, $serial ) {
+
         global $wpdb;
 
         $update = array(
             'id' => $id,
-            'data' => $serial,
+            'serial' => $serial,
         );
 
         $wpdb->update( $this->tblname, $update, array( 'id' => $id ) );
@@ -168,15 +213,19 @@ class Store {
         $insert = array(
             'id' => $hash,
             'type' => $classname,
-            'data' => $serial,
+            'serial' => $serial,
         );
 
         $wpdb->insert( $this->tblname, $insert );
         return $hash;
     }
 
-    public function select( $conditions = array() ) {
+    public function select( $conditions = array(), $table = null ) {
         global $wpdb;
+
+        if ( ! isset( $table ) ) {
+            $table = $this->tblname;
+        }
 
         $conditionjoin = array();
         foreach ( $conditions as $key => $val ) {

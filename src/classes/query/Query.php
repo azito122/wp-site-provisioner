@@ -31,7 +31,7 @@ class Query {
 
     public function __wakeup() {
         global $Store;
-        $this->remote = $Store->unstore( 'Remote', $this->remoteid );
+        $this->remote = $Store->unstoreEntity( 'Remote', $this->remoteid );
     }
 
     public function __construct( $response = null, $remoteid = null, $params = null ) {
@@ -103,7 +103,7 @@ class Query {
         if ( $this->remote ) {
             return $this->remote;
         }
-        $remote = $Store->unstore( 'Remote', $this->remoteid );
+        $remote = $Store->unstoreEntity( 'Remote', $this->remoteid );
         if ( $remote ) {
             $this->remote = $remote;
         }

@@ -26,7 +26,7 @@ class Group {
 
     public function __wakeup() {
         global $Store;
-        $this->query = $Store->unstore( 'Query', $this->queryid );
+        $this->query = $Store->unstoreEntity( 'Query', $this->queryid );
     }
 
     public function __construct( $meta, $queryid ) {

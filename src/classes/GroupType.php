@@ -28,8 +28,8 @@ class GroupType {
 
     public function __wakeup() {
         global $Store;
-        $this->metaquery = $Store->unstore( 'Query', $this->metaqueryid );
-        $this->userquery = $Store->unstore( 'Query', $this->userqueryid );
+        $this->metaquery = $Store->unstoreEntity( 'Query', $this->metaqueryid );
+        $this->userquery = $Store->unstoreEntity( 'Query', $this->userqueryid );
     }
 
     public function __construct() {
