@@ -55,13 +55,15 @@ class Store {
             $this->setCachedTypes( $reqtypes );
         }
 
-        if ( $id ) {
+        if ( is_scalar( $id ) ) {
             // If unstoring a single entity, grab from cache.
             return $this->reconstitute( $this->cache[ $id ][ 'serial' ], $id );
         } else {
-            // Get data for all matching type entries in the cache.
-            $cacheentries = array_filter( $this->cache, function( $cacheentry ) use ( $type ) {
-                return $cacheentry[ 'type' ] == $type;
+            // Get data for all matching criteria.
+            $cacheentries = array_filter( $this->cache, function( $cacheentry ) use ( $type, $id ) {
+                $one = $cacheentry[ 'type' ] == $type;
+                $two = is_array( $id ) ? in_array( $cacheentry[ 'id' ], $id ) : true;
+                return $one && $two;
             });
             $results = array();
             // Reconstitute and return.

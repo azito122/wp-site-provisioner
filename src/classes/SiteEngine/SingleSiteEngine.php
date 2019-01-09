@@ -8,6 +8,12 @@ class SingleSiteEngine extends SiteEngine {
 
     private $siteid;
     private $owner;
+    private $grouptypemeta;
+    private $config = array(
+        'path'    => '',
+        'title'   => '{owner_firstname} {owner_lastname}\'s Site',
+        'tagline' => '',
+    );
 
     public function __construct( $initialusers, $ownerid = null ) {
         if ( isset( $ownerid ) ) {
@@ -27,7 +33,7 @@ class SingleSiteEngine extends SiteEngine {
         $domain = 'd';
         $path = array_key_exists( 'path', $siteinfo ) ? $siteinfo[ 'path' ] : $this->getConfig( 'path' );
         $title = array_key_exists( 'title', $siteinfo[ 'title' ] ) ? $siteinfo[ 'title' ] : $this->getConfig( 'title' );
-        $adminuserid = array_key_exists( 'adminuserid', $siteinfo[ 'adminuserid' ] ) ? $siteinfo[ 'adminuserid' ] : $this->getConfig( 'adminuserid' );
+        $adminuserid = array_key_exists( 'adminuserid', $siteinfo[ 'adminuserid' ] ) ? $siteinfo[ 'adminuserid' ] : $this->getConfig( 'owner_id' );
 
         $siteid = wpmu_create_blog( $domain, $path, $title, $adminuserid );
         update_blog_option( $siteid, 'blogdescription', $this->getConfig( 'tagline' ) );
@@ -63,8 +69,11 @@ class SingleSiteEngine extends SiteEngine {
     public function getOwnerData() {
         if ( $o = $this->owner ) {
             return array(
-                'id' => $o->getId(),
-                'login' => $o->getLogin(),
+                'owner_id'        => $o->getId(),
+                'owner_login'     => $o->getLogin(),
+                'owner_firstname' => $o->getFirstname(),
+                'owner_lastname'  => $o->getLastname(),
+                'owner_fullname'  => $o->getFullname(),
             );
         }
         return null;
@@ -78,19 +87,20 @@ class SingleSiteEngine extends SiteEngine {
         $this->owner = $owner;
     }
 
-    public function getConfig( $key ) {
+    public function getConfig( $cfgkey ) {
         $flagdata = $this->getFlagData();
 
-        if ( ! array_key_exists( $key, $this->config ) ) {
+        if ( ! array_key_exists( $cfgkey, $this->config ) ) {
             return null;
         }
 
-        $cfgval = $this->config[ $key ];
+        $cfgval = $this->config[ $cfgkey ];
 
-        if ( preg_match( '/.*{(.*?)}.*/', $cfgval, $matches ) ) {
-            foreach ( $matches as $match ) {
-                if ( array_key_exists( $match, $flagdata ) ) {
-                    $cfgval = preg_replace( "/$match/", $flagdata[ $match ], $cfgval );
+        $matches = array();
+        if ( preg_match( '/.*{([a-zA-Z0-9_]*)}.*/', $cfgval, $matches ) ) {
+            foreach ( $matches as $flag ) {
+                if ( array_key_exists( $flag, $flagdata ) ) {
+                    $cfgval = preg_replace( "/{$flag}/", $flagdata[ $flag ], $cfgval );
                 }
             }
         }

@@ -93,6 +93,24 @@ class GroupType {
         $this->metaqueryid = $id;
     }
 
+    public function getUsers( $meta ) {
+        $query = $this->getUserQuery();
+        $userdata = $query->run( $meta );
+        if ( $this->config[ 'roledata' ] == 'userquery' ) {
+            $userlist = new UserList( $userdata );
+        } else if ( $this->config[ 'roledata' ] == 'rolequery' ) {
+            // $rolequery = $this->getRoleQuery();
+            // $roledata = $rolequery->run( $meta );
+            // $joinfield = $this->config[ 'rolejoinfield' ];
+            // foreach ( $userdata as $ud ) {
+            //     $ud[ 'roles' ] =
+            // }
+            // $userdata = $this->
+            // $userlist = new UserList( $userdata );
+        }
+        return $userlist;
+    }
+
     public function getData() {
         return $this->metaquery->run();
     }

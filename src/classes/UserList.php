@@ -6,12 +6,12 @@ class UserList {
 
     private $users;
 
-    public function __construct( $users ) {
-        if ( $user instanceof User ) {
-            $this->users = array( $user );
-        } else if ( is_array( $users ) ) {
-            $this->$users = $users;
+    public function __construct( $userdata ) {
+        $users = array();
+        foreach ( $userdata as $ud ) {
+            array_push( $users, new User( $ud ) );
         }
+        $this->users = $users;
     }
 
     public function add( User $user ) {

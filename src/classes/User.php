@@ -8,10 +8,12 @@ class User {
     private $login;
     private $roles;
 
-    public function __construct($id, $login, $roles) {
-        $this->id = $id;
-        $this->login = $login;
-        $this->roles = $roles;
+    public function __construct( $userdata ) {
+        $this->id        = $userdata[ 'id' ];
+        $this->login     = $userdata[ 'login' ];
+        $this->firstname = $userdata[ 'firstname' ];
+        $this->lastname  = $userdata[ 'lastname' ];
+        $this->email     = $userdata[ 'email' ];
     }
 
     public function getId() {

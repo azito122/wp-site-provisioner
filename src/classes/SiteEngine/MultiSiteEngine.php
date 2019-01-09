@@ -8,6 +8,9 @@ use WPSP\siteengine\SingleSiteEngine as SingleSiteEngine;
 class MultiSiteEngine extends SiteEngine {
 
     private $filter;
+    private $config = array(
+        'each' => 'user',
+    );
     private $siteengines = array();
 
     public function __construct( $initialusers, $filter = null ) {
