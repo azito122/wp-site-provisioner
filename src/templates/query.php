@@ -17,5 +17,7 @@
 
     <?php echo $D->get( 'params' ) ?>
 
-    <?php echo $D->get( 'response' ) ?>
+    <div datakey="response" datatype="subentity">
+        <?php echo $D->get( 'response' ) ?>
+    </div>
 </div>

@@ -4,6 +4,7 @@ namespace WPSP\query;
 
 use WPSP\Store as Store;
 use WPSP\query\QueryParam as QueryParam;
+use WPSP\query\response\Response as Response;
 
 class Query {
 
@@ -23,6 +24,7 @@ class Query {
             'remoteid',
             'extrapath',
             'params',
+            'response',
         );
     }
 
@@ -34,7 +36,7 @@ class Query {
     public function __construct( $response = null, $remoteid = null, $params = array() ) {
         $this->remoteid = $remoteid;
         $this->params = $params;
-        $this->response = $response;
+        $this->response = $response ? $response : new Response();
     }
 
     public function run( $data = array() ) {
@@ -80,6 +82,10 @@ class Query {
 
     public function getResponse() {
         return $this->response;
+    }
+
+    public function setResponse( $response ) {
+        $this->response = $response;
     }
 
     public function getLabel() {

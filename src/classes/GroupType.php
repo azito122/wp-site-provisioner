@@ -57,42 +57,6 @@ class GroupType {
         return $options;
     }
 
-    public function getLabel() {
-        return $this->label;
-    }
-
-    public function setLabel( $label ) {
-        if ( is_string( $label ) && ! empty( $label ) ) {
-            $this->label = $label;
-        }
-    }
-
-    public function getMetaQuery() {
-        return $this->metaquery;
-    }
-
-    public function setMetaQuery( Query $query ) {
-        $this->metaqueryid = $query->storeid;
-        $this->metaquery = $query;
-    }
-
-    public function getUserQuery() {
-        return $this->userquery;
-    }
-
-    public function setUserQuery( Query $query ) {
-        $this->userqueryid = $query->storeid;
-        $this->userquery = $query;
-    }
-
-    public function setUserQueryId( $id ) {
-        $this->userqueryid = $id;
-    }
-
-    public function setMetaQueryId( $id ) {
-        $this->metaqueryid = $id;
-    }
-
     public function getUsers( $meta ) {
         $query = $this->getUserQuery();
         $userdata = $query->run( $meta );
@@ -111,7 +75,48 @@ class GroupType {
         return $userlist;
     }
 
-    public function getData() {
+    public function getMeta() {
         return $this->metaquery->run();
     }
+
+    // Getters and setters---------------------------------
+    public function getLabel() {
+        return $this->label;
+    }
+    public function setLabel( $label ) {
+        if ( is_string( $label ) && ! empty( $label ) ) {
+            $this->label = $label;
+        }
+    }
+
+    public function getMetaQuery() {
+        return $this->metaquery;
+    }
+    public function setMetaQuery( Query $query ) {
+        $this->metaqueryid = $query->storeid;
+        $this->metaquery = $query;
+    }
+
+    public function getUserQuery() {
+        return $this->userquery;
+    }
+    public function setUserQuery( Query $query ) {
+        $this->userqueryid = $query->storeid;
+        $this->userquery = $query;
+    }
+
+    public function getMetaQueryId() {
+        return $this->metaqueryid;
+    }
+    public function setMetaQueryId( $id ) {
+        $this->metaqueryid = $id;
+    }
+
+    public function getUserQueryId() {
+        return $this->userqueryid;
+    }
+    public function setUserQueryId( $id ) {
+        $this->userqueryid = $id;
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++
 }

@@ -5,6 +5,7 @@ namespace WPSP\render;
 use WPSP\render\Renderer as Renderer;
 use WPSP\query\Query as Query;
 use WPSP\render\QueryParamRenderer as QueryParamRenderer;
+use WPSP\render\ResponseRenderer as ResponseRenderer;
 
 abstract class QueryRenderer extends Renderer {
 
@@ -22,19 +23,27 @@ abstract class QueryRenderer extends Renderer {
             'remoteid' => $instance->getRemoteId(),
             'path'     => $instance->getExtraPath(),
             'params'   => self::renderParams( $instance->getParams() ),
+            'response' => ResponseRenderer::render( $instance->getResponse() ),
         );
         return self::template( 'query', $data );
     }
 
-    public static function derender( $type, $data ) {
+    public static function derender( $data, $type  = '' ) {
         $object = new Query();
 
         $object->setRemoteId( $data[ 'remoteid' ] );
 
         $object->setExtraPath( $data[ 'path' ] );
 
-        $paramsderendered = self::derenderParams( $data[ 'params'] );
-        $object->setParams( $paramsderendered );
+        if ( array_key_exists( 'params', $data ) ) {
+            $paramsderendered = self::derenderParams( $data[ 'params' ] );
+            $object->setParams( $paramsderendered );
+        }
+
+        if ( array_key_exists( 'response', $data ) ) {
+            $response = ResponseRenderer::derender( $data[ 'response' ] );
+            $object->setResponse( $response );
+        }
 
         $object->storeid = $data[ 'storeid' ];
         return $object;
@@ -53,7 +62,7 @@ abstract class QueryRenderer extends Renderer {
     public static function derenderParams( $data ) {
         $paramsderendered = array();
         foreach ( $data as $paramdata ) {
-            array_push( $paramsderendered, QueryParamRenderer::derender( 'QueryParam', $paramdata ) );
+            array_push( $paramsderendered, QueryParamRenderer::derender( $paramdata ) );
         }
         return $paramsderendered;
     }

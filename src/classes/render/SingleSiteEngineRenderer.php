@@ -17,7 +17,7 @@ abstract class SingleSiteEngineRenderer extends Renderer {
         return self::template( 'single-site-engine', $data );
     }
 
-    public static function derender( $type, $data ) {
+    public static function derender( $data, $type  = '' ) {
         $object = new SingleSiteEngine();
 
         $object->setConfig( 'title', $data['title'] );

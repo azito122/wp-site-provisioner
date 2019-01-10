@@ -18,11 +18,11 @@ abstract class Renderer {
 
     abstract public function __construct( $object );
 
-    public static function derender( $type, $data ) {
+    public static function derender( $data, $type  = '' ) {
         $classname = "\WPSP\\render\\{$type}Renderer";
 
         if ( class_exists( $classname ) ) {
-            return $classname::derender( $type, $data );
+            return $classname::derender( $data );
         }
     }
 
@@ -77,8 +77,8 @@ abstract class Renderer {
 
         $o = "<select name=\"$name\" datakey=\"$datakey\">";
         foreach ( $options as $value => $opname ) {
-            $isdefault = $default == $value ? 'select="selected"' : '';
-            $o .= "<option value=\"$value\" $default>$opname</option>";
+            $isdefault = $default == $value ? 'selected="selected"' : '';
+            $o .= "<option value=\"$value\" $isdefault>$opname</option>";
         }
         $o .= "</select>";
         $o .= "<label for=\"$name\">$label</label>";

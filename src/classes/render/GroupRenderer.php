@@ -24,7 +24,7 @@ abstract class GroupRenderer extends Renderer {
         return self::template( 'remote', $data );
     }
 
-    public static function derender( $type, $data ) {
+    public static function derender( $data, $type  = '' ) {
         if (! array_key_exists( 'label', $data ) || empty( $data[ 'label' ] ) ) {
             return false;
         }

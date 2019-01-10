@@ -15,7 +15,7 @@ abstract class QueryParamRenderer extends Renderer {
         return self::template( 'query-param', $data );
     }
 
-    public static function derender( $type, $data ) {
+    public static function derender( $data, $type  = '' ) {
         $object = new QueryParam( $data[ 'key' ], $data[ 'value' ] );
 
         return $object;

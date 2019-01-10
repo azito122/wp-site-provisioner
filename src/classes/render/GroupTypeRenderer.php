@@ -18,7 +18,7 @@ abstract class GroupTypeRenderer extends Renderer {
         return self::template( 'group-type', $data );
     }
 
-    public static function derender( $type, $data ) {
+    public static function derender( $data, $type = '' ) {
         if ( ! array_key_exists( 'label', $data ) || empty( $data[ 'label' ] ) ) {
             return false;
         }
@@ -26,9 +26,9 @@ abstract class GroupTypeRenderer extends Renderer {
 
         $object->setLabel( $data[ 'label' ] );
 
-        $object->setMetaQuery( QueryRenderer::derender( 'Query', $data[ 'meta-query' ] ) );
+        $object->setMetaQuery( QueryRenderer::derender( $data[ 'meta-query' ] ) );
 
-        $object->setUserQuery( QueryRenderer::derender( 'Query', $data[ 'user-query' ] ) );
+        $object->setUserQuery( QueryRenderer::derender( $data[ 'user-query' ] ) );
 
         $object->storeid = $data[ 'storeid' ];
         return $object;

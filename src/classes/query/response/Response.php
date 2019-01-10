@@ -6,13 +6,13 @@ use WPSP\query\response\ResponseMapping as ResponseMapping;
 
 class Response {
 
-    private $map;
-    private $depth;
-    private $position;
-    private $allowadd;
+    protected $map;
+    protected $depth;
+    protected $position;
+    protected $allowadd;
 
     public function __construct( $map = array(), $allowdadd = true, $depth = 0, $position = null ) {
-        $this->map = $map;
+        $this->map = $map ? $map : array();
         $this->depth = $depth;
         $this->position = $position;
     }
@@ -72,5 +72,9 @@ class Response {
             }
         }
         return false;
+    }
+
+    public function getMappings() {
+        return $this->map;
     }
 }

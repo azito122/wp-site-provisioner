@@ -64,7 +64,7 @@ WPSP.storeEntity = function(element, callback = function(){}, rerender = true) {
     //     }
     // })
     derendered = WPSP.derender(element);
-    console.log(derendered);
+    console.log('derendered:', derendered);
     rerenderid = '';
     if (rerender) {
         rerenderid = Math.random();
@@ -73,6 +73,8 @@ WPSP.storeEntity = function(element, callback = function(){}, rerender = true) {
     $.ajax({
         type: 'post',
         url: WPSP_AJAX.ajaxurl,
+        // contentType: "application/json; charset=utf-8",
+        // dataType: "json",
         data: {type: $(element).attr('entity-type'), action: 'wpsp_store', data: derendered, rerenderid: rerenderid},
         success: callback,
         error: function(xhr, status, error) {
@@ -106,11 +108,7 @@ WPSP.getValue = function(e) {
     if (tag === 'INPUT') {
         return $(e).val();
     } else if (tag === 'SELECT') {
-        $.each($(e).children('option'), function(i, e) {
-            if ($(e).attr('selected') === 'selected') {
-                return $(e).val();
-            }
-        })
+        return e.options[e.selectedIndex].value;
     }
 }
 
@@ -121,13 +119,10 @@ WPSP.derender = function(html) {
         if (typeof datakey === 'string') {
             var datatype = $(e).attr('datatype');
             if (datatype == 'subentity') {
-                result[datakey] = WPSP.derender($(e).children('.entity.form'));
+                result[datakey] = WPSP.derender($(e).children('.entity'));
             } else if (datatype == 'array') {
-                console.log('data array!');
                 var dataarrayselector = $(e).attr('dataarrayselector');
-                console.log('data array selector: ' + dataarrayselector);
                 var dataarray = [];
-                console.log('data array for', e);
                 $.each($(e).find(dataarrayselector), function(i, e) {
                     dataarray.push(WPSP.derender(e));
                 });

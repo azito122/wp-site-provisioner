@@ -142,7 +142,9 @@ class SiteProvisioner {
         $type = Renderer::classnameFrontToBack( $_REQUEST[ 'type' ] );
         $data = $_REQUEST[ 'data' ];
 
-        $derendered = Renderer::derender( $type, $data );
+        // wp_send_json($data);
+
+        $derendered = Renderer::derender( $data, $type );
 
         if ( ! $derendered ) {
             die();
@@ -212,9 +214,14 @@ class SiteProvisioner {
         $query = new Query( $response, $remoteid, $params );
         $query->setRemote( $remote );
 
-        $result = $query->run();
+        // $result = $query->run();
 
-        print_r($result);
+        $grouptype = new GroupType();
+        $Store->storeEntity($grouptype);
+        // $grouptype->getUserQuery()->setResponse( $response );
+
+
+        print_r($grouptype);
         echo "</pre>";
 
         // $query = new Query($remoteid);
