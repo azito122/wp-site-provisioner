@@ -28,6 +28,10 @@ $(document).ready(function() {
         WPSP.renderEntity('QueryParam', $(e.target).parent().children('.params-list') );
     })
 
+    $(document).on( 'click', '.response.form > .add-button', function( e ) {
+        WPSP.renderEntity('QueryResponseMapping', $(e.target).parent().children('.mappings-list') );
+    })
+
     $('.page-entities > .add-button').on( 'click', function( e ) {
         if ( $('.new-entity').has('.entity').length > 0 ) {
             return;

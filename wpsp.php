@@ -219,13 +219,13 @@ class SiteProvisioner {
 
         // $result = $query->run();
 
-        $grouptype = new GroupType();
+        $grouptype = $Store->unstoreEntity('GroupType')[0];
         // $grouptype->getMetaQuery()->
         // $Store->storeEntity($grouptype);
-        $param = new QueryParam( 'courseid', '{id}' );
-        $userquery = $grouptype->userquery;
-        $userquery->remote = $remote;
-        $userquery->addParam( $param );
+        // $param = new QueryParam( 'courseid', '{id}' );
+        // $userquery = $grouptype->userquery;
+        // $userquery->remote = $remote;
+        // $userquery->addParam( $param );
 
         // $data = array(
         //     'id' => 124,
@@ -233,8 +233,13 @@ class SiteProvisioner {
         // $results = $userquery->run( $data );
 
         // print_r($response->mappings);
-        print_r($grouptype);
-        $Store->storeEntity($grouptype);
+        $course = $grouptype->generatePossibleMetas()[1];
+        // print_r($grouptype->generatePossibleMetas()[0]);
+        $group = $grouptype->makeGroup($course);
+        $group->__wakeup();
+        // print_r($group);
+        print_r($group->loadUsers());
+        // $Store->storeEntity($grouptype);
         // echo Renderer::entity( $grouptype );
         // print_r($results);
         echo "</pre>";

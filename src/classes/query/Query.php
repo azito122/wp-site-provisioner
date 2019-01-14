@@ -50,7 +50,6 @@ class Query {
 
         $params = $this->getParamsArray();
         $url = \add_query_arg( $params, $url );
-        echo $url;
 
         $responsemap = wp_remote_get( $url, $args );
         $responsemap = $this->normalizeResponse( $responsemap );

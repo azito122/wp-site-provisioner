@@ -42,7 +42,7 @@ abstract class QueryRenderer extends Renderer {
 
         if ( array_key_exists( 'response', $data ) ) {
             $response = QueryResponseMapRenderer::derender( $data[ 'response' ] );
-            $object->response = $response;
+            $object->responsemap = $response;
         }
 
         $object->storeid = $data[ 'storeid' ];

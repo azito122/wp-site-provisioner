@@ -53,7 +53,7 @@ class Group {
         $this->siteengines[] = $newse;
     }
 
-    private function loadUsers() {
-        return $this->query->run();
+    public function loadUsers() {
+        return $this->query->run( $this->meta );
     }
 }
