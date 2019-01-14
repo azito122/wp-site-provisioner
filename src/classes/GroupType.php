@@ -9,8 +9,7 @@ use WPSP\Group as Group;
 class GroupType {
 
     use \WPSP\traits\GetterSetter;
-
-    protected $storeid;
+    use \WPSP\traits\Storable;
 
     protected $label;
     protected $metaqueryid;

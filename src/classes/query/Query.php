@@ -9,8 +9,7 @@ use WPSP\query\response\QueryResponseMap as QueryResponseMap;
 class Query {
 
     use \WPSP\traits\GetterSetter;
-
-    protected $storeid;
+    use \WPSP\traits\Storable;
 
     protected $remoteid;
     protected $extrapath;

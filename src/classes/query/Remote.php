@@ -5,8 +5,8 @@ namespace WPSP\query;
 class Remote {
 
     use \WPSP\traits\GetterSetter;
+    use \WPSP\traits\Storable;
 
-    protected $storeid;
     protected $label;
     protected $url;
 

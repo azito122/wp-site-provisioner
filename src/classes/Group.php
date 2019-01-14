@@ -7,7 +7,8 @@ use WPSP\siteengine\MultiSiteEngine as MultiSiteEngine;
 
 class Group {
 
-    public $storeid;
+    use \WPSP\traits\GetterSetter;
+    use \WPSP\traits\Storable;
 
     protected $meta;
     protected $queryid;
