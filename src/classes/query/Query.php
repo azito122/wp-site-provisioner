@@ -46,7 +46,10 @@ class Query {
         $args = array(
             'timeout' => 5,
         );
-        $args = array_merge( $args, $this->getParamsArray() );
+
+        $params = $this->getParamsArray();
+        $url = \add_query_arg( $params, $url );
+        echo $url;
 
         $response = wp_remote_get( $url, $args );
         $response = $this->normalizeResponse( $response );

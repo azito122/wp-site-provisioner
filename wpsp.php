@@ -60,6 +60,7 @@ use WPSP\Group as Group;
 use WPSP\Store as Store;
 use WPSP\query\Query as Query;
 use WPSP\query\Remote as Remote;
+use WPSP\query\QueryParam as QueryParam;
 
 include_once( __DIR__ . '/src/classes/Store.php');
 
@@ -200,28 +201,38 @@ class SiteProvisioner {
         echo "<pre>";
         $remote = new Remote();
         $remote->setUrl('http://andycodesthings.com:3000/users');
-        $remoteid = $Store->storeEntity($remote);
+        // $remoteid = $Store->storeEntity($remote);
 
         $map = array(
             // new ResponseMapping( 'alastname', 'lastname' ),
             // new ResponseMapping( 'afirstname', 'firstname' ),
-            new ResponseMapping( 'login', 'username' ),
+            // new ResponseMapping( 'login', 'username' ),
+            // new ResponseMapping( 'id', '' ),
         );
         $response = new Response( $map );
 
-        $params = array();
+        // $params = array();
 
-        $query = new Query( $response, $remoteid, $params );
-        $query->setRemote( $remote );
+        // $query = new Query( $response, $remoteid, $params );
+        // $query->setRemote( $remote );
 
         // $result = $query->run();
 
         $grouptype = new GroupType();
-        $Store->storeEntity($grouptype);
-        // $grouptype->getUserQuery()->setResponse( $response );
+        // $grouptype->getMetaQuery()->
+        // $Store->storeEntity($grouptype);
+        $param = new QueryParam( 'courseid', '{id}' );
+        $userquery = $grouptype->getUserQuery();
+        $userquery->setRemote( $remote );
+        $userquery->addParam( $param );
 
+        $data = array(
+            'id' => 124,
+        );
+        $results = $userquery->run( $data );
 
-        print_r($grouptype);
+        print_r($results);
+        // print_r($grouptype);
         echo "</pre>";
 
         // $query = new Query($remoteid);
