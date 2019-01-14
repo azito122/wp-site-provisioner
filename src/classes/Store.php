@@ -8,11 +8,11 @@ define( 'WPSP_TBLNAME', 'wpsp' );
 
 class Store {
 
-    private $cache = array();
-    private $cachedtypes = array();
-    private $tblname;
+    protected $cache = array();
+    protected $cachedtypes = array();
+    protected $tblname;
 
-    private $typemap = array(
+    protected $typemap = array(
         'Group' => array(
             'Query',
         ),
@@ -24,7 +24,7 @@ class Store {
         )
     );
 
-    private $subentitymap = array(
+    protected $subentitymap = array(
         'GroupType' => array(
             'MetaQuery',
             'UserQuery',
@@ -47,11 +47,11 @@ class Store {
      */
     public function unstoreEntity( $type, $id = null ) {
         // Find which types we need to load for unserialization.
-        $allreqtypes = $this->getRequiredTypes( $type );
+        $allreqtypes = $this->findRequiredTypes( $type );
         $reqtypes = array_diff( $allreqtypes, $this->cachedtypes );
 
         if ( count( $reqtypes ) > 0 ) {
-            $this->cache( $this->getDataForTypes( $reqtypes ) );
+            $this->cache( $this->loadDataForTypes( $reqtypes ) );
             $this->setCachedTypes( $reqtypes );
         }
 
@@ -130,7 +130,7 @@ class Store {
         return $object;
     }
 
-    public function getDataForTypes( $types ) {
+    public function loadDataForTypes( $types ) {
         return $this->select( array( 'type' => $types ) );
     }
 
@@ -166,11 +166,11 @@ class Store {
         $this->store( $serial, 'usergroupids', $user->id );
     }
 
-    public function getRequiredTypes( $type ) {
+    public function findRequiredTypes( $type ) {
         $result = array( $type );
         if ( array_key_exists( $type, $this->typemap ) ) {
             foreach ( $this->typemap[ $type ] as $rt ) {
-                $result = array_merge( $result, $this->getRequiredTypes( $rt ) );
+                $result = array_merge( $result, $this->findRequiredTypes( $rt ) );
             }
         }
         return $result;

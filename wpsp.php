@@ -13,8 +13,8 @@
  */
 namespace WPSP;
 
-use WPSP\query\response\Response as Response;
-use WPSP\query\response\ResponseMapping as ResponseMapping;
+use WPSP\query\response\QueryResponseMap as QueryResponseMap;
+use WPSP\query\response\QueryResponseMapping as QueryResponseMapping;
 // use WPSP\query\Query as Query;
 
 spl_autoload_register( function( $class ) {
@@ -200,18 +200,18 @@ class SiteProvisioner {
 
         echo "<pre>";
         $remote = new Remote();
-        $remote->setUrl('http://andycodesthings.com:3000/users');
+        $remote->url = 'http://andycodesthings.com:3000/users';
         // $remoteid = $Store->storeEntity($remote);
 
         $map = array(
-            // new ResponseMapping( 'alastname', 'lastname' ),
-            // new ResponseMapping( 'afirstname', 'firstname' ),
-            // new ResponseMapping( 'login', 'username' ),
-            // new ResponseMapping( 'id', '' ),
+            // new QueryResponseMapping( 'alastname', 'lastname' ),
+            // new QueryResponseMapping( 'afirstname', 'firstname' ),
+            // new QueryResponseMapping( 'login', 'username' ),
+            // new QueryResponseMapping( 'id', '' ),
         );
-        $response = new Response( $map );
+        $response = new QueryResponseMap( $map );
 
-        // $params = array();
+        $params = array();
 
         // $query = new Query( $response, $remoteid, $params );
         // $query->setRemote( $remote );
@@ -222,8 +222,8 @@ class SiteProvisioner {
         // $grouptype->getMetaQuery()->
         // $Store->storeEntity($grouptype);
         $param = new QueryParam( 'courseid', '{id}' );
-        $userquery = $grouptype->getUserQuery();
-        $userquery->setRemote( $remote );
+        $userquery = $grouptype->userquery;
+        $userquery->remote = $remote;
         $userquery->addParam( $param );
 
         $data = array(
@@ -231,8 +231,9 @@ class SiteProvisioner {
         );
         $results = $userquery->run( $data );
 
-        print_r($results);
+        // print_r($response->mappings);
         // print_r($grouptype);
+        print_r($results);
         echo "</pre>";
 
         // $query = new Query($remoteid);

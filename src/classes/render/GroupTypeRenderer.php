@@ -11,9 +11,9 @@ abstract class GroupTypeRenderer extends Renderer {
     public static function render( $instance ) {
         $data = array(
             'storeid' => $instance->storeid,
-            'label' => $instance->getLabel(),
-            'meta-query' => self::entity( $instance->getMetaQuery() ),
-            'user-query' => self::entity( $instance->getUserQuery() ),
+            'label' => $instance->label,
+            'meta-query' => self::entity( $instance->metaquery ),
+            'user-query' => self::entity( $instance->userquery ),
         );
         return self::template( 'group-type', $data );
     }
@@ -24,11 +24,11 @@ abstract class GroupTypeRenderer extends Renderer {
         }
         $object = new GroupType();
 
-        $object->setLabel( $data[ 'label' ] );
+        $object->label = $data[ 'label' ];
 
-        $object->setMetaQuery( QueryRenderer::derender( $data[ 'meta-query' ] ) );
+        $object->metaquery = QueryRenderer::derender( $data[ 'meta-query' ] );
 
-        $object->setUserQuery( QueryRenderer::derender( $data[ 'user-query' ] ) );
+        $object->userquery = QueryRenderer::derender( $data[ 'user-query' ] );
 
         $object->storeid = $data[ 'storeid' ];
         return $object;

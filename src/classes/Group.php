@@ -9,12 +9,12 @@ class Group {
 
     public $storeid;
 
-    private $meta;
-    private $queryid;
-    private $siteengines;
+    protected $meta;
+    protected $queryid;
+    protected $siteengines;
 
-    private $query;
-    private $members;
+    protected $query;
+    protected $members;
 
     public function __sleep() {
         return array(
@@ -35,7 +35,7 @@ class Group {
     }
 
     public function update() {
-        $this->members = $this->getUsers();
+        $this->members = $this->loadUsers();
 
         foreach( $this->siteengines as $se ) {
             $se->update( $this->members );
@@ -52,7 +52,7 @@ class Group {
         $this->siteengines[] = $newse;
     }
 
-    private function getUsers() {
+    private function loadUsers() {
         return $this->query->run();
     }
 }

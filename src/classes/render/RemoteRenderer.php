@@ -10,8 +10,8 @@ abstract class RemoteRenderer extends Renderer {
     public static function render( $instance ) {
         $data = array(
             'storeid' => $instance->storeid,
-            'label' => $instance->getLabel(),
-            'url' => $instance->getUrl(),
+            'label' => $instance->label,
+            'url' => $instance->url,
         );
         return self::template( 'remote', $data );
     }

@@ -3,20 +3,20 @@
 namespace WPSP\render;
 
 use WPSP\render\Renderer as Renderer;
-use WPSP\query\response\ResponseMapping as ResponseMapping;
+use WPSP\query\response\QueryResponseMapping as QueryResponseMapping;
 
-abstract class ResponseMappingRenderer extends Renderer {
+abstract class QueryResponseMappingRenderer extends Renderer {
 
     public static function render( $instance ) {
         $data = array(
-            'localkey'    => $instance->getLocalKey(),
-            'responsekey' => $instance->getResponseKey(),
+            'localkey'    => $instance->localkey,
+            'responsekey' => $instance->responsekey,
         );
         return self::template( 'response-mapping', $data );
     }
 
     public static function derender( $data, $type  = '' ) {
-        $object = new ResponseMapping( $data[ 'localkey' ], $data[ 'responsekey' ] );
+        $object = new QueryResponseMapping( $data[ 'localkey' ], $data[ 'responsekey' ] );
 
         return $object;
     }

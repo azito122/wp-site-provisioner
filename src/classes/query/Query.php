@@ -4,27 +4,29 @@ namespace WPSP\query;
 
 use WPSP\Store as Store;
 use WPSP\query\QueryParam as QueryParam;
-use WPSP\query\response\Response as Response;
+use WPSP\query\response\QueryResponseMap as QueryResponseMap;
 
 class Query {
 
-    public $storeid;
+    use \WPSP\traits\GetterSetter;
 
-    private $remoteid;
-    private $extrapath;
-    private $params = array();
-    private $response;
+    protected $storeid;
 
-    private $remote;
-    private $latest;
-    private $data;
+    protected $remoteid;
+    protected $extrapath;
+    protected $params = array();
+    protected $responsemap;
+
+    protected $remote;
+    protected $latest;
+    protected $data;
 
     public function __sleep() {
         return array(
             'remoteid',
             'extrapath',
             'params',
-            'response',
+            'responsemap',
         );
     }
 
@@ -33,16 +35,16 @@ class Query {
         $this->remote = $Store->unstoreEntity( 'Remote', $this->remoteid );
     }
 
-    public function __construct( $response = null, $remoteid = null, $params = array() ) {
+    public function __construct( $responsemap = null, $remoteid = null, $params = array() ) {
         $this->remoteid = $remoteid;
         $this->params = $params;
-        $this->response = $response ? $response : new Response();
+        $this->responsemap = $responsemap ? $responsemap : new QueryResponseMap();
     }
 
     public function run( $data = array() ) {
         $this->data = $data;
 
-        $url = $this->getUrl();
+        $url = $this->url;
         $args = array(
             'timeout' => 5,
         );
@@ -51,26 +53,26 @@ class Query {
         $url = \add_query_arg( $params, $url );
         echo $url;
 
-        $response = wp_remote_get( $url, $args );
-        $response = $this->normalizeResponse( $response );
+        $responsemap = wp_remote_get( $url, $args );
+        $responsemap = $this->normalizeResponse( $responsemap );
 
-        $this->latest = $response;
+        $this->latest = $responsemap;
 
-        return $response;
+        return $responsemap;
     }
 
-    public function normalizeResponse( $response ) {
+    private function normalizeResponse( $response ) {
         $response = json_decode( $response[ 'body' ] );
         if ( ! $response || empty( $response ) || ! is_array( $response ) ) {
             return false;
         }
 
-        $normalized = $this->getResponse()->normalize( $response );
+        $normalized = $this->responsemap->normalize( $response );
 
         return $normalized;
     }
 
-    public function resolve( $string ) {
+    private function resolve( $string ) {
         $matches = array();
         if ( preg_match( '/.*\{(.*?)\}.*/', $string, $matches ) ) {
             foreach ( $matches as $match ) {
@@ -83,75 +85,16 @@ class Query {
         return $string;
     }
 
-    public function getResponse() {
-        return $this->response;
-    }
-
-    public function setResponse( $response ) {
-        $this->response = $response;
-    }
-
-    public function getLabel() {
-        return $this->label;
-    }
-
-    public function setLabel( $label ) {
-        $this->label = is_string( $label ) ? $label : $this->label;
-        $this->label = $label;
-    }
-
-    public function getRemoteId() {
-        return $this->remoteid;
-    }
-
-    public function setRemoteId( $id ) {
-        $this->remoteid = $id;
-    }
-
-    public function getRemote() {
-        global $Store;
-
-        if ( $this->remote ) {
-            return $this->remote;
-        }
-        $remote = $Store->unstoreEntity( 'Remote', $this->remoteid );
-        if ( $remote ) {
-            $this->remote = $remote;
-        }
-        return $this->remote;
-    }
-
-    public function setRemote( $remote ) {
-        $this->setRemoteId( $remote->storeid );
-        $this->remote = $remote;
-    }
-
-    public function getExtraPath() {
-        return $this->extrapath;
-    }
-
-    public function setExtraPath( $path ) {
-        $this->extrapath = $path;
-    }
-
-    public function getUrl() {
-        return $this->remote->getUrl() . $this->getExtraPath();
-    }
-
-    public function getParamsArray() {
+    private function getParamsArray() {
         $params = array();
         foreach ( $this->params as $param ) {
-            $params[ $param->getKey() ] = $this->resolve( $param->getValue() );
+            $params[ $param->key ] = $this->resolve( $param->value );
             // array_merge( $params, $this->getParam( $id ) );
         }
         return $params;
     }
 
-    public function getParams() {
-        return $this->params;
-    }
-
-    public function getParam( $id ) {
+    private function findParam( $id ) {
         if ( ! array_key_exists( $id, $this->params ) ) {
             return;
         }
@@ -171,7 +114,12 @@ class Query {
         unset( $this->params[ array_search( $param, $this->params ) ] );
     }
 
-    public function setParams( $params ) {
-        $this->params = $params;
+    public function get_url() {
+        return $this->remote->url . $this->extrapath;
+    }
+
+    public function set_remote( $remote ) {
+        $this->remoteid = $remote->storeid;
+        $this->remote = $remote;
     }
 }

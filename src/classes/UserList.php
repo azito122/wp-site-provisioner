@@ -4,7 +4,7 @@ namespace WPSP;
 
 class UserList {
 
-    private $users;
+    protected $users;
 
     public function __construct( $userdata ) {
         $users = array();
@@ -28,13 +28,9 @@ class UserList {
         }
     }
 
-    public function getUsers() {
-        return $this->users;
-    }
-
-    public function getUserIds() {
+    public function get_userids() {
         return array_map( function( $u ) {
-            return $u->getId();
+            return $u->id;
         }, $this->users );
     }
 }

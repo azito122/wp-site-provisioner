@@ -6,10 +6,10 @@ use WPSP\siteengine\SiteEngine as SiteEngine;
 
 class SingleSiteEngine extends SiteEngine {
 
-    private $siteid;
-    private $owner;
-    private $grouptypemeta;
-    private $config = array(
+    protected $siteid;
+    protected $owner;
+    protected $grouptypemeta;
+    protected $config = array(
         'path'    => '',
         'title'   => '{owner_firstname} {owner_lastname}\'s Site',
         'tagline' => '',
@@ -17,7 +17,7 @@ class SingleSiteEngine extends SiteEngine {
 
     public function __construct( $initialusers, $ownerid = null ) {
         if ( isset( $ownerid ) ) {
-            $this->setOwner( $initialusers->getById( $ownerid ) );
+            $this->setOwner( $initialusers->findById( $ownerid ) );
         }
     }
 
@@ -77,14 +77,6 @@ class SingleSiteEngine extends SiteEngine {
             );
         }
         return null;
-    }
-
-    public function getOwner() {
-        return $this->owner;
-    }
-
-    public function setOwner( User $owner ) {
-        $this->owner = $owner;
     }
 
     public function getConfig( $cfgkey ) {

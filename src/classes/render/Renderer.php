@@ -58,7 +58,7 @@ abstract class Renderer {
         // $grouptypes = $Store->unstoreEntity( 'GroupType' );
         // $grouptypemenus = array();
         // foreach ( $grouptypes as $grouptype ) {
-        //     array_push( $grouptypemenus, $grouptype->getPossibleMetas );
+        //     array_push( $grouptypemenus, $grouptype->generatePossibleMetas );
         // }
         return self::template( 'page-entities', array(
             'existing-entities' => $mygroups,

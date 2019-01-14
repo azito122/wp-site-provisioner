@@ -7,11 +7,13 @@ use WPSP\siteengine\SingleSiteEngine as SingleSiteEngine;
 
 class MultiSiteEngine extends SiteEngine {
 
-    private $filter;
-    private $config = array(
+    use \WPSP\traits\GetterSetter;
+
+    protected $filter;
+    protected $config = array(
         'each' => 'user',
     );
-    private $siteengines = array();
+    protected $siteengines = array();
 
     public function __construct( $initialusers, $filter = null ) {
         if ( $filter ) {
@@ -20,18 +22,18 @@ class MultiSiteEngine extends SiteEngine {
     }
 
     public function createSiteForUser( User $user ) {
-        $this->sitengines[ $user->getId() ] = new SingleSiteEngine( $user->getId() );
+        $this->sitengines[ $user->id ] = new SingleSiteEngine( $user->id );
     }
 
     public function update( UserList $users ) {
-        $updateduserids = $users->getUserIds();
+        $updateduserids = $users->userids;
         $currentuserids = array_keys( $this->siteengines );
 
         $toadd = array_diff( $updateduserids, $currentuserids );
         $toremove = array_diff( $currentuserids, $updateduserids );
 
         foreach ( $toadd as $userid ) {
-            $siteid = $this->createSiteForUser( $users->getById( $userid ) );
+            $siteid = $this->createSiteForUser( $users->findById( $userid ) );
         }
 
         foreach ( $toremove as $userid ) {
@@ -45,6 +47,6 @@ class MultiSiteEngine extends SiteEngine {
     }
 
     public function updateUserSite( SiteEngine $siteengine, UserList $users, $ownerid ) {
-        $siteengine->update( new UserList( $users->getById( $ownerid ) ) );
+        $siteengine->update( new UserList( $users->findById( $ownerid ) ) );
     }
 }

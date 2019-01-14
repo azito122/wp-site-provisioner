@@ -2,17 +2,19 @@
 
 namespace WPSP\query\response;
 
-use WPSP\query\response\ResponseMapping as ResponseMapping;
+use WPSP\query\response\QueryResponseMapping as QueryResponseMapping;
 
-class Response {
+class QueryResponseMap {
 
-    protected $map;
+    use \WPSP\traits\GetterSetter;
+
+    protected $mappings;
     protected $depth;
     protected $position;
     protected $allowadd;
 
-    public function __construct( $map = array(), $allowdadd = true, $depth = 0, $position = null ) {
-        $this->map = $map ? $map : array();
+    public function __construct( $mappings = array(), $allowdadd = true, $depth = 0, $position = null ) {
+        $this->mappings = $mappings ? $mappings : array();
         $this->depth = $depth;
         $this->position = $position;
     }
@@ -23,15 +25,15 @@ class Response {
             $normalizedpiece = array();
             $piece = (array)$piece;
             foreach ( $piece as $key => $val ) {
-                $mapkeys = $this->getMapKeys();
+                $mapkeys = $this->getMappingKeys();
                 if ( in_array( $key, $mapkeys ) ) {
                     $mapping = $this->getMappingByResponseKey( $key );
-                    $resultkey = $mapping->getLocalKey();
-                    $resultvalue = $mapping->getValue( $piece );
+                    $resultkey = $mapping->localkey;
+                    $resultvalue = $mapping->resolveValue( $piece );
                 } else {
                     $resultkey = $key;
                     if ( is_array( $val ) ) {
-                        $baseresponse = new Response();
+                        $baseresponse = new QueryResponseMap();
                         $resultvalue = $baseresponse->normalize( $val );
                     } else {
                         $resultvalue = $val;
@@ -50,31 +52,27 @@ class Response {
     }
 
     public function addMapping( $mapping ) {
-        if ( $mapping instanceof ResponseMapping ) {
+        if ( $mapping instanceof QueryResponseMapping ) {
             array_push( $this->map, $mapping );
         } else {
-            array_push( $this->map, new ResponseMapping() );
+            array_push( $this->map, new QueryResponseMapping() );
         }
     }
 
-    public function getMapKeys() {
+    public function getMappingKeys() {
         $keys = array();
-        foreach ( $this->map as $mapping ) {
-            array_push( $keys, $mapping->getResponseKey() );
+        foreach ( $this->mappings as $mapping ) {
+            array_push( $keys, $mapping->responsekey );
         }
         return $keys;
     }
 
     public function getMappingByResponseKey( $key ) {
-        foreach ( $this->map as $mapping ) {
-            if ( $mapping->getResponseKey() == $key ) {
+        foreach ( $this->mappings as $mapping ) {
+            if ( $mapping->responsekey == $key ) {
                 return $mapping;
             }
         }
         return false;
-    }
-
-    public function getMappings() {
-        return $this->map;
     }
 }

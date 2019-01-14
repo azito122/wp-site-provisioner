@@ -8,7 +8,7 @@ use WPSP\Group as Group;
 abstract class GroupRenderer extends Renderer {
 
     public static function render( $instance ) {
-        $siteengines = $instance->getSiteEngines();
+        $siteengines = $instance->sitengines;
         $siteenginesrendered = array();
         foreach ( $siteengines as $siteengine ) {
             array_push( $siteenginesrendered, SiteEngineRenderer::render( $siteengine ) );
@@ -16,8 +16,8 @@ abstract class GroupRenderer extends Renderer {
 
         $data = array(
             'storeid'       => $instance->storeid,
-            'label'         => $instance->getLabel(),
-            'meta'          => json_encode( $instance->getMeta() ),
+            'label'         => $instance->label,
+            // 'meta'          => json_encode( $instance->loadMeta() ),
             'site-engines'  => $siteenginesrendered,
         );
 
@@ -35,7 +35,7 @@ abstract class GroupRenderer extends Renderer {
             return SiteEngineRenderer::derender( $se );
         }, $data[ 'site-engines' ]);
 
-        $object->setSiteEngines( $siteengines );
+        $object->siteengines = $siteengines;
 
         $object->storeid = $data[ 'storeid' ];
         return $object;

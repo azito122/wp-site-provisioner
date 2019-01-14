@@ -3,15 +3,15 @@
 namespace WPSP\render;
 
 use WPSP\render\Renderer as Renderer;
-use WPSP\render\ResponseMappingRenderer as ResponseMappingRenderer;
-use WPSP\query\response\Response as Response;
+use WPSP\render\QueryResponseMappingRenderer as QueryResponseMappingRenderer;
+use WPSP\query\response\QueryResponseMap as QueryResponseMap;
 
-abstract class ResponseRenderer extends Renderer {
+abstract class QueryResponseMapRenderer extends Renderer {
 
     public static function render( $instance ) {
         $mappings = '';
-        foreach ( $instance->getMappings() as $mapping ) {
-            $mappings .= ResponseMappingRenderer::render( $mapping );
+        foreach ( $instance->mappings as $mapping ) {
+            $mappings .= QueryResponseMappingRenderer::render( $mapping );
         }
 
         $data = array(
@@ -23,10 +23,10 @@ abstract class ResponseRenderer extends Renderer {
     public static function derender( $data, $type  = '' ) {
         $mappings = array();
         foreach ( $data[ 'map' ] as $mapping ) {
-            array_push( $mappings, ResponseMappingRenderer::derender( $mapping ) );
+            array_push( $mappings, QueryResponseMappingRenderer::derender( $mapping ) );
         }
 
-        $object = new Response( $mappings );
+        $object = new QueryResponseMap( $mappings );
 
         return $object;
     }

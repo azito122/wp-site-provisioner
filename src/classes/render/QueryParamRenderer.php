@@ -9,8 +9,8 @@ abstract class QueryParamRenderer extends Renderer {
 
     public static function render( $instance ) {
         $data = array(
-            'key'   => $instance->getKey(),
-            'value' => $instance->getValue(),
+            'key'   => $instance->key,
+            'value' => $instance->value,
         );
         return self::template( 'query-param', $data );
     }

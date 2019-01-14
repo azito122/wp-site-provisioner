@@ -8,14 +8,16 @@ use WPSP\Group as Group;
 
 class GroupType {
 
-    public $storeid;
+    use \WPSP\traits\GetterSetter;
 
-    private $label;
-    private $metaqueryid;
-    private $userqueryid;
+    protected $storeid;
 
-    private $metaquery;
-    private $userquery;
+    protected $label;
+    protected $metaqueryid;
+    protected $userqueryid;
+
+    protected $metaquery;
+    protected $userquery;
 
     public function __sleep() {
         return array(
@@ -43,22 +45,19 @@ class GroupType {
         return $group;
     }
 
-    public function getPossibleMetas() {
+    public function generatePossibleMetas() {
         $options = array();
-        $currentuser = wp_get_current_user();
-        $metadata = $this->getMetaQuery()->run( array(
-            'userid' => $currentuser->ID,
-            'userlogin' => $currentuser->login,
-        ));
+        $metadata = $this->loadMeta();
 
         foreach ( $metadata as $m ) {
             array_push( $options, $m );
         }
+
         return $options;
     }
 
-    public function getUsers( $meta ) {
-        $query = $this->getUserQuery();
+    public function loadUsers( $meta ) {
+        $query = $this->userquery;
         $userdata = $query->run( $meta );
         if ( $this->config[ 'roledata' ] == 'userquery' ) {
             $userlist = new UserList( $userdata );
@@ -75,47 +74,31 @@ class GroupType {
         return $userlist;
     }
 
-    public function getMeta() {
-        return $this->metaquery->run();
+    public function loadMeta() {
+        $currentuser = wp_get_current_user();
+
+        return $this->metaquery->run( array(
+            'userid' => $currentuser->ID,
+            'userlogin' => $currentuser->login,
+        ) );
     }
 
-    // Getters and setters---------------------------------
-    public function getLabel() {
-        return $this->label;
-    }
-    public function setLabel( $label ) {
-        if ( is_string( $label ) && ! empty( $label ) ) {
-            $this->label = $label;
-        }
-    }
-
-    public function getMetaQuery() {
-        return $this->metaquery;
-    }
-    public function setMetaQuery( Query $query ) {
+    // Getters & setters ------------------------
+    public function set_metaquery( Query $query ) {
         $this->metaqueryid = $query->storeid;
         $this->metaquery = $query;
     }
 
-    public function getUserQuery() {
-        return $this->userquery;
-    }
-    public function setUserQuery( Query $query ) {
+    public function set_userquery( Query $query ) {
         $this->userqueryid = $query->storeid;
         $this->userquery = $query;
     }
 
-    public function getMetaQueryId() {
-        return $this->metaqueryid;
-    }
-    public function setMetaQueryId( $id ) {
+    public function set_metaqueryid( $id ) {
         $this->metaqueryid = $id;
     }
 
-    public function getUserQueryId() {
-        return $this->userqueryid;
-    }
-    public function setUserQueryId( $id ) {
+    public function set_userqueryid( $id ) {
         $this->userqueryid = $id;
     }
     //+++++++++++++++++++++++++++++++++++++++++++

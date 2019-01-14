@@ -4,31 +4,17 @@ namespace WPSP\query;
 
 class QueryParam {
 
-    private $key;
-    private $value;
+    use \WPSP\traits\GetterSetter;
+
+    protected $key;
+    protected $value;
 
     public function __construct( $key = null, $value = null ) {
         $this->key = $key;
         $this->value = $value;
     }
 
-    public function getKey() {
-        return $this->key;
-    }
-
-    public function getValue() {
-        return $this->value;
-    }
-
-    public function setKey( $key ) {
-        $this->key = $key;
-    }
-
-    public function setValue( $value ) {
-        $this->value = $value;
-    }
-
-    public function set( $key, $value ) {
+    public function setFull( $key, $value ) {
         $this->key = $key;
         $this->value = $value;
     }
