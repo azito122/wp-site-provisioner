@@ -1,12 +1,12 @@
 <?php
 
-namespace WPSP\render;
+namespace WPSP\render\entity;
 
 use WPSP\render\Renderer as Renderer;
-use WPSP\render\QueryResponseMappingRenderer as QueryResponseMappingRenderer;
+use WPSP\render\entity\QueryResponseMappingRenderer as QueryResponseMappingRenderer;
 use WPSP\query\response\QueryResponseMap as QueryResponseMap;
 
-abstract class QueryResponseMapRenderer extends Renderer {
+abstract class QueryResponseMapRenderer implements \WPSP\render\entity\EntityRenderer {
 
     public static function render( $instance ) {
         $mappings = '';
@@ -17,7 +17,7 @@ abstract class QueryResponseMapRenderer extends Renderer {
         $data = array(
             'mappings' => $mappings,
         );
-        return self::template( 'response', $data );
+        return Renderer::renderTemplate( 'response', $data );
     }
 
     public static function derender( $data, $type  = '' ) {

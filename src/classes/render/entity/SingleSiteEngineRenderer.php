@@ -1,11 +1,11 @@
 <?php
 
-namespace WPSP\render;
+namespace WPSP\render\entity;
 
 use WPSP\render\Renderer as Renderer;
 use WPSP\SingleSiteEngine as SingleSiteEngine;
 
-abstract class SingleSiteEngineRenderer extends Renderer {
+abstract class SingleSiteEngineRenderer implements \WPSP\render\entity\EntityRenderer {
 
     public static function render( $instance ) {
         $sitetitle = $instance->getConfig( 'title', false );
@@ -14,7 +14,7 @@ abstract class SingleSiteEngineRenderer extends Renderer {
             'site-title'   => $sitetitle,
             'site-tagline' => $sitetagline,
         );
-        return self::template( 'single-site-engine', $data );
+        return Renderer::renderTemplate( 'single-site-engine', $data );
     }
 
     public static function derender( $data, $type  = '' ) {

@@ -1,18 +1,18 @@
 <?php
 
-namespace WPSP\render;
+namespace WPSP\render\entity;
 
 use WPSP\render\Renderer as Renderer;
 use WPSP\query\QueryParam as QueryParam;
 
-abstract class QueryParamRenderer extends Renderer {
+abstract class QueryParamRenderer implements \WPSP\render\entity\EntityRenderer {
 
     public static function render( $instance ) {
         $data = array(
             'key'   => $instance->key,
             'value' => $instance->value,
         );
-        return self::template( 'query-param', $data );
+        return Renderer::renderTemplate( 'query-param', $data );
     }
 
     public static function derender( $data, $type  = '' ) {

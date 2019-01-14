@@ -1,8 +1,8 @@
 <div class="entity form wpsp-wrapper" entity-type="group-type">
     <h2><?php echo $D->get( 'label', 'Unlabeled Group Type' ); ?></h2>
 
-    <?php echo $R::hidden( 'storeid', $D->get( 'storeid' ) ); ?>
-    <?php echo $R::textinput( array(
+    <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ); ?>
+    <?php echo $W::textinput( array(
         'name'        => 'label',
         'label'       => 'Label',
         'default'     => $D->get( 'label' ),
@@ -23,7 +23,7 @@
             'manager' => 'Manager',
             'user'    => 'User',
         );
-        echo $R::select( 'group-type-permissions', 'Who has access to this Group Type?', $roles, 0);
+        echo $W::select( 'group-type-permissions', 'Who has access to this Group Type?', $roles, 0);
         ?>
     </div> -->
 

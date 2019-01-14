@@ -1,21 +1,21 @@
 <?php
 
-namespace WPSP\render;
+namespace WPSP\render\entity;
 
 use WPSP\render\Renderer as Renderer;
-use WPSP\render\QueryRenderer as QueryRenderer;
+use WPSP\render\entity\QueryRenderer as QueryRenderer;
 use WPSP\GroupType as GroupType;
 
-abstract class GroupTypeRenderer extends Renderer {
+abstract class GroupTypeRenderer implements \WPSP\render\entity\EntityRenderer {
 
     public static function render( $instance ) {
         $data = array(
             'storeid' => $instance->storeid,
             'label' => $instance->label,
-            'meta-query' => self::entity( $instance->metaquery ),
-            'user-query' => self::entity( $instance->userquery ),
+            'meta-query' => Renderer::renderEntity( $instance->metaquery ),
+            'user-query' => Renderer::renderEntity( $instance->userquery ),
         );
-        return self::template( 'group-type', $data );
+        return Renderer::renderTemplate( 'group-type', $data );
     }
 
     public static function derender( $data, $type = '' ) {

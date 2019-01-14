@@ -1,11 +1,11 @@
 <?php
 
-namespace WPSP\render;
+namespace WPSP\render\entity;
 
 use WPSP\render\Renderer as Renderer;
 use WPSP\query\Remote as Remote;
 
-abstract class RemoteRenderer extends Renderer {
+abstract class RemoteRenderer implements \WPSP\render\entity\EntityRenderer {
 
     public static function render( $instance ) {
         $data = array(
@@ -13,7 +13,7 @@ abstract class RemoteRenderer extends Renderer {
             'label' => $instance->label,
             'url' => $instance->url,
         );
-        return self::template( 'remote', $data );
+        return Renderer::renderTemplate( 'remote', $data );
     }
 
     public static function derender( $data, $type  = '' ) {

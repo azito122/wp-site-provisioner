@@ -1,8 +1,8 @@
 <div class="form entity storable" entity-type="remote">
     <h2><?php echo $D->get( 'label', 'Unlabeled Remote' ); ?></h2>
 
-    <?php echo $R::hidden( 'storeid', $D->get( 'storeid' ) ) ?>
-    <?php echo $R::textinput( array(
+    <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ) ?>
+    <?php echo $W::textinput( array(
         'name'        => 'label',
         'label'       => 'Label',
         'default'     => $D->get( 'label' ),
@@ -10,7 +10,7 @@
         'required'    => true,
     ) ); ?>
 
-    <?php echo $R::textinput( array(
+    <?php echo $W::textinput( array(
         'name' => 'url',
         'label' => 'URL',
         'default' => $D->get( 'url'),

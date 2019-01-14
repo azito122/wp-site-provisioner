@@ -39,11 +39,13 @@ function resolve_classname( $class ) {
             $namespace = 'query\response\\';
             break;
         case 'Renderer':
+        case 'TemplateVariables':
+            $namespace = 'render\\';
+            break;
         case 'GroupTypeRenderer':
         case 'QueryRenderer':
         case 'RemoteRenderer':
-        case 'TemplateVariables':
-            $namespace = 'render\\';
+            $namespace = 'render\entity\\';
             break;
         case 'SiteEngine':
         case 'SingleSiteEngine':
@@ -121,7 +123,7 @@ class SiteProvisioner {
         // );
         $type = $_REQUEST[ 'rendertype' ];
         if ( $type == 'template' ) {
-            echo Renderer::template( $template );
+            echo Renderer::renderTemplate( $template );
         } else if ( $type == 'entity' ) {
             $name = Renderer::classnameFrontToBack( $_REQUEST[ 'entity' ] );
             $classname = resolve_classname( $name );
@@ -131,7 +133,7 @@ class SiteProvisioner {
             } else {
                 $object = new $classname();
             }
-            echo Renderer::entity( $object );
+            echo Renderer::renderEntity( $object );
         }
         die();
     }
@@ -145,7 +147,7 @@ class SiteProvisioner {
 
         // wp_send_json($data);
 
-        $derendered = Renderer::derender( $data, $type );
+        $derendered = Renderer::derenderEntity( $data, $type );
 
         if ( ! $derendered ) {
             die();
@@ -162,7 +164,7 @@ class SiteProvisioner {
 
         if ( ! empty( $rerenderid ) ) {
             $return[ 'rerenderid' ] = $rerenderid;
-            $return[ 'rerendered' ] = Renderer::entity( $object );
+            $return[ 'rerendered' ] = Renderer::renderEntity( $object );
         }
         echo json_encode( $return );
 
@@ -238,9 +240,10 @@ class SiteProvisioner {
         $group = $grouptype->makeGroup($course);
         $group->__wakeup();
         // print_r($group);
-        print_r($group->loadUsers());
+        // print_r($group->loadUsers());
+        echo Renderer::renderEntity($grouptype);
         // $Store->storeEntity($grouptype);
-        // echo Renderer::entity( $grouptype );
+        // echo Renderer::renderEntity( $grouptype );
         // print_r($results);
         echo "</pre>";
 

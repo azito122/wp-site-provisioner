@@ -1,13 +1,13 @@
 <?php
 
-namespace WPSP\render;
+namespace WPSP\render\entity;
 
 use WPSP\render\Renderer as Renderer;
 use WPSP\query\Query as Query;
-use WPSP\render\QueryParamRenderer as QueryParamRenderer;
-use WPSP\render\QueryResponseMapRenderer as QueryResponseMapRenderer;
+use WPSP\render\entity\QueryParamRenderer as QueryParamRenderer;
+use WPSP\render\entity\QueryResponseMapRenderer as QueryResponseMapRenderer;
 
-abstract class QueryRenderer extends Renderer {
+abstract class QueryRenderer implements \WPSP\render\entity\EntityRenderer {
 
     public static function render( $instance ) {
         global $Store;
@@ -25,7 +25,7 @@ abstract class QueryRenderer extends Renderer {
             'params'   => self::renderParams( $instance->params ),
             'response' => QueryResponseMapRenderer::render( $instance->responsemap ),
         );
-        return self::template( 'query', $data );
+        return Renderer::renderTemplate( 'query', $data );
     }
 
     public static function derender( $data, $type  = '' ) {
@@ -54,7 +54,7 @@ abstract class QueryRenderer extends Renderer {
         foreach ( $params as $param ) {
             $paramsrendered .= QueryParamRenderer::render( $param );
         }
-        return self::template( 'query-params', array(
+        return Renderer::renderTemplate( 'query-params', array(
             'params' => $paramsrendered,
         ) );
     }

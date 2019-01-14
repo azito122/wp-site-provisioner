@@ -1,14 +1,14 @@
 <div class="entity form wpsp-wrapper" entity-type="query">
-    <?php echo $R::hidden( 'storeid', $D->get( 'storeid' ) ); ?>
+    <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ); ?>
 
-    <?php echo $R::select( array(
+    <?php echo $W::select( array(
         'name' => 'remoteid',
         'label' => 'Remote',
         'options' => $D->get( 'remotes'),
         'default' => $D->get( 'remoteid' )
     ) ); ?>
 
-    <?php echo $R::textinput( array(
+    <?php echo $W::textinput( array(
         'name'        => 'path',
         'label'       => 'Path',
         'default'     => $D->get( 'path' ),

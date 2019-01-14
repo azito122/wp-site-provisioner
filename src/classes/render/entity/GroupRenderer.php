@@ -1,11 +1,12 @@
 <?php
 
-namespace WPSP\render;
+namespace WPSP\render\entity;
 
 use WPSP\render\Renderer as Renderer;
 use WPSP\Group as Group;
+use WPSP\siteengine\SiteEngineRenderer as SiteEngineRenderer;
 
-abstract class GroupRenderer extends Renderer {
+abstract class GroupRenderer implements \WPSP\render\entity\EntityRenderer {
 
     public static function render( $instance ) {
         $siteengines = $instance->sitengines;
@@ -21,10 +22,10 @@ abstract class GroupRenderer extends Renderer {
             'site-engines'  => $siteenginesrendered,
         );
 
-        return self::template( 'remote', $data );
+        return Renderer::renderTemplate( 'remote', $data );
     }
 
-    public static function derender( $data, $type  = '' ) {
+    public static function derender( $data ) {
         if (! array_key_exists( 'label', $data ) || empty( $data[ 'label' ] ) ) {
             return false;
         }
