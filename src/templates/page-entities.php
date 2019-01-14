@@ -1,4 +1,4 @@
-<div class="page-entities <?php echo strtolower( $D->get( 'entity-type' ) ) ?> wpsp-wrapper">
+<div class="page-entities <?php echo strtolower( $D->get( 'entity-type' ) ) ?>">
     <div class="existing-entities">
         <?php echo $D->get( 'existing-entities' ); ?>
     </div>

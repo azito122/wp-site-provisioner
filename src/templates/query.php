@@ -1,4 +1,4 @@
-<div class="entity form storable" entity-type="query">
+<div class="entity form wpsp-wrapper" entity-type="query">
     <?php echo $R::hidden( 'storeid', $D->get( 'storeid' ) ); ?>
 
     <?php echo $R::select( array(
