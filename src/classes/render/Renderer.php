@@ -71,7 +71,7 @@ abstract class Renderer {
         $props = array_merge( self::$defaultinputprops, $props );
         $name = $props[ 'name' ];
         $datakey = $props['name'];
-        $options = $props['options'];
+        $options = is_array( $props[ 'options' ] ) ? $props[ 'options' ] : array();
         $default = $props['default'];
         $label = $props['label'];
 

@@ -33,8 +33,8 @@ function resolve_classname( $class ) {
         case 'Remote':
             $namespace = 'query\\';
             break;
-        case 'Response':
-        case 'ResponseMapping':
+        case 'QueryResponseMap':
+        case 'QueryResponseMapping':
         case 'UserResponse':
             $namespace = 'query\response\\';
             break;
@@ -202,6 +202,7 @@ class SiteProvisioner {
         $remote = new Remote();
         $remote->url = 'http://andycodesthings.com:3000/users';
         // $remoteid = $Store->storeEntity($remote);
+        // print_r($remoteid);
 
         $map = array(
             // new QueryResponseMapping( 'alastname', 'lastname' ),
@@ -226,14 +227,16 @@ class SiteProvisioner {
         $userquery->remote = $remote;
         $userquery->addParam( $param );
 
-        $data = array(
-            'id' => 124,
-        );
-        $results = $userquery->run( $data );
+        // $data = array(
+        //     'id' => 124,
+        // );
+        // $results = $userquery->run( $data );
 
         // print_r($response->mappings);
-        // print_r($grouptype);
-        print_r($results);
+        print_r($grouptype);
+        $Store->storeEntity($grouptype);
+        // echo Renderer::entity( $grouptype );
+        // print_r($results);
         echo "</pre>";
 
         // $query = new Query($remoteid);

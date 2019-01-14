@@ -26,8 +26,8 @@ class Store {
 
     protected $subentitymap = array(
         'GroupType' => array(
-            'MetaQuery',
-            'UserQuery',
+            'metaquery',
+            'userquery',
         )
     );
 
@@ -81,14 +81,13 @@ class Store {
      * @param string $id The id to store this serialized data under.
      * @param string $type The type which identifies this serialized data (should match classname if applicable).
      */
-    private function store( $serial, $type, $id = null ) {
-        if ( $id ) {
-            $storedid = self::update( $id, $serial );
-        } else {
-            $storedid = self::insert( $type, $serial );
-        }
+    private function store( $serial, $type, $id ) {
+        $check = $this->select( array( 'id' => $id ) );
 
-        return $storedid;
+        if ( ! empty( $check ) ) {
+            return $this->update( $id, $serial );
+        }
+        return $this->insert( $id, $serial, $type );
     }
 
     public function storeEntity( $object ) {
@@ -105,8 +104,8 @@ class Store {
         if ( array_key_exists( $type, $this->subentitymap ) ) {
             foreach ( $this->subentitymap[ $type ] as $prop ) {
                 // Store them and update parent object.
-                $stored = $this->storeEntity( $object->{"get$prop"}() );
-                $object->{"set$prop"}( $stored[ 'object' ] );
+                $stored = $this->storeEntity( $object->$prop );
+                $object->$prop = $stored[ 'object' ];
             }
         }
 
@@ -115,8 +114,6 @@ class Store {
         $serial = serialize( $object );
 
         $storedid = $this->store( $serial, $type, $id );
-
-        $object->storeid = $storedid;
 
         return array(
             'id' => $storedid,
@@ -189,7 +186,6 @@ class Store {
     // }
 
     public function update( $id, $serial ) {
-
         global $wpdb;
 
         $update = array(
@@ -201,25 +197,17 @@ class Store {
         return $id;
     }
 
-    public function insert( $classname, $serial ) {
+    public function insert( $id, $serial, $type ) {
         global $wpdb;
 
-        $hash = md5( $serial );
-
-        $check = $this->select( array( 'id' => $hash ) );
-
-        if ( ! empty( $check ) ) {
-            return $this->update( $hash, $serial );
-        }
-
         $insert = array(
-            'id' => $hash,
-            'type' => $classname,
+            'id' => $id,
+            'type' => $type,
             'serial' => $serial,
         );
 
         $wpdb->insert( $this->tblname, $insert );
-        return $hash;
+        return $id;
     }
 
     public function select( $conditions = array(), $table = null ) {

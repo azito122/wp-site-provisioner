@@ -10,8 +10,10 @@ trait Storable {
         if ( ! empty( $this->storeid ) ) {
             return $this->storeid;
         } else {
-            $prefix = strtolower( get_class( $this ) );
-            return uniqid( $prefix, true );
+            $prefix = str_replace( '\\', '_', strtolower( get_class( $this ) ) ) . '_';
+            $id = uniqid( $prefix );
+            $this->storeid = $id;
+            return $id;
         }
     }
 }
