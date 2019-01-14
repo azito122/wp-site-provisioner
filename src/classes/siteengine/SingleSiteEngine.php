@@ -9,11 +9,23 @@ class SingleSiteEngine extends SiteEngine {
     protected $siteid;
     protected $owner;
     protected $grouptypemeta;
-    protected $config = array(
+    protected $siteprops = array(
         'path'    => '',
         'title'   => '{owner_firstname} {owner_lastname}\'s Site',
         'tagline' => '',
     );
+    protected $config;
+
+    protected $users;
+
+    public function __sleep() {
+        return array(
+            'siteid',
+            'owner',
+            'siteprops',
+            'config'
+        );
+    }
 
     public function __construct( $initialusers, $ownerid = null ) {
         if ( isset( $ownerid ) ) {
@@ -22,6 +34,8 @@ class SingleSiteEngine extends SiteEngine {
     }
 
     public function update( UserList $userlist ) {
+        $this->users = $userlist;
+
         if ( empty( $this->siteid ) ) {
             $this->siteid = $this->createSite();
         }
@@ -30,30 +44,30 @@ class SingleSiteEngine extends SiteEngine {
 
     public function createSite( $siteinfo = array() ) {
 
-        $domain = 'd';
-        $path = array_key_exists( 'path', $siteinfo ) ? $siteinfo[ 'path' ] : $this->getConfig( 'path' );
-        $title = array_key_exists( 'title', $siteinfo[ 'title' ] ) ? $siteinfo[ 'title' ] : $this->getConfig( 'title' );
-        $adminuserid = array_key_exists( 'adminuserid', $siteinfo[ 'adminuserid' ] ) ? $siteinfo[ 'adminuserid' ] : $this->getConfig( 'owner_id' );
+        $domain = site_url();
+        $path = array_key_exists( 'path', $siteinfo ) ? $siteinfo[ 'path' ] : $this->resolveSiteProp( 'path' );
+        $title = array_key_exists( 'title', $siteinfo[ 'title' ] ) ? $siteinfo[ 'title' ] : $this->resolveSiteProp( 'title' );
+        $adminuserid = array_key_exists( 'adminuserid', $siteinfo[ 'adminuserid' ] ) ? $siteinfo[ 'adminuserid' ] : $this->resolveOwner()->id;
 
         $siteid = wpmu_create_blog( $domain, $path, $title, $adminuserid );
-        update_blog_option( $siteid, 'blogdescription', $this->getConfig( 'tagline' ) );
+        update_blog_option( $siteid, 'blogdescription', $this->resolveSiteProp( 'tagline' ) );
     }
 
     public function updateSite( $userlist, $grouptypemeta ) {
         $this->updateSiteAccess( $userlist->getUsers() );
 
         $currenttitle = get_blog_option( $this->siteid, 'blogname' );
-        $updatedtitle = $this->getConfig( 'title' );
+        $updatedtitle = $this->resolveSiteProp( 'title' );
 
         if ( $currenttitle != $updatedtitle ) {
-            set_blog_option( $this->siteid, 'blogname', $this->getConfig( 'title' ) );
+            set_blog_option( $this->siteid, 'blogname', $this->resolveSiteProp( 'title' ) );
         }
 
         $currenttagline = get_blog_option( $this->siteid, 'blogdescription' );
-        $updatedtagline = $this->getConfig( 'tagline' );
+        $updatedtagline = $this->resolveSiteProp( 'tagline' );
 
         if ( $currenttagline != $updatedtagline ) {
-            set_blog_option( $this->siteid, 'blogdescription', $this->getConfig( 'tagline' ) );
+            set_blog_option( $this->siteid, 'blogdescription', $this->resolveSiteProp( 'tagline' ) );
         }
     }
 
@@ -79,14 +93,24 @@ class SingleSiteEngine extends SiteEngine {
         return null;
     }
 
-    public function getConfig( $cfgkey ) {
+    public function resolveOwner() {
+        if ( isset( $this->owner ) ) {
+            return $this->owner;
+        }
+
+        $role = $this->config[ 'owner_role' ];
+        $users = $this->users->findByRole( $role );
+        return $users[0];
+    }
+
+    public function resolveSiteProp( $cfgkey ) {
         $flagdata = $this->getFlagData();
 
-        if ( ! array_key_exists( $cfgkey, $this->config ) ) {
+        if ( ! array_key_exists( $cfgkey, $this->siteprops ) ) {
             return null;
         }
 
-        $cfgval = $this->config[ $cfgkey ];
+        $cfgval = $this->siteprops[ $cfgkey ];
 
         $matches = array();
         if ( preg_match( '/.*{([a-zA-Z0-9_]*)}.*/', $cfgval, $matches ) ) {
