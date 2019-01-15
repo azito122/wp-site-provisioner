@@ -28,7 +28,7 @@ $(document).ready(function() {
         WPSP.renderEntity('QueryParam', $(e.target).parent().children('.params-list') );
     })
 
-    $(document).on( 'click', '.response.form > .add-button', function( e ) {
+    $(document).on( 'click', '.entity.form[entity-type="query-response-map"] > .add-button', function( e ) {
         WPSP.renderEntity('QueryResponseMapping', $(e.target).parent().children('.mappings-list') );
     })
 

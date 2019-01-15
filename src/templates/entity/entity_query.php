@@ -1,4 +1,4 @@
-<div class="entity form wpsp-wrapper" entity-type="query">
+<div class="entity form wrapper" entity-type="query">
     <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ); ?>
 
     <?php echo $W::select( array(
@@ -15,7 +15,14 @@
         'placeholder' => 'Path',
     ) ); ?>
 
-    <?php echo $D->get( 'params' ) ?>
+    <div class="query-params wrapper" datakey="params" datatype="array" dataarrayselector=".form.entity[entity-type='query-param']">
+        <h6>Parameters</h6>
+        <div class="params-list">
+            <?php echo $D->get( 'params' ) ?>
+        </div>
+
+        <button class="button add-button">+ Add Param</button>
+    </div>
 
     <div datakey="response" datatype="subentity">
         <?php echo $D->get( 'response' ) ?>

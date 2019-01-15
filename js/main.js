@@ -118,6 +118,7 @@ WPSP.derender = function(html) {
         var datakey = $(e).attr('datakey');
         if (typeof datakey === 'string') {
             var datatype = $(e).attr('datatype');
+            console.log(datakey, datatype);
             if (datatype == 'subentity') {
                 result[datakey] = WPSP.derender($(e).children('.entity'));
             } else if (datatype == 'array') {

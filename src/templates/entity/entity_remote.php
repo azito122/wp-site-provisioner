@@ -1,4 +1,4 @@
-<div class="form entity storable" entity-type="remote">
+<div class="form entity wrapper" entity-type="remote">
     <h2><?php echo $D->get( 'label', 'Unlabeled Remote' ); ?></h2>
 
     <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ) ?>

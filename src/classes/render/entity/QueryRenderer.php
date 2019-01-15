@@ -54,9 +54,7 @@ abstract class QueryRenderer implements \WPSP\render\entity\EntityRenderer {
         foreach ( $params as $param ) {
             $paramsrendered .= QueryParamRenderer::render( $param );
         }
-        return Renderer::renderTemplate( 'entity', 'query-params', array(
-            'params' => $paramsrendered,
-        ) );
+        return $paramsrendered;
     }
 
     public static function derenderParams( $data ) {
