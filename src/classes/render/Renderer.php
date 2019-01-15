@@ -31,20 +31,39 @@ abstract class Renderer {
         }
     }
 
-    public static function renderTemplate( $name, $data = array() ) {
+    public static function renderTemplate( $type, $name, $data = array() ) {
+        $typecheck = file_exists( __DIR__ . "/../../templates/$type" );
+        $namecheck = file_exists( __DIR__ . "/../../templates/$type/{$type}_$name.php");
+        if ( ! $typecheck ) {
+            $trace = debug_backtrace();
+            trigger_error(
+                'Failed to find template type: ' . "$type/$name" .
+                ' in ' . $trace[0]['file'] .
+                ' on line ' . $trace[0]['line'],
+                E_USER_NOTICE);
+            return '';
+        } else if ( ! $namecheck ) {
+            $trace = debug_backtrace();
+            trigger_error(
+                'Failed to find template name: ' . "$type/$name" .
+                ' in ' . $trace[0]['file'] .
+                ' on line ' . $trace[0]['line'],
+                E_USER_NOTICE);
+            return '';
+        }
         ob_start();
         $D = new TemplateVariables( $data );
         $R = __CLASS__;
         $W = '\WPSP\render\Writer';
-        include __DIR__ . '/../../templates/' . $name . '.php';
+        include __DIR__ . "/../../templates/$type/{$type}_$name.php";
         return ob_get_clean();
     }
 
     public static function pageGroupTypes() {
         global $Store;
 
-        $grouptypes = Renderer::renderEntity( $Store->unstoreEntity( 'GroupType' ) );
-        return Renderer::renderTemplate( 'page-entities', array(
+        $grouptypes = self::renderEntity( $Store->unstoreEntity( 'GroupType' ) );
+        return self::renderTemplate( 'page', 'entities', array(
                 'existing-entities' => $grouptypes,
                 'entity-type' => 'group-type',
                 'entity-type-name' => 'Group Type',
@@ -55,8 +74,8 @@ abstract class Renderer {
     public static function pageRemotes() {
         global $Store;
 
-        $remotes = Renderer::renderEntity( $Store->unstoreEntity( 'Remote' ) );
-        return Renderer::renderTemplate( 'page-entities', array(
+        $remotes = self::renderEntity( $Store->unstoreEntity( 'Remote' ) );
+        return self::renderTemplate( 'page', 'entities', array(
                 'existing-entities' => $remotes,
                 'entity-type' => 'remote',
                 'entity-type-name' => 'Remote',
@@ -74,7 +93,7 @@ abstract class Renderer {
         // foreach ( $grouptypes as $grouptype ) {
         //     array_push( $grouptypemenus, $grouptype->generatePossibleMetas );
         // }
-        return Renderer::renderTemplate( 'page-entities', array(
+        return Renderer::renderTemplate( 'page', 'entities', array(
             'existing-entities' => $mygroups,
             'entity-type'       => 'group',
             'entity-type-name'  => 'Group',

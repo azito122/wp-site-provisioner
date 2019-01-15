@@ -241,9 +241,9 @@ class SiteProvisioner {
         $group->__wakeup();
         // print_r($group);
         // print_r($group->loadUsers());
-        echo Renderer::renderEntity($grouptype);
+        // echo Renderer::renderEntity($group);
         // $Store->storeEntity($grouptype);
-        // echo Renderer::renderEntity( $grouptype );
+        echo Renderer::renderEntity( $grouptype );
         // print_r($results);
         echo "</pre>";
 

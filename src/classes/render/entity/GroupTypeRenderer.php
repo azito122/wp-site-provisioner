@@ -15,7 +15,7 @@ abstract class GroupTypeRenderer implements \WPSP\render\entity\EntityRenderer {
             'meta-query' => Renderer::renderEntity( $instance->metaquery ),
             'user-query' => Renderer::renderEntity( $instance->userquery ),
         );
-        return Renderer::renderTemplate( 'group-type', $data );
+        return Renderer::renderTemplate( 'entity', 'group-type', $data );
     }
 
     public static function derender( $data, $type = '' ) {

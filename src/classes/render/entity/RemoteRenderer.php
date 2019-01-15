@@ -13,7 +13,7 @@ abstract class RemoteRenderer implements \WPSP\render\entity\EntityRenderer {
             'label' => $instance->label,
             'url' => $instance->url,
         );
-        return Renderer::renderTemplate( 'remote', $data );
+        return Renderer::renderTemplate( 'entity', 'remote', $data );
     }
 
     public static function derender( $data, $type  = '' ) {

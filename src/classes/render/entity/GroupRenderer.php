@@ -22,7 +22,7 @@ abstract class GroupRenderer implements \WPSP\render\entity\EntityRenderer {
             'site-engines'  => $siteenginesrendered,
         );
 
-        return Renderer::renderTemplate( 'remote', $data );
+        return Renderer::renderTemplate( 'entity', 'remote', $data );
     }
 
     public static function derender( $data ) {

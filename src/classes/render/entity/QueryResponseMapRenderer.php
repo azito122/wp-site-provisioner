@@ -17,7 +17,7 @@ abstract class QueryResponseMapRenderer implements \WPSP\render\entity\EntityRen
         $data = array(
             'mappings' => $mappings,
         );
-        return Renderer::renderTemplate( 'response', $data );
+        return Renderer::renderTemplate( 'entity', 'response', $data );
     }
 
     public static function derender( $data, $type  = '' ) {

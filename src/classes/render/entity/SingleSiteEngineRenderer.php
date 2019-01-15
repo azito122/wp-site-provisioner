@@ -14,7 +14,7 @@ abstract class SingleSiteEngineRenderer implements \WPSP\render\entity\EntityRen
             'site-title'   => $sitetitle,
             'site-tagline' => $sitetagline,
         );
-        return Renderer::renderTemplate( 'single-site-engine', $data );
+        return Renderer::renderTemplate( 'entity', 'single-site-engine', $data );
     }
 
     public static function derender( $data, $type  = '' ) {

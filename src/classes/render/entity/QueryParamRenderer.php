@@ -12,7 +12,7 @@ abstract class QueryParamRenderer implements \WPSP\render\entity\EntityRenderer 
             'key'   => $instance->key,
             'value' => $instance->value,
         );
-        return Renderer::renderTemplate( 'query-param', $data );
+        return Renderer::renderTemplate( 'entity', 'query-param', $data );
     }
 
     public static function derender( $data, $type  = '' ) {
