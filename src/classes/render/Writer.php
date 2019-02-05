@@ -49,7 +49,8 @@ abstract class Writer {
         $default = $props['default'];
         $placeholder = $props['placeholder'];
         $required = $props['required'] ? 'required="required"' : '';
-        $o = "<input type=\"text\" name=\"$name\" datakey=\"$datakey\" value=\"$default\" placeholder=\"$placeholder\" $required>";
+        $class = isset($props['class']) ? $props['class'] : '';
+        $o = "<input class=\"$class\" type=\"text\" name=\"$name\" datakey=\"$datakey\" value=\"$default\" placeholder=\"$placeholder\" $required>";
         return $o;
     }
 

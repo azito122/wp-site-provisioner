@@ -1,4 +1,4 @@
-<div class="wpsp-wrapper">
+<div class="wpsp-page">
     <div class="existing-entities">
         <?php echo $D->get( 'existing-entities' ); ?>
     </div>
