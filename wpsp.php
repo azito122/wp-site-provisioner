@@ -68,6 +68,7 @@ include_once( __DIR__ . '/src/classes/Store.php');
 
 class SiteProvisioner {
     public function __construct() {
+        add_action('network_admin_menu', array($this, 'add_network_menu'));
         $this->add_shortcode( 'group_types' );
         $this->add_shortcode( 'settings' );
         $this->add_shortcode( 'remotes' );
@@ -80,6 +81,15 @@ class SiteProvisioner {
 
         register_activation_hook( __FILE__, array( $this, 'create_database_tables' ) );
         $this->cron_init();
+    }
+
+    public function add_network_menu() {
+        add_menu_page( "wpsp-settings", "WPSP Settings", '', 'wpsp-settings', array($this, 'network_menu_page'));
+    }
+
+    public function network_menu_page() {
+        $this->shortcode('group_types');
+        // echo "test";
     }
 
     public function add_shortcode( $name ) {
