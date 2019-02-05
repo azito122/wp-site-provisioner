@@ -43,13 +43,30 @@ module.exports = function( grunt ) {
 				}
 			}
 		},
+
+		sass: {
+			dist: {
+			  options: {
+				style: 'compressed',
+				compass: false,
+				sourcemap: 'none'
+			  },
+			  files: {
+				'css/main.css': [
+				  'css/sass/main.scss'
+				]
+			  }
+			}
+		  }
 	} );
 
 	grunt.loadNpmTasks( 'grunt-wp-i18n' );
 	grunt.loadNpmTasks( 'grunt-wp-readme-to-markdown' );
+	grunt.loadNpmTasks( 'grunt-contrib-sass' );
 	grunt.registerTask( 'default', [ 'i18n','readme' ] );
 	grunt.registerTask( 'i18n', ['addtextdomain', 'makepot'] );
 	grunt.registerTask( 'readme', ['wp_readme_to_markdown'] );
+	// grunt.registerTask( 'test', ['sass'] );
 
 	grunt.util.linefeed = '\n';
 
