@@ -1,3 +1,11 @@
+@mixin block() {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 0.5rem;
+  background: rgba(255, 255, 255, 0.856);
+}
+
 .wpsp-page {
   @import 'entity';
 }

@@ -1,9 +1,6 @@
 .entity {
-    border: 1px solid black;
-    border-radius: 10px;
-    padding: 1rem;
-    margin: 0.5rem;
-    background: rgba(255, 255, 255, 0.856);
+
+    @include block();
 
     .entity-label {
         margin: 1rem;
