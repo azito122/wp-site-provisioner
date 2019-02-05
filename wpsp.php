@@ -89,7 +89,6 @@ class SiteProvisioner {
 
     public function network_menu_page() {
         $this->shortcode('group_types');
-        // echo "test";
     }
 
     public function add_shortcode( $name ) {
