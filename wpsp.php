@@ -96,15 +96,15 @@ class SiteProvisioner {
     }
 
     public function js_init() {
-        wp_register_script( 'wpsp_main', WP_PLUGIN_URL . '/wpsp/js/main.js', array( 'jquery' ) );
+        wp_register_script( 'wpsp_main', WP_PLUGIN_URL . '/wp-site-provisioner/js/main.js', array( 'jquery' ) );
         wp_localize_script( 'wpsp_main', 'WPSP_AJAX', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
         wp_enqueue_script( 'wpsp_main' );
-        wp_register_script( 'wpsp_page_entities', WP_PLUGIN_URL . '/wpsp/js/page-entities.js', array( 'jquery' ) );
+        wp_register_script( 'wpsp_page_entities', WP_PLUGIN_URL . '/wp-site-provisioner/js/page-entities.js', array( 'jquery' ) );
         wp_enqueue_script( 'wpsp_page_entities' );
     }
 
     public function css_init() {
-        wp_register_style( 'wpsp_style', WP_PLUGIN_URL . '/wpsp/css/main.css' );
+        wp_register_style( 'wpsp_style', WP_PLUGIN_URL . '/wp-site-provisioner/css/main.css' );
         wp_enqueue_style( 'wpsp_style' );
     }
 
@@ -190,7 +190,7 @@ class SiteProvisioner {
     public function shortcode( $name ) {
         if ( ! is_user_logged_in()) {
             $login_url = wp_login_url( get_permalink() );
-            echo sprintf( __( 'You do not have access to this page.' ), $login_url );
+            echo sprintf( __( 'You do not have access to this page.', 'wpsp' ), $login_url );
         } else {
             $this->{"page_$name"}();
         }
@@ -240,10 +240,10 @@ class SiteProvisioner {
         $group = $grouptype->makeGroup($course);
         $group->__wakeup();
         // print_r($group);
-        // print_r($group->loadUsers());
+        print_r($group->loadUsers());
         // echo Renderer::renderEntity($group);
         // $Store->storeEntity($grouptype);
-        echo Renderer::renderEntity( $grouptype );
+        // echo Renderer::renderEntity( $grouptype );
         // print_r($results);
         echo "</pre>";
 
