@@ -5,9 +5,9 @@
 
     <?php echo $W::hidden( 'meta', $D->get( 'meta' ) ); ?>
 
-    <div class="site-engines" datakey="site-engines" datatype="subentity">
+    <fieldset name="site-engines" data-type="subentity">
         <?php echo $R::loopTemplate( 'site-engine', $D->get( 'siteengines' ) ) ?>
-    </div>
+    </fieldset>
 
     <button class="save button">Save</button>
 </div>

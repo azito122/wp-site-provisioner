@@ -1,22 +1,21 @@
 <div class="entity form wrapper" entity-type="group-type">
-    <!-- <h2 class="entity-label"><?php echo $D->get( 'label', 'Unlabeled Group Type' ); ?></h2> -->
-
     <?php echo $W::textinput( array(
         'name'        => 'label',
-        'label'       => 'Label',
         'default'     => $D->get( 'label' ),
         'placeholder' =>'Label',
         'required'    => true,
         'class'       => 'entity-label'
     ) ); ?>
+
     <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ); ?>
 
-    <div datakey="meta-query" datatype="subentity">
+    <fieldset name="meta-query" data-type="subentity">
         <?php echo $D->get( 'meta-query' ); ?>
-    </div>
-    <div datakey="user-query" datatype="subentity">
+    </fieldset>
+
+    <fieldset name="user-query" data-type="subentity">
         <?php echo $D->get( 'user-query' ); ?>
-    </div>
+    </fieldset>
 
     <!-- <div class="group-type-permissions">
         <?php

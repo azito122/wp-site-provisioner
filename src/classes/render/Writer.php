@@ -15,12 +15,11 @@ abstract class Writer {
     public static function select( $props = array() ) {
         $props = array_merge( self::$defaultinputprops, $props );
         $name = $props[ 'name' ];
-        $datakey = $props['name'];
         $options = is_array( $props[ 'options' ] ) ? $props[ 'options' ] : array();
         $default = $props['default'];
         $label = $props['label'];
 
-        $o = "<select name=\"$name\" datakey=\"$datakey\">";
+        $o = "<select name=\"$name\">";
         foreach ( $options as $value => $opname ) {
             $isdefault = $default == $value ? 'selected="selected"' : '';
             $o .= "<option value=\"$value\" $isdefault>$opname</option>";
@@ -45,17 +44,16 @@ abstract class Writer {
     public static function textinput( $props = array() ) {
         $props = array_merge( self::$defaultinputprops, $props );
         $name = $props['name'];
-        $datakey = $props['name'];
         $default = $props['default'];
         $placeholder = $props['placeholder'];
         $required = $props['required'] ? 'required="required"' : '';
         $class = isset($props['class']) ? $props['class'] : '';
-        $o = "<input class=\"$class\" type=\"text\" name=\"$name\" datakey=\"$datakey\" value=\"$default\" placeholder=\"$placeholder\" $required>";
+        $o = "<input class=\"$class\" type=\"text\" name=\"$name\" value=\"$default\" placeholder=\"$placeholder\" $required>";
         return $o;
     }
 
     public static function hidden( $id, $value ) {
-        $o = "<input type=\"hidden\" name=\"$id\" datakey=\"$id\" value=\"$value\">";
+        $o = "<input type=\"hidden\" name=\"$id\" value=\"$value\">";
         return $o;
     }
 }

@@ -115,21 +115,20 @@ WPSP.getValue = function(e) {
 WPSP.derender = function(html) {
     var result = {};
     $.each($(html).children(), function(i, e) {
-        var datakey = $(e).attr('datakey');
-        if (typeof datakey === 'string') {
-            var datatype = $(e).attr('datatype');
-            console.log(datakey, datatype);
+        var name = $(e).attr('name');
+        if (typeof name === 'string') {
+            var datatype = $(e).attr('data-type');
             if (datatype == 'subentity') {
-                result[datakey] = WPSP.derender($(e).children('.entity'));
+                result[name] = WPSP.derender($(e).children('.entity'));
             } else if (datatype == 'array') {
-                var dataarrayselector = $(e).attr('dataarrayselector');
+                var dataarrayselector = $(e).attr('data-array-selector');
                 var dataarray = [];
                 $.each($(e).find(dataarrayselector), function(i, e) {
                     dataarray.push(WPSP.derender(e));
                 });
-                result[datakey] = dataarray;
+                result[name] = dataarray;
             } else {
-                result[datakey] = WPSP.getValue(e);
+                result[name] = WPSP.getValue(e);
             }
         }
     })
@@ -137,7 +136,7 @@ WPSP.derender = function(html) {
 }
 
 WPSP.getElementByStoreId = function(id) {
-    return $('input[datakey="storeid"][value="' + id + '"]').parent();
+    return $('input[name="storeid"][value="' + id + '"]').parent();
 }
 
 })(jQuery)

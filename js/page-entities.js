@@ -6,7 +6,6 @@ $(document).ready(function() {
 
         if (isnew) {
             callback = function(response, status) {
-                console.log(response);
                 if (response && response['rerendered']) {
                     rerenderel = WPSP.rerendermap[response['rerenderid']];
                     $(rerenderel).remove();
@@ -15,7 +14,6 @@ $(document).ready(function() {
             }
         } else {
             callback = function(response, status) {
-                console.log(response);
                 rerenderel = WPSP.rerendermap[response['rerenderid']];
                 $(rerenderel).replaceWith(response['rerendered']);
             }
