@@ -27,6 +27,11 @@
     }
 }
 
+button.loading {
+    background: lightgrey !important;
+    cursor: wait;
+}
+
 .devalidated {
     border-color: red !important;
 }

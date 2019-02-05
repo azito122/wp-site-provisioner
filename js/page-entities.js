@@ -10,15 +10,18 @@ $(document).ready(function() {
                     rerenderel = WPSP.rerendermap[response['rerenderid']];
                     $(rerenderel).remove();
                     $('.existing-entities').append(response['rerendered']);
+                    $(element).removeClass('loading');
                 }
             }
         } else {
             callback = function(response, status) {
                 rerenderel = WPSP.rerendermap[response['rerenderid']];
                 $(rerenderel).replaceWith(response['rerendered']);
+                $(element).removeClass('loading');
             }
         }
 
+        $(element).addClass('loading');
         WPSP.storeEntity( $(element).parent()[0], callback);
     })
 
