@@ -19,13 +19,14 @@ abstract class Writer {
         $default = $props['default'];
         $label = $props['label'];
 
-        $o = "<select name=\"$name\">";
+        $o = '';
+        $o .= "<label for=\"$name\">$label</label>";
+        $o .= "<select name=\"$name\">";
         foreach ( $options as $value => $opname ) {
             $isdefault = $default == $value ? 'selected="selected"' : '';
             $o .= "<option value=\"$value\" $isdefault>$opname</option>";
         }
         $o .= "</select>";
-        $o .= "<label for=\"$name\">$label</label>";
         return $o;
     }
 

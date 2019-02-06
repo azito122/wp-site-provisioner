@@ -1,4 +1,4 @@
-<div class="entity form wrapper" entity-type="group">
+<div class="entity form-block" entity-type="group">
     <h2><?php echo $D->get( 'label', 'Unlabeled Group' ); ?></h2>
 
     <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ); ?>

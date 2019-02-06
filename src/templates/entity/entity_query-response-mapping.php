@@ -1,4 +1,4 @@
-<div class="form entity" entity-type="query-response-mapping">
+<div class="entity" entity-type="query-response-mapping">
     <?php echo $W::textinput( array(
         'name'        => 'localkey',
         'default'     => $D->get( 'localkey' ),

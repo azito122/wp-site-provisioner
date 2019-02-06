@@ -1,4 +1,6 @@
-<div class="entity form wrapper" entity-type="query">
+<div class="entity form-block" entity-type="query">
+    <h2 class="entity-label"><?php $D->get( 'label', 'Unlabeled Query' ) ?></h2>
+
     <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ); ?>
 
     <?php echo $W::select( array(
@@ -15,8 +17,8 @@
         'placeholder' => 'Path',
     ) ); ?>
 
-    <fieldset class="query-params wrapper" name="params" data-type="array" data-array-selector=".form.entity[entity-type='query-param']">
-        <h6>Parameters</h6>
+    <fieldset class="form-block query-params" name="params" data-type="array" data-array-selector=".form.entity[entity-type='query-param']">
+        <h3>Parameters</h3>
         <div class="params-list">
             <?php echo $D->get( 'params' ) ?>
         </div>

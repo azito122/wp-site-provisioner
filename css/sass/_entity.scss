@@ -1,8 +1,20 @@
+.form-block {
+    @include block();
+}
+
+fieldset {
+    display: inline-block;
+    display: contents;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+    // display: table-cell;
+}
+
 .entity {
 
-    @include block();
-
-    .entity-label {
+    input.entity-label {
         margin: 1rem;
         font-size: 2.5rem;
         border: none;
@@ -22,6 +34,27 @@
             background: none;
         }
     }
+}
+
+// .entity[entity-type=group] {
+
+//     .entity[entity-type=query] {
+//         display: inline-block;
+//     }
+
+// }
+
+.entity[entity-type=query] {
+
+    max-width: 70%;
+
+    // & > input,
+    // & > button,
+    // & > select,
+    // & > fieldset {
+    //     float: left;
+    //     clear: both;
+    // }
 }
 
 button.loading {

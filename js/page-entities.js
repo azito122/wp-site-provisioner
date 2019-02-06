@@ -1,6 +1,6 @@
 (function($) {
 $(document).ready(function() {
-    $(document).on( 'click', '.entity.form .save.button', function(e) {
+    $(document).on( 'click', '.entity .save.button', function(e) {
         let element = e.target;
         var isnew = $('.new-entity').has(element).length > 0 ? true : false;
 
@@ -29,7 +29,7 @@ $(document).ready(function() {
         WPSP.renderEntity('QueryParam', $(e.target).parent().children('.params-list') );
     })
 
-    $(document).on( 'click', '.entity.form[entity-type="query-response-map"] > .add-button', function( e ) {
+    $(document).on( 'click', '.entity[entity-type="query-response-map"] > .add-button', function( e ) {
         WPSP.renderEntity('QueryResponseMapping', $(e.target).parent().children('.mappings-list') );
     })
 

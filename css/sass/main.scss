@@ -1,4 +1,5 @@
 @mixin block() {
+  display: inline-block;
   border: 1px solid black;
   border-radius: 5px;
   padding: 1rem;
@@ -7,5 +8,16 @@
 }
 
 .wpsp-page {
+
+  &.page-entities {
+
+    .existing-entities > .entity,
+    .new-entity > .entity {
+      width: 60%;
+    }
+
+  }
+
+  @import 'form-elements';
   @import 'entity';
 }

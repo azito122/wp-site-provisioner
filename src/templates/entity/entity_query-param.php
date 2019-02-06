@@ -1,4 +1,4 @@
-<div class="entity form" entity-type="query-param">
+<div class="entity" entity-type="query-param">
     <?php echo $W::textinput( array(
         'name'        => 'key',
         'default'     => $D->get( 'key' ),
