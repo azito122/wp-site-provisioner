@@ -34,35 +34,10 @@ WPSP.renderNewEntity = function(entitytype) {
     WPSP.renderEntity(entitytype, '.new-entity');
 }
 
-// WPSP.rerenderEntity = function(element, id) {
-//     type = $(element).attr('entity-type');
-//     $.ajax({
-//         type: 'post',
-//         url: WPSP_AJAX.ajaxurl,
-//         dataType: 'html',
-//         element: element,
-//         data: {type: 'entity', entity: type, entityid: id, action: 'wpsp_render'},
-//         success: function(response, status) {
-//             if(status == 'success') {
-//                 $(this.element).replaceWith(response);
-//             }
-//         }
-//     })
-// }
-
 WPSP.storeEntity = function(element, callback = function(){}, rerender = true) {
     if ( ! WPSP.validate( element ) ) {
         return;
     }
-    // $.each( $(element).children(), function(i,e) {
-    //     if ( $(e).hasClass('sub-entity') ) {
-    //         var entity = $(e).children('.entity')[0];
-    //         WPSP.storeEntity(entity, function(response, status) {
-    //             rerenderel = WPSP.rerendermap[response['rerenderid']];
-    //             $(rerenderel).replaceWith(response['rerendered']);
-    //         });
-    //     }
-    // })
     derendered = WPSP.derender(element);
     console.log('derendered:', derendered);
     rerenderid = '';
@@ -73,8 +48,6 @@ WPSP.storeEntity = function(element, callback = function(){}, rerender = true) {
     $.ajax({
         type: 'post',
         url: WPSP_AJAX.ajaxurl,
-        // contentType: "application/json; charset=utf-8",
-        // dataType: "json",
         data: {type: $(element).attr('entity-type'), action: 'wpsp_store', data: derendered, rerenderid: rerenderid},
         success: callback,
         error: function(xhr, status, error) {
@@ -94,7 +67,7 @@ WPSP.validate = function(element) {
             check = WPSP.validate( $(e).children('.entity')[0] );
         }
         let required = $(e).attr('required');
-        let val = WPSP.getValue(e);
+        // let val = WPSP.getValue(e);
         if (required && ( ! val || val == '' ) ) {
             check = false;
             $(e).addClass('devalidated');
@@ -104,7 +77,16 @@ WPSP.validate = function(element) {
 }
 
 WPSP.getValue = function(e) {
-    var tag = $(e).prop('tagName');
+    let tag;
+    if ( $(e).hasClass('form-wrapper') ) {
+        if ( $(e).children('input').length > 0 ) {
+            tag = 'INPUT';
+        } else if ( $(e).children('select').length > 0 ) {
+            tag = 'SELECT';
+        }
+    } else {
+        tag = $(e).prop('tagName');
+    }
     if (tag === 'INPUT') {
         return $(e).val();
     } else if (tag === 'SELECT') {
@@ -112,11 +94,22 @@ WPSP.getValue = function(e) {
     }
 }
 
+WPSP.resolveFormElement = function(el) {
+    if ( $(el).hasClass('form-wrapper') ) {
+        el = $(el).children('input,select')[0];
+    }
+    if ( typeof $(el).attr('name') === 'string' ) {
+        return el;
+    }
+}
+
 WPSP.derender = function(html) {
+    var shadow = $(html).clone()
     var result = {};
     $.each($(html).children(), function(i, e) {
-        var name = $(e).attr('name');
-        if (typeof name === 'string') {
+        e = WPSP.resolveFormElement(e)
+        if (e) {
+            var name = $(e).attr('name');
             var datatype = $(e).attr('data-type');
             if (datatype == 'subentity') {
                 result[name] = WPSP.derender($(e).children('.entity'));

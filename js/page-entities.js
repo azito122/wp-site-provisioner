@@ -18,6 +18,7 @@ $(document).ready(function() {
                 rerenderel = WPSP.rerendermap[response['rerenderid']];
                 $(rerenderel).replaceWith(response['rerendered']);
                 $(element).removeClass('loading');
+                console.log(response);
             }
         }
 
@@ -25,7 +26,7 @@ $(document).ready(function() {
         WPSP.storeEntity( $(element).parent()[0], callback);
     })
 
-    $(document).on( 'click', '.query-params.wrapper > .add-button', function( e ) {
+    $(document).on( 'click', '.query-params > .add-button', function( e ) {
         WPSP.renderEntity('QueryParam', $(e.target).parent().children('.params-list') );
     })
 
