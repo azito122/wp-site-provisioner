@@ -17,14 +17,14 @@
         'placeholder' => 'Path',
     ) ); ?>
 
-    <fieldset class="form-block query-params" name="params" data-type="array" data-array-selector=".form.entity[entity-type='query-param']">
+    <!-- <fieldset class="form-block query-params" name="params" data-type="array" data-array-selector=".form.entity[entity-type='query-param']">
         <h3>Parameters</h3>
         <div class="params-list">
             <?php echo $D->get( 'params' ) ?>
         </div>
 
         <button class="button add-button">+ Add Param</button>
-    </fieldset>
+    </fieldset> -->
 
     <fieldset name="response" data-type="subentity">
         <?php echo $D->get( 'response' ) ?>

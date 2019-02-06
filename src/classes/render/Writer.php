@@ -12,6 +12,20 @@ abstract class Writer {
         'required' => false,
     );
 
+    private static function open_formwrapper( $type ) {
+        return "<div class=\"form-wrapper $type-wrapper\">";
+    }
+
+    private static function close_formwrapper() {
+        return '</div>';
+    }
+
+    public static function label( $props = array() ) {
+        $name = isset($props['for']) ? $props['for'] : '';
+        $text = isset($props['text']) ? $props['text'] : '';
+        return '<label for="' . $name . '">' . $text . '</label>';
+    }
+
     public static function select( $props = array() ) {
         $props = array_merge( self::$defaultinputprops, $props );
         $name = $props[ 'name' ];
@@ -20,6 +34,7 @@ abstract class Writer {
         $label = $props['label'];
 
         $o = '';
+        $o .= self::open_formwrapper( 'select' );
         $o .= "<label for=\"$name\">$label</label>";
         $o .= "<select name=\"$name\">";
         foreach ( $options as $value => $opname ) {
@@ -27,6 +42,7 @@ abstract class Writer {
             $o .= "<option value=\"$value\" $isdefault>$opname</option>";
         }
         $o .= "</select>";
+        $o .= self::close_formwrapper();
         return $o;
     }
 
@@ -45,11 +61,16 @@ abstract class Writer {
     public static function textinput( $props = array() ) {
         $props = array_merge( self::$defaultinputprops, $props );
         $name = $props['name'];
+        $label = $props['label'];
         $default = $props['default'];
         $placeholder = $props['placeholder'];
         $required = $props['required'] ? 'required="required"' : '';
         $class = isset($props['class']) ? $props['class'] : '';
-        $o = "<input class=\"$class\" type=\"text\" name=\"$name\" value=\"$default\" placeholder=\"$placeholder\" $required>";
+        $o = '';
+        $o .= self::open_formwrapper( 'text' );
+        $o .= $label ? self::label( [ 'for' => $name, 'text' => $label ] ) : '';
+        $o .= "<input class=\"$class\" type=\"text\" name=\"$name\" value=\"$default\" placeholder=\"$placeholder\" $required>";
+        $o .= self::close_formwrapper();
         return $o;
     }
 

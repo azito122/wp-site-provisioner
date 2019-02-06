@@ -9,7 +9,6 @@ fieldset {
     padding: 0;
     margin: 0;
     min-width: 0;
-    // display: table-cell;
 }
 
 .entity {
@@ -34,27 +33,6 @@ fieldset {
             background: none;
         }
     }
-}
-
-// .entity[entity-type=group] {
-
-//     .entity[entity-type=query] {
-//         display: inline-block;
-//     }
-
-// }
-
-.entity[entity-type=query] {
-
-    max-width: 70%;
-
-    // & > input,
-    // & > button,
-    // & > select,
-    // & > fieldset {
-    //     float: left;
-    //     clear: both;
-    // }
 }
 
 button.loading {

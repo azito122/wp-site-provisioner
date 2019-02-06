@@ -1,0 +1,6 @@
+.entity[entity-type=query-response-map] {
+    @include colorbar($color-response-map, left);
+    // border-top: 10px solid $color-response-map;
+
+    // width: 100%;
+}

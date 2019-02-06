@@ -1,3 +1,39 @@
+$key-val-input-width: 160px;
+
+.form-wrapper {
+
+    display: content;
+    margin: 1.5rem 0.5rem;
+
+    &.select-wrapper {
+
+    }
+}
+
 label {
-    display: block;
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+.key-val-block-wrapper {
+    display: grid;
+    grid-template-columns: 5% auto;
+    grid-template-rows: 1fr;
+}
+
+.key-val-block {
+
+    grid-column: 1 / -1;
+    grid-row: 1 / span 1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    .form-wrapper {
+        margin: 0;
+
+        input[type=text] {
+            width: $key-val-input-width;
+        }
+    }
 }
