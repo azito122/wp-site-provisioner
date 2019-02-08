@@ -9,10 +9,15 @@ abstract class QueryResponseMappingRenderer implements \WPSP\render\entity\Entit
 
     public static function render( $instance ) {
         $data = array(
-            'localkey'    => $instance->localkey,
-            'responsekey' => $instance->responsekey,
+            'entity-type' => 'query-response-mapping',
+            'key'         => $instance->localkey,
+            'value'       => $instance->responsekey,
+            'key_name'    => 'localkey',
+            'value_name'  => 'responsekey',
+            'key_label'   => 'Local Key',
+            'value_label' => 'Response Key'
         );
-        return Renderer::renderTemplate( 'entity', 'query-response-mapping', $data );
+        return Renderer::renderTemplate( 'special', 'key-val-block', $data );
     }
 
     public static function derender( $data, $type  = '' ) {

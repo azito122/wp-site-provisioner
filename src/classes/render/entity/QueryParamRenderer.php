@@ -9,10 +9,15 @@ abstract class QueryParamRenderer implements \WPSP\render\entity\EntityRenderer 
 
     public static function render( $instance ) {
         $data = array(
-            'key'   => $instance->key,
-            'value' => $instance->value,
+            'entity-type' => 'query-param',
+            'key'         => $instance->key,
+            'value'       => $instance->value,
+            'key_name'    => 'key',
+            'value_name'  => 'value',
+            'key_label'   => 'Key',
+            'value_label' => 'Value'
         );
-        return Renderer::renderTemplate( 'entity', 'query-param', $data );
+        return Renderer::renderTemplate( 'special', 'key-val-block', $data );
     }
 
     public static function derender( $data, $type  = '' ) {
