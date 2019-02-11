@@ -151,7 +151,7 @@ class Store {
         if ( ! isset( $user ) ) {
             $user = wp_get_current_user();
         }
-        $serial = $this->select( array( 'id' => $user->id, 'type' => 'usergroupids' ) )[ 'serial'];
+        $serial = $this->select( array( 'id' => $user->ID, 'type' => 'usergroupids' ) )[ 'serial'];
         return unserialize( $serial );
     }
 

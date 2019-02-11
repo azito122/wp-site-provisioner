@@ -86,29 +86,38 @@ abstract class Renderer {
     public static function pageMyGroups() {
         global $Store;
 
-        // $groupids = $Store->unstoreEntityUserGroupIds();
-        // $mygroups = $Store->unstoreEntity( 'Group', $groupids );
+        $action = get_query_var( 'action', '' );
+
+        if ( $action == 'add-group' ) {
+            return Renderer::pageAddGroup();
+        }
+
+        $groupids = $Store->unstoreUserGroupIds();
+        $mygroups = $Store->unstoreEntity( 'Group', $groupids );
+        return Renderer::renderTemplate( 'page', 'entities', array(
+            'existing-entities' => Renderer::renderEntity( $mygroups ),
+            'entity-type'       => 'group',
+            'entity-type-name'  => 'Group',
+            'add-button-href'   => '?action=add-group',
+        ) );
+    }
+
+    public static function pageAddGroup() {
+        global $Store;
+
         $user = wp_get_current_user();
         $grouptypes = $Store->unstoreGroupTypesByUserRole( $user->roles );
-        // $grouptypemenus = array();
         $grouptypeblocks = array();
         foreach ( $grouptypes as $grouptype ) {
             $possiblemetas = [];
             foreach ( $grouptype->generatePossibleMetas() as $possiblemeta ) {
                 $possiblemetas[ serialize( $possiblemeta ) ] = $possiblemeta[ 'meta_displayname' ];
             }
-            array_push( $grouptypeblocks, Renderer::renderTemplate( 'special', 'my-group-type-block', array(
+            echo Renderer::renderTemplate( 'special', 'my-group-type-block', array(
                 'name' => $grouptype->label,
                 'possible-metas' => $possiblemetas,
-            )));
-        //     array_push( $grouptypemenus, $grouptype->generatePossibleMetas );
+            ));
         }
-        return print_r($grouptypeblocks);
-        // return Renderer::renderTemplate( 'page', 'entities', array(
-        //     'existing-entities' => $mygroups,
-        //     'entity-type'       => 'group',
-        //     'entity-type-name'  => 'Group',
-        // ) );
     }
 
     public static function classnameFrontToBack( $string ) {

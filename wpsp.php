@@ -79,6 +79,10 @@ class SiteProvisioner {
         add_action( 'init', array( $this, 'js_init' ) );
         add_action( 'init', array( $this, 'css_init') );
 
+        add_filter( 'query_vars', function( $vars ) {
+            $vars[] = "action";
+            return $vars;
+        } );
         register_activation_hook( __FILE__, array( $this, 'create_database_tables' ) );
         $this->cron_init();
     }
