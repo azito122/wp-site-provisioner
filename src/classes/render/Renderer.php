@@ -111,13 +111,17 @@ abstract class Renderer {
         foreach ( $grouptypes as $grouptype ) {
             $possiblemetas = [];
             foreach ( $grouptype->generatePossibleMetas() as $possiblemeta ) {
-                $possiblemetas[ serialize( $possiblemeta ) ] = $possiblemeta[ 'meta_displayname' ];
+                $possiblemetas[ $possiblemeta[ 'meta_id' ] ] = $possiblemeta[ 'meta_displayname' ];
             }
-            echo Renderer::renderTemplate( 'special', 'my-group-type-block', array(
+            array_push( $grouptypeblocks, Renderer::renderTemplate( 'special', 'my-group-type-block', array(
+                'group-type-id' => $grouptype->storeid,
                 'name' => $grouptype->label,
                 'possible-metas' => $possiblemetas,
-            ));
+            )));
         }
+        return Renderer::renderTemplate( 'page', 'add-group', [
+            'group-type-blocks' => $grouptypeblocks,
+        ]);
     }
 
     public static function classnameFrontToBack( $string ) {

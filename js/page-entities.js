@@ -42,5 +42,11 @@ $(document).ready(function() {
         WPSP.renderNewEntity(entitytype);
     })
 
+    $(document).on( 'change', 'select[name=possible-metas]', function(e) {
+        var metaid = WPSP.getValue(e.currentTarget);
+        var grouptypeid = $(e.currentTarget).parents('.group-type-block').attr('group-type-id');
+        WPSP.makeGroup(grouptypeid, metaid);
+    } )
+
 })
 })(jQuery)

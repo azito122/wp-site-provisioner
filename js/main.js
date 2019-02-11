@@ -56,6 +56,20 @@ WPSP.storeEntity = function(element, callback = function(){}, rerender = true) {
     })
 }
 
+WPSP.makeGroup = function(grouptypeid, metaid) {
+    $.ajax({
+        type: 'post',
+        url: WPSP_AJAX.ajaxurl,
+        data: {action: 'wpsp_makegroup', grouptypeid: grouptypeid, metaid: metaid},
+        error: function(xhr, status, error) {
+            console.log(xhr, status, error);
+        },
+        success: function(response) {
+            console.log(response);
+        }
+    })
+}
+
 WPSP.store = function( derendered, callback = function(){}, rerender ) {
 
 }

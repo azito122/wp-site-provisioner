@@ -76,6 +76,7 @@ class SiteProvisioner {
         $this->add_shortcode( 'debug' );
         add_action('wp_ajax_wpsp_render', array( $this, 'ajax_render' ) );
         add_action('wp_ajax_wpsp_store', array( $this, 'ajax_store' ) );
+        add_action('wp_ajax_wpsp_makegroup', array( $this, 'ajax_makegroup' ) );
         add_action( 'init', array( $this, 'js_init' ) );
         add_action( 'init', array( $this, 'css_init') );
 
@@ -126,6 +127,19 @@ class SiteProvisioner {
         foreach( $groups as $group ) {
             $group->update();
         }
+    }
+
+    public function ajax_makegroup() {
+        global $Store;
+
+        $grouptypeid = $_REQUEST[ 'grouptypeid' ];
+        $metaid = $_REQUEST[ 'metaid' ];
+
+        $grouptype = $Store->unstoreEntity( 'GroupType', $grouptypeid );
+        $metas = $grouptype->generatePossibleMetas();
+        $group = $grouptype->makeGroup( $metas[ $metaid ] );
+        $Store->storeEntity( $group );
+        die();
     }
 
     public function ajax_render() {

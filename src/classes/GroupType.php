@@ -56,7 +56,7 @@ class GroupType {
         $metadata = $this->loadMeta();
 
         foreach ( $metadata as $m ) {
-            array_push( $options, $m );
+            $options[ $m[ 'meta_id' ] ] = $m;
         }
 
         return $options;
