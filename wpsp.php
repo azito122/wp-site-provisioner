@@ -139,6 +139,7 @@ class SiteProvisioner {
         $metas = $grouptype->generatePossibleMetas();
         $group = $grouptype->makeGroup( $metas[ $metaid ] );
         $Store->storeEntity( $group );
+        $Store->addUserGroupId( $group->storeid );
         die();
     }
 

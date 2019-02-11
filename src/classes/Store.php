@@ -151,8 +151,12 @@ class Store {
         if ( ! isset( $user ) ) {
             $user = wp_get_current_user();
         }
-        $serial = $this->select( array( 'id' => $user->ID, 'type' => 'usergroupids' ) )[ 'serial'];
-        return unserialize( $serial );
+        $dbentry = $this->select( array( 'id' => $user->ID, 'type' => 'usergroupids' ) )[0];
+        if ($dbentry) {
+            return unserialize( $dbentry[ 'serial' ] );
+        } else {
+            return array();
+        }
     }
 
     public function storeUserGroupIds( $ids, $user = null ) {
@@ -161,6 +165,17 @@ class Store {
         }
         $serial = serialize( $ids );
         $this->store( $serial, 'usergroupids', $user->id );
+    }
+
+    public function addUserGroupId( $id, $user = null ) {
+        if ( ! isset( $user ) ) {
+            $user = wp_get_current_user();
+        }
+        $existingids = $this->unstoreUserGroupIds( $user );
+        if ( ! in_array( $id, $existingids ) ) {
+            array_push( $existingids, $id );
+        }
+        return $this->storeUserGroupIds( $existingids, $user );
     }
 
     public function findRequiredTypes( $type ) {
