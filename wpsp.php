@@ -282,6 +282,10 @@ class SiteProvisioner {
     public function page_remotes() {
         echo Renderer::pageRemotes();
     }
+
+    public function page_my_groups() {
+        echo Renderer::pageMyGroups();
+    }
 }
 
 new SiteProvisioner();

@@ -173,6 +173,10 @@ class Store {
         return $result;
     }
 
+    public function unstoreGroupTypesByUserRole( $roles ) {
+        return $this->unstoreEntity( 'GroupType' );
+    }
+
     // public function store_grouptype( $object, $rerenderid = '' ) {
     //     global $Store;
 

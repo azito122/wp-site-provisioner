@@ -86,18 +86,29 @@ abstract class Renderer {
     public static function pageMyGroups() {
         global $Store;
 
-        $groupids = $Store->unstoreEntityUserGroupIds();
-        $mygroups = $Store->unstoreEntity( 'Group', $groupids );
-        // $grouptypes = $Store->unstoreEntity( 'GroupType' );
+        // $groupids = $Store->unstoreEntityUserGroupIds();
+        // $mygroups = $Store->unstoreEntity( 'Group', $groupids );
+        $user = wp_get_current_user();
+        $grouptypes = $Store->unstoreGroupTypesByUserRole( $user->roles );
         // $grouptypemenus = array();
-        // foreach ( $grouptypes as $grouptype ) {
+        $grouptypeblocks = array();
+        foreach ( $grouptypes as $grouptype ) {
+            $possiblemetas = [];
+            foreach ( $grouptype->generatePossibleMetas() as $possiblemeta ) {
+                $possiblemetas[ serialize( $possiblemeta ) ] = $possiblemeta[ 'meta_displayname' ];
+            }
+            array_push( $grouptypeblocks, Renderer::renderTemplate( 'special', 'my-group-type-block', array(
+                'name' => $grouptype->label,
+                'possible-metas' => $possiblemetas,
+            )));
         //     array_push( $grouptypemenus, $grouptype->generatePossibleMetas );
-        // }
-        return Renderer::renderTemplate( 'page', 'entities', array(
-            'existing-entities' => $mygroups,
-            'entity-type'       => 'group',
-            'entity-type-name'  => 'Group',
-        ) );
+        }
+        return print_r($grouptypeblocks);
+        // return Renderer::renderTemplate( 'page', 'entities', array(
+        //     'existing-entities' => $mygroups,
+        //     'entity-type'       => 'group',
+        //     'entity-type-name'  => 'Group',
+        // ) );
     }
 
     public static function classnameFrontToBack( $string ) {
