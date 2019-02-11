@@ -67,5 +67,6 @@ $colorbar-thickness: 10px;
   // @import 'entity';
   @import 'entity/group-type';
   @import 'entity/query';
+  @import 'entity/query-params';
   @import 'entity/query-response-map';
 }

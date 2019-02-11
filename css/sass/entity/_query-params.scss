@@ -1,0 +1,5 @@
+@include entity-type(query-params) {
+
+    @include colorbar($color-query-params);
+
+}

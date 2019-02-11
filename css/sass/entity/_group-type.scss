@@ -7,4 +7,11 @@
         font-size: 2.5rem;
     }
 
+    fieldset[name=meta-query] > .entity {
+        @include colorbar($color-meta-query);
+    }
+
+    fieldset[name=user-query] > .entity {
+        @include colorbar($color-user-query);
+    }
 }
