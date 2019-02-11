@@ -15,7 +15,14 @@ namespace WPSP;
 
 use WPSP\query\response\QueryResponseMap as QueryResponseMap;
 use WPSP\query\response\QueryResponseMapping as QueryResponseMapping;
-// use WPSP\query\Query as Query;
+use WPSP\render\Renderer as Renderer;
+use WPSP\GroupType as GroupType;
+use WPSP\Group as Group;
+use WPSP\Store as Store;
+use WPSP\query\Query as Query;
+use WPSP\query\Remote as Remote;
+use WPSP\query\QueryParam as QueryParam;
+use WPSP\AjaxHandler as AjaxHandler;
 
 spl_autoload_register( function( $class ) {
     if ( strpos( $class, 'WPSP' ) === 0 ) {
@@ -56,57 +63,51 @@ function resolve_classname( $class ) {
     return "WPSP\\$namespace$class";
 }
 
-use WPSP\render\Renderer as Renderer;
-use WPSP\GroupType as GroupType;
-use WPSP\Group as Group;
-use WPSP\Store as Store;
-use WPSP\query\Query as Query;
-use WPSP\query\Remote as Remote;
-use WPSP\query\QueryParam as QueryParam;
-
-include_once( __DIR__ . '/src/classes/Store.php');
+include_once( __DIR__ . '/AjaxHandler.php' );
+include_once( __DIR__ . '/src/classes/Store.php' );
 
 class SiteProvisioner {
     public function __construct() {
-        add_action('network_admin_menu', array($this, 'add_network_menu'));
+        // Add to network admin menu.
+        add_action('network_admin_menu', function() {
+            add_menu_page( "wpsp-settings", "WPSP Settings", '', 'wpsp-settings', function() {
+                $this->shortcode( 'group_types' );
+            });
+        });
+
+        // Page shortcodes.
         $this->add_shortcode( 'group_types' );
         $this->add_shortcode( 'settings' );
         $this->add_shortcode( 'remotes' );
         $this->add_shortcode( 'my_groups' );
         $this->add_shortcode( 'debug' );
-        add_action('wp_ajax_wpsp_render', array( $this, 'ajax_render' ) );
-        add_action('wp_ajax_wpsp_store', array( $this, 'ajax_store' ) );
-        add_action('wp_ajax_wpsp_makegroup', array( $this, 'ajax_makegroup' ) );
+
+        // Ajax backend wiring.
+        add_action('wp_ajax_wpsp_render', array( '\WPSP\AjaxHandler', 'render' ) );
+        add_action('wp_ajax_wpsp_store', array( '\WPSP\AjaxHandler', 'store' ) );
+        add_action('wp_ajax_wpsp_makegroup', array( '\WPSP\AjaxHandler', 'makegroup' ) );
+
+        // Assets (CSS & JS)
         add_action( 'init', array( $this, 'js_init' ) );
         add_action( 'init', array( $this, 'css_init') );
 
+        // Query var thingy.
         add_filter( 'query_vars', function( $vars ) {
             $vars[] = "action";
             return $vars;
         } );
+
+        // Create database tables!
         register_activation_hook( __FILE__, array( $this, 'create_database_tables' ) );
+
+        // Cron.
         $this->cron_init();
-    }
-
-    public function add_network_menu() {
-        add_menu_page( "wpsp-settings", "WPSP Settings", '', 'wpsp-settings', array($this, 'network_menu_page'));
-    }
-
-    public function network_menu_page() {
-        $this->shortcode('group_types');
     }
 
     public function add_shortcode( $name ) {
         add_shortcode("wpsp_$name", function() use ( $name ) {
             $this->shortcode( $name );
         });
-    }
-
-    public function cron_init() {
-        if ( ! wp_next_scheduled( 'wpsp_cron' ) ) {
-            wp_schedule_event( time(), 'daily', 'wpsp_cron' );
-        }
-        add_action( 'wpsp_cron', array( $this, 'cron' ) );
     }
 
     public function js_init() {
@@ -122,81 +123,18 @@ class SiteProvisioner {
         wp_enqueue_style( 'wpsp_style' );
     }
 
+    public function cron_init() {
+        if ( ! wp_next_scheduled( 'wpsp_cron' ) ) {
+            wp_schedule_event( time(), 'daily', 'wpsp_cron' );
+        }
+        add_action( 'wpsp_cron', array( $this, 'cron' ) );
+    }
+
     public function cron() {
         $groups = Store::unstore( 'Group' );
         foreach( $groups as $group ) {
             $group->update();
         }
-    }
-
-    public function ajax_makegroup() {
-        global $Store;
-
-        $grouptypeid = $_REQUEST[ 'grouptypeid' ];
-        $metaid = $_REQUEST[ 'metaid' ];
-
-        $grouptype = $Store->unstoreEntity( 'GroupType', $grouptypeid );
-        $metas = $grouptype->generatePossibleMetas();
-        $group = $grouptype->makeGroup( $metas[ $metaid ] );
-        $Store->storeEntity( $group );
-        $Store->addUserGroupId( $group->storeid );
-        die();
-    }
-
-    public function ajax_render() {
-        global $Store;
-        // $_REQUEST = array(
-        //     'type' => 'entity',
-        //     'entity' => 'GroupType',
-        // );
-        $type = $_REQUEST[ 'rendertype' ];
-        if ( $type == 'template' ) {
-            echo Renderer::renderTemplate( $template );
-        } else if ( $type == 'entity' ) {
-            $name = Renderer::classnameFrontToBack( $_REQUEST[ 'entity' ] );
-            $classname = resolve_classname( $name );
-            $id = array_key_exists( 'entityid', $_REQUEST ) ? $_REQUEST[ 'entityid' ] : false;
-            if ( $id ) {
-                $object = $Store->unstoreEntity( $name, $id );
-            } else {
-                $object = new $classname();
-            }
-            echo Renderer::renderEntity( $object );
-        }
-        die();
-    }
-
-    public function ajax_store() {
-        global $Store;
-        header('Content-Type: application/json');
-
-        $type = Renderer::classnameFrontToBack( $_REQUEST[ 'type' ] );
-        $data = $_REQUEST[ 'data' ];
-
-        // wp_send_json($data);
-
-        $derendered = Renderer::derenderEntity( $data, $type );
-
-        if ( ! $derendered ) {
-            die();
-        }
-
-        $stored = $Store->storeEntity( $derendered );
-        $object = $stored['object'];
-
-        $return = array(
-            'id' => $stored['id'],
-        );
-
-        $rerenderid = $_REQUEST[ 'rerenderid' ];
-
-        if ( ! empty( $rerenderid ) ) {
-            $return[ 'rerenderid' ] = $rerenderid;
-            $return[ 'rerendered' ] = Renderer::renderEntity( $object );
-        }
-        echo json_encode( $return );
-
-        die();
     }
 
     public function create_database_tables() {
@@ -226,14 +164,10 @@ class SiteProvisioner {
 
     public function page_debug() {
         global $Store;
-        // $Store = new Store();
 
         echo "<pre>";
         $remote = new Remote();
         $remote->url = 'http://andycodesthings.com:3000/users';
-        // $remoteid = $Store->storeEntity($remote);
-        // print_r($remoteid);
-
         $map = array(
             // new QueryResponseMapping( 'alastname', 'lastname' ),
             // new QueryResponseMapping( 'afirstname', 'firstname' ),
@@ -244,54 +178,13 @@ class SiteProvisioner {
 
         $params = array();
 
-        // $query = new Query( $response, $remoteid, $params );
-        // $query->setRemote( $remote );
-
-        // $result = $query->run();
-
         $grouptype = $Store->unstoreEntity('GroupType')[0];
-        // $grouptype->getMetaQuery()->
-        // $Store->storeEntity($grouptype);
-        // $param = new QueryParam( 'courseid', '{id}' );
-        // $userquery = $grouptype->userquery;
-        // $userquery->remote = $remote;
-        // $userquery->addParam( $param );
 
-        // $data = array(
-        //     'id' => 124,
-        // );
-        // $results = $userquery->run( $data );
-
-        // print_r($response->mappings);
         $course = $grouptype->generatePossibleMetas()[1];
-        // print_r($grouptype->generatePossibleMetas()[0]);
         $group = $grouptype->makeGroup($course);
         $group->__wakeup();
-        // print_r($group);
         print_r($group->loadUsers());
-        // echo Renderer::renderEntity($group);
-        // $Store->storeEntity($grouptype);
-        // echo Renderer::renderEntity( $grouptype );
-        // print_r($results);
         echo "</pre>";
-
-        // $query = new Query($remoteid);
-        // $queryid = $Store->storeEntity($query);
-
-        // $group = new Group( array(), $queryid);
-        // $groupid = $Store->storeEntity($group);
-
-        // // $group2 = $Store->unstoreEntity( 'Group', 'fd02d65b137ffe92e0c3dea3813ca472' );
-        // $group2 = $Store->unstoreEntity( 'Group' );
-        // echo "<pre>";
-        // print_r($group2);
-        // echo "</pre>";
-
-
-        // print_r($Store->getRequiredTypes('Remote'));
-        // print_r(Store::store($remote));
-        // $remote2 = $Store->unstoreEntity( 'Remote', '03c8daeeee8cba218012b321e5290938');
-        // print_r($remote2);
     }
 
     public function page_group_types() {
