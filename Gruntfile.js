@@ -46,7 +46,7 @@ module.exports = function( grunt ) {
 
 		watch: {
 			sass: {
-				files: 'css/sass/*',
+				files: 'css/sass/**',
 				tasks: ['sass']
 			}
 		},
@@ -54,7 +54,7 @@ module.exports = function( grunt ) {
 		sass: {
 			dist: {
 			  options: {
-				style: 'compressed',
+				// style: 'compressed',
 				compass: false,
 				sourcemap: 'none'
 			  },

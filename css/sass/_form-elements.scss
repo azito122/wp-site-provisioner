@@ -1,18 +1,32 @@
 $key-val-input-width: 160px;
 
-.form-wrapper {
+// Get rid of fieldset wierdness.
+fieldset {
+    display: inline-block;
+    display: contents;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+}
 
+.form-wrapper {
     display: content;
     margin: 1.5rem 0.5rem;
-
-    &.select-wrapper {
-
-    }
 }
 
 label {
-    font-weight: bold;
     margin-right: 0.5rem;
+    font-weight: bold;
+}
+
+button.loading {
+    background: lightgrey !important;
+    cursor: wait;
+}
+
+.devalidated {
+    border-color: red !important;
 }
 
 .key-val-block-wrapper {
@@ -22,12 +36,11 @@ label {
 }
 
 .key-val-block {
-
-    grid-column: 1 / -1;
-    grid-row: 1 / span 1;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    grid-column: 1 / -1;
+    grid-row: 1 / span 1;
 
     .form-wrapper {
         margin: 0;
@@ -35,5 +48,25 @@ label {
         input[type=text] {
             width: $key-val-input-width;
         }
+    }
+}
+
+input.label-input {
+    // margin: 1rem;
+    // font-size: 2.5rem;
+    border: none;
+    border-style: solid;
+    border-color: transparent;
+    border-radius: 3px;
+    box-shadow: none;
+
+    &:hover,
+    &:focus {
+        border-color: lightgrey;
+    }
+
+    // This allows us to return to normal bgcolor on :focus.
+    &:not(:focus) {
+        background: none;
     }
 }

@@ -1,1 +1,55 @@
-.wpsp-page *{position:relative}.wpsp-page .form-wrapper{display:content;margin:1.5rem 0.5rem}.wpsp-page label{font-weight:bold;margin-right:0.5rem}.wpsp-page .key-val-block-wrapper{display:grid;grid-template-columns:5% auto;grid-template-rows:1fr}.wpsp-page .key-val-block{grid-column:1 / -1;grid-row:1 / span 1;display:flex;flex-direction:row;flex-wrap:nowrap}.wpsp-page .key-val-block .form-wrapper{margin:0}.wpsp-page .key-val-block .form-wrapper input[type=text]{width:160px}.wpsp-page .form-block{display:inline-block;border:1px solid black;border-radius:5px;padding:1rem;margin:0.5rem;background:rgba(255,255,255,0.856)}.wpsp-page fieldset{display:inline-block;display:contents;border:0;padding:0;margin:0;min-width:0}.wpsp-page .entity input.entity-label{margin:1rem;font-size:2.5rem;border:none;border:2px;border-style:solid;border-color:transparent;border-radius:3px;box-shadow:none}.wpsp-page .entity input.entity-label:hover,.wpsp-page .entity input.entity-label:focus{border-color:lightgrey}.wpsp-page .entity input.entity-label:not(:focus){background:none}.wpsp-page button.loading{background:lightgrey !important;cursor:wait}.wpsp-page .devalidated{border-color:red !important}.wpsp-page .entity[entity-type=query-response-map]{border-left:10px solid brown}
+.wpsp-page * {
+  position: relative; }
+.wpsp-page .form-block {
+  display: inline-block;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 0.5rem;
+  background: rgba(255, 255, 255, 0.856); }
+.wpsp-page fieldset {
+  display: inline-block;
+  display: contents;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0; }
+.wpsp-page .form-wrapper {
+  display: content;
+  margin: 1.5rem 0.5rem; }
+.wpsp-page label {
+  margin-right: 0.5rem;
+  font-weight: bold; }
+.wpsp-page button.loading {
+  background: lightgrey !important;
+  cursor: wait; }
+.wpsp-page .devalidated {
+  border-color: red !important; }
+.wpsp-page .key-val-block-wrapper {
+  display: grid;
+  grid-template-columns: 5% auto;
+  grid-template-rows: 1fr; }
+.wpsp-page .key-val-block {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  grid-column: 1 / -1;
+  grid-row: 1 / span 1; }
+  .wpsp-page .key-val-block .form-wrapper {
+    margin: 0; }
+    .wpsp-page .key-val-block .form-wrapper input[type=text] {
+      width: 160px; }
+.wpsp-page input.label-input {
+  border: none;
+  border-style: solid;
+  border-color: transparent;
+  border-radius: 3px;
+  box-shadow: none; }
+  .wpsp-page input.label-input:hover, .wpsp-page input.label-input:focus {
+    border-color: lightgrey; }
+  .wpsp-page input.label-input:not(:focus) {
+    background: none; }
+.wpsp-page .entity[entity-type=group-type] {
+  border-left: 10px solid green; }
+.wpsp-page .entity[entity-type=query-response-map] {
+  border-left: 10px solid brown; }

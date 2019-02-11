@@ -2,6 +2,12 @@
 
 $colorbar-thickness: 10px;
 
+@mixin entity-type($type) {
+  .entity[entity-type=#{$type}] {
+    @content;
+  }
+}
+
 @mixin block() {
   display: inline-block;
   border: 1px solid black;
@@ -11,7 +17,7 @@ $colorbar-thickness: 10px;
   background: rgba(255, 255, 255, 0.856);
 }
 
-@mixin colorbar($color, $side: top) {
+@mixin colorbar($color, $side: left) {
   border-#{$side}: $colorbar-thickness solid $color;
 
   // &:before {
@@ -53,17 +59,13 @@ $colorbar-thickness: 10px;
     position: relative;
   }
 
-  &.page-entities {
-
-    .existing-entities > .entity,
-    .new-entity > .entity {
-      // width: 60%;
-    }
-
+  .form-block {
+    @include block();
   }
 
   @import 'form-elements';
-  @import 'entity';
-  @import 'query';
-  @import 'query-response-map';
+  // @import 'entity';
+  @import 'entity/group-type';
+  @import 'entity/query';
+  @import 'entity/query-response-map';
 }
