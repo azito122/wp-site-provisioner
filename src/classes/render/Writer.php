@@ -82,7 +82,7 @@ abstract class Writer {
         foreach ( $props as $propname => $propval ) {
             $o .= ' ' . $propname . '="' . $propval . '"';
         }
-        $o .= ">$text</button>";
+        $o .= ">$text</button></a>";
         return $o;
     }
 
