@@ -2,12 +2,13 @@
     <div class="existing-entities">
         <?php echo $D->get( 'existing-entities' ); ?>
     </div>
-    <a href="<?php echo $D->get( 'add-button-href' ); ?>">
-        <button
-            class="add-button add-<?php echo strtolower( $D->get( 'entity-type' ) ) ?> button"
-            type="button"
-            entity-type="<?php echo $D->get( 'entity-type' ) ?>"
-        >+ Add <?php echo $D->get( 'entity-type-name' ) ?></button>
-    </a>
+    <?php echo $W::button(
+        '+ Add ' . $D->get( 'entity-type-name' ),
+        $D->get( 'add-button-href' ),
+        [
+            'class' => 'add-button add-' . $D->get( 'entity-type' ),
+            'entity-type' => $D->get( 'entity-type' ),
+        ]
+        ); ?>
     <div class="new-entity"></div>
 </div>

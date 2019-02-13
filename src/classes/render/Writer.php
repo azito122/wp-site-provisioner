@@ -74,6 +74,18 @@ abstract class Writer {
         return $o;
     }
 
+    public static function button( $text, $href, $props = array() ) {
+        $o = '';
+        $o .= $href ? "<a href=\"$href\">" : "<a>";
+        $o .= '<button';
+        $props['class'] = isset( $props[ 'class' ] ) ? $props[ 'class' ] . ' button' : 'button';
+        foreach ( $props as $propname => $propval ) {
+            $o .= ' ' . $propname . '="' . $propval . '"';
+        }
+        $o .= ">$text</button>";
+        return $o;
+    }
+
     public static function hidden( $id, $value ) {
         $o = "<input type=\"hidden\" name=\"$id\" value=\"$value\">";
         return $o;
