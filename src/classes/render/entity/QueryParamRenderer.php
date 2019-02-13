@@ -3,7 +3,7 @@
 namespace WPSP\render\entity;
 
 use WPSP\render\Renderer as Renderer;
-use WPSP\query\QueryParam as QueryParam;
+use WPSP\query\params\QueryParam as QueryParam;
 
 abstract class QueryParamRenderer implements \WPSP\render\entity\EntityRenderer {
 

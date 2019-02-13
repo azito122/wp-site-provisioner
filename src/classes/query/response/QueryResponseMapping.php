@@ -2,8 +2,7 @@
 
 namespace WPSP\query\response;
 
-use WPSP\query\response\QueryResponseMap as QueryResponseMap;
-use WPSP\Base as Base;
+use WPSP\query\response\QueryResponse as QueryResponse;
 
 class QueryResponseMapping {
 
@@ -20,7 +19,7 @@ class QueryResponseMapping {
         $this->type        = $type;
 
         if ( $type == 'complex' ) {
-            $subresponse = new QueryResponseMap( $subresponsemappings );
+            $subresponse = new QueryResponse( $subresponsemappings );
         }
     }
 

@@ -4,7 +4,7 @@ namespace WPSP\query\response;
 
 use WPSP\query\response\QueryResponseMapping as QueryResponseMapping;
 
-class QueryResponseMap {
+class QueryResponse {
 
     use \WPSP\traits\GetterSetter;
 
@@ -33,7 +33,7 @@ class QueryResponseMap {
                 } else {
                     $resultkey = $key;
                     if ( is_array( $val ) ) {
-                        $baseresponse = new QueryResponseMap();
+                        $baseresponse = new QueryResponse();
                         $resultvalue = $baseresponse->normalize( $val );
                     } else {
                         $resultvalue = $val;
@@ -47,15 +47,17 @@ class QueryResponseMap {
         return $normalized;
     }
 
-    public function setMapping( $localkey, $responsekey ) {
-        $this->map[ $localkey ] = $responsekey;
+    public function newMapping( $localkey = null, $responsekey = null ) {
+        $newmapping = new QueryResponseMapping( $localkey, $responsekey );
+        $this->addMapping( $newmapping );
+        return $newmapping;
     }
 
     public function addMapping( $mapping ) {
         if ( $mapping instanceof QueryResponseMapping ) {
-            array_push( $this->map, $mapping );
+            array_push( $this->mappings, $mapping );
         } else {
-            array_push( $this->map, new QueryResponseMapping() );
+            $this->newMapping();
         }
     }
 

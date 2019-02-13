@@ -2,10 +2,10 @@
 
 namespace WPSP\query\response;
 
-use WPSP\query\response\QueryResponseMap as QueryResponseMap;
+use WPSP\query\response\QueryResponse as QueryResponse;
 use WPSP\query\response\QueryResponseMapping as QueryResponseMapping;
 
-class UserResponse extends QueryResponseMap {
+class UserResponse extends QueryResponse {
 
     public function __construct( $map = array(), $depth = 0, $position = null  ) {
         $rolemap = array(
@@ -18,7 +18,7 @@ class UserResponse extends QueryResponseMap {
             new QueryResponseMapping( 'firstname', 'firstname' ),
             new QueryResponseMapping( 'lastname', 'lastname' ),
             new QueryResponseMapping( 'email', 'email' ),
-            new QueryResponseMapping( 'roles', 'roles', 'complex', new QueryResponseMap( $rolemap ) ),
+            new QueryResponseMapping( 'roles', 'roles', 'complex', new QueryResponse( $rolemap ) ),
         );
     }
 

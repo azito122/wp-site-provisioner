@@ -1,6 +1,6 @@
 <?php
 
-namespace WPSP\query;
+namespace WPSP\query\params;
 
 class QueryParam {
 

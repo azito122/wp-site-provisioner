@@ -5,7 +5,7 @@ namespace WPSP\render\entity;
 use WPSP\render\Renderer as Renderer;
 use WPSP\query\Query as Query;
 use WPSP\render\entity\QueryParamRenderer as QueryParamRenderer;
-use WPSP\render\entity\QueryResponseMapRenderer as QueryResponseMapRenderer;
+use WPSP\render\entity\QueryResponseRenderer as QueryResponseRenderer;
 
 abstract class QueryRenderer implements \WPSP\render\entity\EntityRenderer {
 
@@ -23,7 +23,7 @@ abstract class QueryRenderer implements \WPSP\render\entity\EntityRenderer {
             'remoteid' => $instance->remoteid,
             'path'     => $instance->extrapath,
             'params'   => self::renderParams( $instance->params ),
-            'response' => QueryResponseMapRenderer::render( $instance->responsemap ),
+            'response' => QueryResponseRenderer::render( $instance->responsemap ),
         );
         return Renderer::renderTemplate( 'entity', 'query', $data );
     }
@@ -41,7 +41,7 @@ abstract class QueryRenderer implements \WPSP\render\entity\EntityRenderer {
         }
 
         if ( array_key_exists( 'response', $data ) ) {
-            $response = QueryResponseMapRenderer::derender( $data[ 'response' ] );
+            $response = QueryResponseRenderer::derender( $data[ 'response' ] );
             $object->responsemap = $response;
         }
 

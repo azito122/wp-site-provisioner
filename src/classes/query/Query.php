@@ -3,8 +3,8 @@
 namespace WPSP\query;
 
 use WPSP\Store as Store;
-use WPSP\query\QueryParam as QueryParam;
-use WPSP\query\response\QueryResponseMap as QueryResponseMap;
+use WPSP\query\params\QueryParams as QueryParams;
+use WPSP\query\response\QueryResponse as QueryResponse;
 
 class Query {
 
@@ -37,7 +37,7 @@ class Query {
     public function __construct( $responsemap = null, $remoteid = null, $params = array() ) {
         $this->remoteid = $remoteid;
         $this->params = $params;
-        $this->responsemap = $responsemap ? $responsemap : new QueryResponseMap();
+        $this->responsemap = $responsemap ? $responsemap : new QueryResponse();
     }
 
     public function run( $data = array() ) {
@@ -100,13 +100,13 @@ class Query {
         return array( $id => $this->resolve( $this->params[ $id ] ) );
     }
 
-    public function addParam( $param = null ) {
-        if ( ! $param instanceof QueryParam ) {
-            $param = new QueryParam();
-        }
-        $this->params[] = $param;
-        return $param;
-    }
+    // public function addParam( $param = null ) {
+    //     if ( ! $param instanceof QueryParam ) {
+    //         $param = new QueryParam();
+    //     }
+    //     $this->params[] = $param;
+    //     return $param;
+    // }
 
     public function deleteParam( QueryParam $param ) {
         unset( $this->params[ array_search( $param, $this->params ) ] );

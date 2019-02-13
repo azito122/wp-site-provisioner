@@ -4,9 +4,9 @@ namespace WPSP\render\entity;
 
 use WPSP\render\Renderer as Renderer;
 use WPSP\render\entity\QueryResponseMappingRenderer as QueryResponseMappingRenderer;
-use WPSP\query\response\QueryResponseMap as QueryResponseMap;
+use WPSP\query\response\QueryResponse as QueryResponse;
 
-abstract class QueryResponseMapRenderer implements \WPSP\render\entity\EntityRenderer {
+abstract class QueryResponseRenderer implements \WPSP\render\entity\EntityRenderer {
 
     public static function render( $instance ) {
         $mappings = '';
@@ -26,7 +26,7 @@ abstract class QueryResponseMapRenderer implements \WPSP\render\entity\EntityRen
             array_push( $mappings, QueryResponseMappingRenderer::derender( $mapping ) );
         }
 
-        $object = new QueryResponseMap( $mappings );
+        $object = new QueryResponse( $mappings );
 
         return $object;
     }

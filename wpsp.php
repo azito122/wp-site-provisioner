@@ -13,7 +13,7 @@
  */
 namespace WPSP;
 
-use WPSP\query\response\QueryResponseMap as QueryResponseMap;
+use WPSP\query\response\QueryResponse as QueryResponse;
 use WPSP\query\response\QueryResponseMapping as QueryResponseMapping;
 use WPSP\render\Renderer as Renderer;
 use WPSP\GroupType as GroupType;
@@ -21,7 +21,7 @@ use WPSP\Group as Group;
 use WPSP\Store as Store;
 use WPSP\query\Query as Query;
 use WPSP\query\Remote as Remote;
-use WPSP\query\QueryParam as QueryParam;
+use WPSP\query\params\QueryParam as QueryParam;
 use WPSP\AjaxHandler as AjaxHandler;
 
 spl_autoload_register( function( $class ) {
@@ -40,7 +40,7 @@ function resolve_classname( $class ) {
         case 'Remote':
             $namespace = 'query\\';
             break;
-        case 'QueryResponseMap':
+        case 'QueryResponse':
         case 'QueryResponseMapping':
         case 'UserResponse':
             $namespace = 'query\response\\';
@@ -174,7 +174,7 @@ class SiteProvisioner {
             // new QueryResponseMapping( 'login', 'username' ),
             // new QueryResponseMapping( 'id', '' ),
         );
-        $response = new QueryResponseMap( $map );
+        $response = new QueryResponse( $map );
 
         $params = array();
 

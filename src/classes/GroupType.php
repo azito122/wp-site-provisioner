@@ -5,7 +5,7 @@ namespace WPSP;
 use WPSP\query\Query as Query;
 use WPSP\query\response\UserResponse as UserResponse;
 use WPSP\Group as Group;
-use WPSP\query\response\QueryResponseMap as QueryResponseMap;
+use WPSP\query\response\QueryResponse as QueryResponse;
 use WPSP\query\response\QueryResponseMapping as QueryResponseMapping;
 
 class GroupType {
@@ -42,7 +42,7 @@ class GroupType {
             new QueryResponseMapping( 'meta_id', 'id' ),
             new QueryResponseMapping( 'meta_displayname', 'displayname' ),
         );
-        $metamap = new QueryResponseMap( $metamappings );
+        $metamap = new QueryResponse( $metamappings );
         $this->metaquery = new Query( $metamap );
     }
 
