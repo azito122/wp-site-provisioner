@@ -70,9 +70,34 @@ class SiteProvisioner {
     public function __construct() {
         // Add to network admin menu.
         add_action('network_admin_menu', function() {
-            add_menu_page( "wpsp-settings", "WPSP Settings", '', 'wpsp-settings', function() {
-                $this->shortcode( 'group_types' );
-            });
+            add_menu_page(
+                "wpsp-settings", // Title (tag)
+                "WPSP Settings", // Menu text
+                '',              // Capability
+                'wpsp-settings', // Slug
+                function() {
+                }
+            );
+            add_submenu_page(
+                'wpsp-settings', // Parent slug
+                'wpsp-group-types',  // Title (tag)
+                'Group Types',  // Menu text
+                '',              // Capability
+                'wpsp-group-types',   // Slug
+                function() {
+                    $this->shortcode( 'group_types' );
+                }
+            );
+            add_submenu_page(
+                'wpsp-settings', // Parent slug
+                'wpsp-remotes',  // Title (tag)
+                'Remotes',  // Menu text
+                '',              // Capability
+                'wpsp-remotes',   // Slug
+                function() {
+                    $this->shortcode( 'remotes' );
+                }
+            );
         });
 
         // Page shortcodes.
