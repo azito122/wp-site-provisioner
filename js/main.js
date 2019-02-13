@@ -23,7 +23,6 @@ WPSP.renderEntity = function(entitytype, selector, id) {
         },
         success: function(response, status) {
             if(status == 'success') {
-                console.log(selector);
                 $(selector).append(response);
             }
         }
@@ -76,15 +75,16 @@ WPSP.store = function( derendered, callback = function(){}, rerender ) {
 
 WPSP.validate = function(element) {
     let check = true;
-    $.each($(element).children(), function(i, e) {
-        if ( $(e).hasClass( 'sub-entity' ) ) {
-            check = WPSP.validate( $(e).children('.entity')[0] );
+    $.each($(element).children(), function(i, el) {
+        el = WPSP.resolveFormElement(el);
+        if ( $(el).hasClass( 'sub-entity' ) ) {
+            check = WPSP.validate( $(el).children('.entity')[0] );
         }
-        let required = $(e).attr('required');
-        // let val = WPSP.getValue(e);
+        let required = $(el).attr('required');
+        let val = WPSP.getValue(el);
         if (required && ( ! val || val == '' ) ) {
             check = false;
-            $(e).addClass('devalidated');
+            $(el).addClass('devalidated');
         }
     })
     return check;

@@ -34,7 +34,7 @@ $(document).ready(function() {
         WPSP.renderEntity('QueryResponseMapping', $(e.target).parent().children('.mappings-list') );
     })
 
-    $('.page-entities > .add-button').on( 'click', function( e ) {
+    $(document).on( 'click', '.page-entities .add-button', function( e ) {
         if ( $('.new-entity').has('.entity').length > 0 ) {
             return;
         }

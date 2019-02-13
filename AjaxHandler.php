@@ -21,6 +21,7 @@ abstract class AjaxHandler {
 
     public static function render() {
         global $Store;
+
         $type = $_REQUEST[ 'rendertype' ];
         if ( $type == 'template' ) {
             echo Renderer::renderTemplate( $template );
