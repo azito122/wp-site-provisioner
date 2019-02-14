@@ -33,6 +33,7 @@ class Group {
     public function __construct( $meta, $queryid ) {
         $this->meta = $meta;
         $this->queryid = $queryid;
+        $this->siteengines = array();
     }
 
     public function update() {

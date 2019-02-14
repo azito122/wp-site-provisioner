@@ -9,7 +9,7 @@ use WPSP\siteengine\SiteEngineRenderer as SiteEngineRenderer;
 abstract class GroupRenderer implements \WPSP\render\entity\EntityRenderer {
 
     public static function render( $instance ) {
-        $siteengines = $instance->sitengines;
+        $siteengines = $instance->siteengines;
         $siteenginesrendered = array();
         foreach ( $siteengines as $siteengine ) {
             array_push( $siteenginesrendered, SiteEngineRenderer::render( $siteengine ) );

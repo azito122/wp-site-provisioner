@@ -48,7 +48,7 @@ $(document).ready(function() {
         var grouptypeid = $(e.currentTarget).parents('.group-type-block').attr('group-type-id');
 
         window.location.assign('?action=new-group&grouptypeid=' + grouptypeid + '&metaid=' + metaid);
-    } )
+    })
 
 })
 })(jQuery)
