@@ -65,6 +65,7 @@ $colorbar-thickness: 10px;
 
   @import 'form-elements';
   // @import 'entity';
+  @import 'entity/remote';
   @import 'entity/group-type';
   @import 'entity/query';
   @import 'entity/query-params';

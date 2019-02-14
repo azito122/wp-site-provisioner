@@ -1,4 +1,6 @@
 <div class="entity form-block" entity-type="group-type">
+    <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ); ?>
+
     <?php echo $W::textinput( array(
         'name'        => 'label',
         'default'     => $D->get( 'label' ),
@@ -6,8 +8,6 @@
         'required'    => true,
         'class'       => 'label-input'
     ) ); ?>
-
-    <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ); ?>
 
     <fieldset name="meta-query" data-type="subentity">
         <?php echo $D->get( 'meta-query' ); ?>

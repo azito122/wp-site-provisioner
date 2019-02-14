@@ -1,0 +1,9 @@
+@include entity-type(remote) {
+
+    @include colorbar($color-remote);
+
+    .label-input {
+        margin: 1rem;
+        font-size: 2.5rem;
+    }
+}

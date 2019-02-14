@@ -76,9 +76,10 @@ abstract class Renderer {
 
         $remotes = self::renderEntity( $Store->unstoreEntity( 'Remote' ) );
         return self::renderTemplate( 'page', 'entities', array(
+                'page-title'        => 'Remotes',
                 'existing-entities' => $remotes,
-                'entity-type' => 'remote',
-                'entity-type-name' => 'Remote',
+                'entity-type'       => 'remote',
+                'entity-type-name'  => 'Remote',
             )
         );
     }
