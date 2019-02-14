@@ -46,7 +46,8 @@ $(document).ready(function() {
     $(document).on( 'change', 'select[name=possible-metas]', function(e) {
         var metaid = WPSP.getValue(e.currentTarget);
         var grouptypeid = $(e.currentTarget).parents('.group-type-block').attr('group-type-id');
-        WPSP.makeGroup(grouptypeid, metaid);
+
+        window.location.assign('?action=new-group&grouptypeid=' + grouptypeid + '&metaid=' + metaid);
     } )
 
 })

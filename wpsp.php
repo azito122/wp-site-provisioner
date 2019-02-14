@@ -122,6 +122,8 @@ class SiteProvisioner {
         // Query var thingy.
         add_filter( 'query_vars', function( $vars ) {
             $vars[] = "action";
+            $vars[] = "grouptypeid";
+            $vars[] = "metaid";
             return $vars;
         } );
 

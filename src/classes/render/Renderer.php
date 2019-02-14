@@ -92,6 +92,8 @@ abstract class Renderer {
 
         if ( $action == 'add-group' ) {
             return Renderer::pageAddGroup();
+        } else if ( $action == 'new-group' ) {
+            return Renderer::pageNewGroup();
         }
 
         $groupids = $Store->unstoreUserGroupIds();
@@ -102,6 +104,19 @@ abstract class Renderer {
             'entity-type-name'  => 'Group',
             'add-button-href'   => '?action=add-group',
         ) );
+    }
+
+    public static function pageNewGroup() {
+        global $Store;
+
+        $metaid = get_query_var( 'metaid', '' );
+        $grouptypeid = get_query_var( 'grouptypeid', '' );
+
+        $grouptype = $Store->unstoreEntity( 'GroupType', $grouptypeid );
+        $metas = $grouptype->generatePossibleMetas();
+        $group = $grouptype->makeGroup( $metas[ $metaid ] );
+
+        return Renderer::renderEntity( $group );
     }
 
     public static function pageAddGroup() {
