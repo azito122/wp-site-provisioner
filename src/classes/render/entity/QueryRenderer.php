@@ -6,6 +6,7 @@ use WPSP\render\Renderer as Renderer;
 use WPSP\query\Query as Query;
 use WPSP\render\entity\QueryParamRenderer as QueryParamRenderer;
 use WPSP\render\entity\QueryResponseRenderer as QueryResponseRenderer;
+use WPSP\render\Writer as Writer;
 
 abstract class QueryRenderer implements \WPSP\render\entity\EntityRenderer {
 
@@ -17,14 +18,22 @@ abstract class QueryRenderer implements \WPSP\render\entity\EntityRenderer {
         foreach ( $remotes as $remote ) {
             $remotemenu[ $remote->storeid ] = $remote->label;
         }
+
+        $remotemenustring = Writer::select( [
+            'name' => 'remoteid',
+            'label' => 'Remote',
+            'options' => $remotemenu,
+            'default' => $instance->remoteid,
+        ] );
+
+
         $data = array(
-            'label'    => $instance->label,
-            'storeid'  => $instance->storeid,
-            'remotes'  => $remotemenu,
-            'remoteid' => $instance->remoteid,
-            'path'     => $instance->extrapath,
-            'params'   => self::renderParams( $instance->params ),
-            'response' => QueryResponseRenderer::render( $instance->responsemap ),
+            'label'       => $instance->label,
+            'storeid'     => $instance->storeid,
+            'remotesmenu' => $remotemenustring,
+            'path'        => $instance->extrapath,
+            'params'      => self::renderParams( $instance->params ),
+            'response'    => QueryResponseRenderer::render( $instance->responsemap ),
         );
         return Renderer::renderTemplate( 'entity', 'query', $data );
     }

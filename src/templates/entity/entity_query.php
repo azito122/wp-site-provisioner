@@ -3,12 +3,7 @@
 
     <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ); ?>
 
-    <?php echo $W::select( array(
-        'name' => 'remoteid',
-        'label' => 'Remote',
-        'options' => $D->get( 'remotes'),
-        'default' => $D->get( 'remoteid' )
-    ) ); ?>
+    <?php echo $D->get( 'remotesmenu' ) ?>
 
     <?php echo $W::textinput( array(
         'name'        => 'path',
