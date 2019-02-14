@@ -35,10 +35,10 @@ class Query {
         $this->remote = $Store->unstoreEntity( 'Remote', $this->remoteid );
     }
 
-    public function __construct( $label, $responsemap = null, $remoteid = null, $params = array() ) {
+    public function __construct( $label, $responsemap = null, $remoteid = null, $params = null ) {
         $this->label = $label;
         $this->remoteid = $remoteid;
-        $this->params = $params;
+        $this->params = $params ? $params : new QueryParams();
         $this->responsemap = $responsemap ? $responsemap : new QueryResponse();
     }
 

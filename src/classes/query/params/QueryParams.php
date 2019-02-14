@@ -11,7 +11,7 @@ class QueryParams {
     protected $params;
 
     public function __construct( $params = null ) {
-        $this->mappings = $params ? $params : array();
+        $this->params = $params ? $params : array();
     }
 
     public function newParam( $key = null, $val = null ) {

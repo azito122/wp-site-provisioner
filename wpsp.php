@@ -36,7 +36,6 @@ function resolve_classname( $class ) {
     $namespace = '';
     switch ( $class ) {
         case 'Query':
-        case 'QueryParam':
         case 'Remote':
             $namespace = 'query\\';
             break;
@@ -44,6 +43,10 @@ function resolve_classname( $class ) {
         case 'QueryResponseMapping':
         case 'UserResponse':
             $namespace = 'query\response\\';
+            break;
+        case 'QueryParam':
+        case 'QueryParams':
+            $namespace = 'query\params\\';
             break;
         case 'Renderer':
         case 'TemplateVariables':

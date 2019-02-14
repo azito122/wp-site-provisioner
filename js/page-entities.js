@@ -6,6 +6,7 @@ $(document).ready(function() {
 
         if (isnew) {
             callback = function(response, status) {
+                console.log(response);
                 if (response && response['rerendered']) {
                     rerenderel = WPSP.rerendermap[response['rerenderid']];
                     $(rerenderel).remove();
@@ -26,7 +27,7 @@ $(document).ready(function() {
         WPSP.storeEntity( $(element).parent()[0], callback);
     })
 
-    $(document).on( 'click', '.query-params > .add-button', function( e ) {
+    $(document).on( 'click', '.entity[entity-type="query-params"] > .add-button', function( e ) {
         WPSP.renderEntity('QueryParam', $(e.target).parent().children('.params-list') );
     })
 
