@@ -5,9 +5,11 @@
 
     <?php echo $W::hidden( 'meta', $D->get( 'meta' ) ); ?>
 
-    <fieldset name="site-engines" data-type="subentity">
-        <?php echo $R::loopTemplate( 'site-engine', $D->get( 'siteengines' ) ) ?>
+    <fieldset name="site-engines" data-type="array" data-array-selector=".entity[entity-type='site-engine']">
+        <?php echo $D->get( 'siteengines' ); ?>
     </fieldset>
+
+    <?php $W::button('+ Add Site Engine', '', [ 'class' => 'add-button add-site-engine' ] ); ?>
 
     <button class="save button">Save</button>
 </div>

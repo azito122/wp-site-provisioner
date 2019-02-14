@@ -10,6 +10,7 @@ class Group {
     use \WPSP\traits\GetterSetter;
     use \WPSP\traits\Storable;
 
+    protected $label;
     protected $meta;
     protected $queryid;
     protected $siteengines;
@@ -19,6 +20,7 @@ class Group {
 
     public function __sleep() {
         return array(
+            'label',
             'meta',
             'queryid',
             'siteengines',
@@ -32,6 +34,7 @@ class Group {
 
     public function __construct( $meta, $queryid ) {
         $this->meta = $meta;
+        $this->label = $meta['meta_displayname'];
         $this->queryid = $queryid;
         $this->siteengines = array();
     }
