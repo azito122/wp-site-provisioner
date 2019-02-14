@@ -188,8 +188,15 @@ class SiteProvisioner {
             $login_url = wp_login_url( get_permalink() );
             echo sprintf( __( 'You do not have access to this page.', 'wpsp' ), $login_url );
         } else {
-            $this->{"page_$name"}();
+            $this->page( $name );
         }
+    }
+
+    public function page( $name ) {
+        $name = ucwords( $name, '_' );
+        $name = str_replace( '_', '', $name );
+
+        echo Renderer::{"page$name"}();
     }
 
     public function page_debug() {
