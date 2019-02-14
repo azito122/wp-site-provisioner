@@ -11,6 +11,7 @@ class Query {
     use \WPSP\traits\GetterSetter;
     use \WPSP\traits\Storable;
 
+    protected $label;
     protected $remoteid;
     protected $extrapath;
     protected $params = array();
@@ -34,7 +35,8 @@ class Query {
         $this->remote = $Store->unstoreEntity( 'Remote', $this->remoteid );
     }
 
-    public function __construct( $responsemap = null, $remoteid = null, $params = array() ) {
+    public function __construct( $label, $responsemap = null, $remoteid = null, $params = array() ) {
+        $this->label = $label;
         $this->remoteid = $remoteid;
         $this->params = $params;
         $this->responsemap = $responsemap ? $responsemap : new QueryResponse();

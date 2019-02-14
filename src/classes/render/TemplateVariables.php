@@ -11,7 +11,7 @@ class TemplateVariables {
     }
 
     public function get( $name, $default = '' ) {
-        if ( array_key_exists( $name, $this->data ) && ! empty( $this->data[ $name ] ) ) {
+        if ( array_key_exists( $name, $this->data ) && ! empty( $this->data[ $name ] && is_scalar( $this->data[ $name ] ) ) ) {
             return $this->data[ $name ];
         }
         return $default;

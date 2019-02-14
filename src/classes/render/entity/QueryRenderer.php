@@ -18,6 +18,7 @@ abstract class QueryRenderer implements \WPSP\render\entity\EntityRenderer {
             $remotemenu[ $remote->storeid ] = $remote->label;
         }
         $data = array(
+            'label'    => $instance->label,
             'storeid'  => $instance->storeid,
             'remotes'  => $remotemenu,
             'remoteid' => $instance->remoteid,

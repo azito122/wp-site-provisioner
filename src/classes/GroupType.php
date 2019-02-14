@@ -37,13 +37,13 @@ class GroupType {
 
     public function __construct() {
         $userresponse = new UserResponse();
-        $this->userquery = new Query( $userresponse );
+        $this->userquery = new Query( 'User Query', $userresponse );
         $metamappings = array(
             new QueryResponseMapping( 'meta_id', 'id' ),
             new QueryResponseMapping( 'meta_displayname', 'displayname' ),
         );
         $metamap = new QueryResponse( $metamappings );
-        $this->metaquery = new Query( $metamap );
+        $this->metaquery = new Query( 'Meta Query', $metamap );
     }
 
     public function makeGroup( $meta ) {
