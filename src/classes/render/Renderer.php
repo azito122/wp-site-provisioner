@@ -3,6 +3,7 @@
 namespace WPSP\render;
 
 use WPSP\render\TemplateVariables as TemplateVariables;
+use WPSP\render\Writer as Writer;
 
 abstract class Renderer {
 
@@ -108,17 +109,23 @@ abstract class Renderer {
 
         $user = wp_get_current_user();
         $grouptypes = $Store->unstoreGroupTypesByUserRole( $user->roles );
-        $grouptypeblocks = array();
+        $grouptypeblocks = '';
         foreach ( $grouptypes as $grouptype ) {
-            $possiblemetas = [];
+            $possiblemetamenu = [];
             foreach ( $grouptype->generatePossibleMetas() as $possiblemeta ) {
-                $possiblemetas[ $possiblemeta[ 'meta_id' ] ] = $possiblemeta[ 'meta_displayname' ];
+                $possiblemetamenu[ $possiblemeta[ 'meta_id' ] ] = $possiblemeta[ 'meta_displayname' ];
             }
-            array_push( $grouptypeblocks, Renderer::renderTemplate( 'special', 'my-group-type-block', array(
+
+            $possiblemetas = Writer::select( [
+                'name' => 'possible-metas',
+                'options' => $possiblemetamenu,
+            ] );
+
+            $grouptypeblocks .= Renderer::renderTemplate( 'special', 'my-group-type-block', array(
                 'group-type-id' => $grouptype->storeid,
                 'name' => $grouptype->label,
-                'possible-metas' => $possiblemetas,
-            )));
+                'possiblemetasmenu' => $possiblemetas,
+            ));
         }
         return Renderer::renderTemplate( 'page', 'add-group', [
             'group-type-blocks' => $grouptypeblocks,
