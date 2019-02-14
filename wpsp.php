@@ -193,10 +193,12 @@ class SiteProvisioner {
     }
 
     public function page( $name ) {
-        $name = ucwords( $name, '_' );
-        $name = str_replace( '_', '', $name );
+        $fnname = ucwords( $name, '_' );
+        $fnname = str_replace( '_', '', $fnname );
 
-        echo Renderer::{"page$name"}();
+        echo "<div class=\"wpsp-page page-$name\">";
+        echo Renderer::{"page$fnname"}();
+        echo "</div>";
     }
 
     public function page_debug() {

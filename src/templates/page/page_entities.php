@@ -1,4 +1,4 @@
-<div class="wpsp-page page-entities <?php echo strtolower( $D->get( 'entity-type' ) ) ?>">
+<div class="page-entities">
     <h1><?php echo $D->get( 'page-title' ) ?></h1>
     <div class="existing-entities">
         <?php echo $D->get( 'existing-entities' ); ?>
