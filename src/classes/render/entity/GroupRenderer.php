@@ -4,15 +4,15 @@ namespace WPSP\render\entity;
 
 use WPSP\render\Renderer as Renderer;
 use WPSP\Group as Group;
-use WPSP\siteengine\SiteEngineRenderer as SiteEngineRenderer;
+use WPSP\render\entity\SingleSiteEngineRenderer as SingleSiteEngineRenderer;
 
 abstract class GroupRenderer implements \WPSP\render\entity\EntityRenderer {
 
     public static function render( $instance ) {
         $siteengines = $instance->siteengines;
-        $siteenginesrendered = array();
+        $siteenginesrendered = '';
         foreach ( $siteengines as $siteengine ) {
-            array_push( $siteenginesrendered, SiteEngineRenderer::render( $siteengine ) );
+            $siteenginesrendered .= SingleSiteEngineRenderer::render( $siteengine );
         }
 
         $data = array(
@@ -36,7 +36,7 @@ abstract class GroupRenderer implements \WPSP\render\entity\EntityRenderer {
         $object->storeid = $data[ 'storeid' ];
 
         $siteengines = array_map( function( $se ) {
-            return SiteEngineRenderer::derender( $se );
+            return SingleSiteEngineRenderer::derender( $se );
         }, $data[ 'site-engines' ]);
 
         $object->siteengines = $siteengines;

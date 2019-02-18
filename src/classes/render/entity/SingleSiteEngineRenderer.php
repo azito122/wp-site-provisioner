@@ -3,7 +3,7 @@
 namespace WPSP\render\entity;
 
 use WPSP\render\Renderer as Renderer;
-use WPSP\SingleSiteEngine as SingleSiteEngine;
+use WPSP\siteengine\SingleSiteEngine as SingleSiteEngine;
 
 abstract class SingleSiteEngineRenderer implements \WPSP\render\entity\EntityRenderer {
 
@@ -22,9 +22,9 @@ abstract class SingleSiteEngineRenderer implements \WPSP\render\entity\EntityRen
     public static function derender( $data, $type  = '' ) {
         $object = new SingleSiteEngine();
 
-        $object->setConfig( 'title', $data['title'] );
-
-        $object->setConfig( 'tagline', $data[ 'tagline' ] );
+        $object->setConfig( 'path', $data[ 'site-path' ] );
+        $object->setConfig( 'title', $data[ 'site-title' ] );
+        $object->setConfig( 'tagline', $data[ 'site-tagline' ] );
 
         return $object;
     }

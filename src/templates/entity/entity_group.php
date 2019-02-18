@@ -11,8 +11,8 @@
 
     <?php echo $W::hidden( 'meta', $D->get( 'meta' ) ); ?>
 
-    <fieldset class="site-engines-list" name="site-engines" data-type="array" data-array-selector=".entity[entity-type='site-engine']">
-        <?php echo $D->get( 'siteengines' ); ?>
+    <fieldset class="site-engines-list" name="site-engines" data-type="array" data-array-selector=".entity[entity-type*='site-engine']">
+        <?php echo $D->get( 'site-engines' ); ?>
     </fieldset>
 
     <?php echo $W::button('+ Add Site Engine', '', [ 'class' => 'add-button add-site-engine' ] ); ?>

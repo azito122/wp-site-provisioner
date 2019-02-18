@@ -6,7 +6,7 @@ abstract class SiteEngine {
 
     protected $label;
     protected $config;
-    protected $grouptypemeta;
+    protected $grouptypemeta = [];
 
     abstract public function update(UserList $userlist );
 }

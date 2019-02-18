@@ -129,4 +129,8 @@ class SingleSiteEngine extends SiteEngine {
 
         return $cfgval;
     }
+
+    public function setConfig( $cfgkey, $value ) {
+        $this->config[ $cfgkey ] = $value;
+    }
 }
