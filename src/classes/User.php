@@ -10,6 +10,7 @@ class User {
     protected $login;
     protected $firstname;
     protected $lastname;
+    protected $email;
     protected $roles;
 
     public function __construct( $userdata ) {

@@ -4,6 +4,8 @@ namespace WPSP;
 
 class UserList {
 
+    use \WPSP\traits\GetterSetter;
+
     protected $users;
 
     public function __construct( $userdata ) {

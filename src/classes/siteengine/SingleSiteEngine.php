@@ -4,6 +4,7 @@ namespace WPSP\siteengine;
 
 use WPSP\siteengine\SiteEngine as SiteEngine;
 use WPSP\User as User;
+use WPSP\UserList as UserList;
 
 class SingleSiteEngine extends SiteEngine {
 
@@ -40,7 +41,7 @@ class SingleSiteEngine extends SiteEngine {
         if ( empty( $this->siteid ) ) {
             $this->siteid = $this->createSite();
         }
-        $this->updateSite( $userlist, $grouptypemeta );
+        $this->updateSite( $userlist );
     }
 
     public function deleteSite( $id ) {
@@ -48,31 +49,31 @@ class SingleSiteEngine extends SiteEngine {
     }
 
     public function createSite( $siteinfo = array() ) {
-
-        $domain = site_url();
-        $path = array_key_exists( 'path', $siteinfo ) ? $siteinfo[ 'path' ] : $this->resolveSiteProp( 'path' );
-        $title = array_key_exists( 'title', $siteinfo[ 'title' ] ) ? $siteinfo[ 'title' ] : $this->resolveSiteProp( 'title' );
-        $adminuserid = array_key_exists( 'adminuserid', $siteinfo[ 'adminuserid' ] ) ? $siteinfo[ 'adminuserid' ] : $this->resolveOwner()->id;
+        $domain = wp_parse_url( site_url(), PHP_URL_HOST );
+        $path = $this->getConfig( 'path' );
+        $title = $this->getConfig( 'title' );
+        $adminuserid = $this->owner->id;
 
         $siteid = wpmu_create_blog( $domain, $path, $title, $adminuserid );
-        update_blog_option( $siteid, 'blogdescription', $this->resolveSiteProp( 'tagline' ) );
+        update_blog_option( $siteid, 'blogdescription', $this->getConfig( 'tagline' ) );
+        return $siteid;
     }
 
-    public function updateSite( $userlist, $grouptypemeta ) {
-        $this->updateSiteAccess( $userlist->getUsers() );
+    public function updateSite( $userlist ) {
+        // $this->updateSiteAccess( $userlist->getUsers() );
 
         $currenttitle = get_blog_option( $this->siteid, 'blogname' );
-        $updatedtitle = $this->resolveSiteProp( 'title' );
+        $updatedtitle = $this->getConfig( 'title' );
 
         if ( $currenttitle != $updatedtitle ) {
-            set_blog_option( $this->siteid, 'blogname', $this->resolveSiteProp( 'title' ) );
+            update_blog_option( $this->siteid, 'blogname', $updatedtitle );
         }
 
         $currenttagline = get_blog_option( $this->siteid, 'blogdescription' );
-        $updatedtagline = $this->resolveSiteProp( 'tagline' );
+        $updatedtagline = $this->getConfig( 'tagline' );
 
         if ( $currenttagline != $updatedtagline ) {
-            set_blog_option( $this->siteid, 'blogdescription', $this->resolveSiteProp( 'tagline' ) );
+            set_blog_option( $this->siteid, 'blogdescription', $this->getConfig( 'tagline' ) );
         }
     }
 

@@ -98,6 +98,11 @@ abstract class Renderer {
 
         $groupids = $Store->unstoreUserGroupIds();
         $mygroups = $Store->unstoreEntity( 'Group' );
+        // $userlist = new \WPSP\UserList( $mygroups[0]->loadUsers() );
+        // var_dump($mygroups[0]->siteengines[0]->siteid);
+        // $mygroups[0]->siteengines[0]->update( $userlist );
+        // var_dump($mygroups[0]->siteengines[0]->siteid);
+        // $Store->storeEntity($mygroups[0]);
         return Renderer::renderTemplate( 'page', 'entities', array(
             'existing-entities' => Renderer::renderEntity( $mygroups ),
             'entity-type'       => 'group',
