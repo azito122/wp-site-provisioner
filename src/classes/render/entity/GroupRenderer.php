@@ -18,7 +18,8 @@ abstract class GroupRenderer implements \WPSP\render\entity\EntityRenderer {
         $data = array(
             'storeid'       => $instance->storeid,
             'label'         => $instance->label,
-            // 'meta'          => json_encode( $instance->loadMeta() ),
+            'queryid'       => $instance->queryid,
+            'meta'          => urlencode( json_encode( $instance->meta ) ),
             'site-engines'  => $siteenginesrendered,
         );
 
@@ -34,6 +35,8 @@ abstract class GroupRenderer implements \WPSP\render\entity\EntityRenderer {
 
         $object->label = $data[ 'label' ];
         $object->storeid = $data[ 'storeid' ];
+        $object->queryid = $data[ 'queryid' ];
+        $object->meta = (array) json_decode( urldecode( $data[ 'meta' ] ) );
 
         $siteengines = array_map( function( $se ) {
             return SingleSiteEngineRenderer::derender( $se );
