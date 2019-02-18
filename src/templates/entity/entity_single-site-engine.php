@@ -1,4 +1,4 @@
-<div class="entity form-block" entity-type="site-engine">
+<div class="entity form-block" entity-type="single-site-engine">
     <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ); ?>
 
     <?php echo $W::textinput( array(

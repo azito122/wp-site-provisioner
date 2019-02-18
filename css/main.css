@@ -50,20 +50,26 @@
   .wpsp-page input.label-input:not(:focus) {
     background: none; }
 .wpsp-page .entity[entity-type=remote] {
-  border-left: 10px solid purple; }
+  border-left: 10px solid red; }
   .wpsp-page .entity[entity-type=remote] .label-input {
     margin: 1rem;
     font-size: 2.5rem; }
 .wpsp-page .entity[entity-type=group-type] {
-  border-left: 10px solid green; }
+  border-left: 10px solid blue; }
   .wpsp-page .entity[entity-type=group-type] .label-input {
     margin: 1rem;
     font-size: 2.5rem; }
   .wpsp-page .entity[entity-type=group-type] fieldset[name=meta-query] > .entity {
-    border-left: 10px solid red; }
+    border-left: 10px solid green; }
   .wpsp-page .entity[entity-type=group-type] fieldset[name=user-query] > .entity {
-    border-left: 10px solid darkred; }
+    border-left: 10px solid chartreuse; }
 .wpsp-page .entity[entity-type=query-params] {
-  border-left: 10px solid violet; }
+  border-left: 10px solid purple; }
 .wpsp-page .entity[entity-type=query-response-map] {
-  border-left: 10px solid brown; }
+  border-left: 10px solid violet; }
+.wpsp-page .entity[entity-type=group] {
+  border-left: 10px solid darkblue; }
+.wpsp-page .entity[entity-type=single-site-engine] {
+  border-left: 10px solid skyblue; }
+.wpsp-page .entity[entity-type=multi-site-engine] {
+  border-left: 10px solid skyblue; }

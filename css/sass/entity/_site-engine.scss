@@ -1,0 +1,7 @@
+@include entity-type(single-site-engine) {
+    @include colorbar($color-site-engine);
+}
+
+@include entity-type(multi-site-engine) {
+    @include colorbar($color-site-engine);
+}

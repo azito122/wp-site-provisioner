@@ -2,6 +2,16 @@
 
 $colorbar-thickness: 10px;
 
+body:not(.wp-admin) .wpsp-page * {
+  // font-weight: initial ;
+  // font-size: initial;
+  // border: initial;
+  // margin: initial;
+  // padding: initial;
+  // display: initial;
+  // position: initial;
+}
+
 @mixin entity-type($type) {
   .entity[entity-type=#{$type}] {
     @content;
@@ -70,4 +80,6 @@ $colorbar-thickness: 10px;
   @import 'entity/query';
   @import 'entity/query-params';
   @import 'entity/query-response-map';
+  @import 'entity/group';
+  @import 'entity/site-engine';
 }
