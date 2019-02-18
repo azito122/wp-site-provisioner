@@ -8,7 +8,7 @@
     ) ); ?>
 
     <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ); ?>
-
+    <?php echo $W::hidden( 'queryid', $D->get( 'queryid' ) ); ?>
     <?php echo $W::hidden( 'meta', $D->get( 'meta' ) ); ?>
 
     <fieldset class="site-engines-list" name="site-engines" data-type="array" data-array-selector=".entity[entity-type*='site-engine']">

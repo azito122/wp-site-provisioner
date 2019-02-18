@@ -28,4 +28,12 @@ class QueryParams {
             return $this->newParam();
         }
     }
+
+    public function getArray() {
+        $result = [];
+        foreach ( $this->params as $param ) {
+            $result[ $param->key ] = $param->value;
+        }
+        return $result;
+    }
 }

@@ -14,7 +14,7 @@ class Query {
     protected $label;
     protected $remoteid;
     protected $extrapath;
-    protected $params = array();
+    protected $params;
     protected $responsemap;
 
     protected $remote;
@@ -72,10 +72,10 @@ class Query {
         return $normalized;
     }
 
-    private function resolve( $string ) {
+    public function resolve( $string ) {
         $matches = array();
-        if ( preg_match( '/.*\{(.*?)\}.*/', $string, $matches ) ) {
-            foreach ( $matches as $match ) {
+        if ( preg_match_all( '/\{(.*?)\}/', $string, $matches ) ) {
+            foreach ( $matches[1] as $match ) {
                 if ( array_key_exists( $match, $this->data ) ) {
                     $string = preg_replace( "/\{$match\}/", $this->data[ $match ], $string );
                 }
@@ -85,11 +85,10 @@ class Query {
         return $string;
     }
 
-    private function getParamsArray() {
-        $params = array();
-        foreach ( $this->params as $param ) {
-            $params[ $param->key ] = $this->resolve( $param->value );
-            // array_merge( $params, $this->getParam( $id ) );
+    public function getParamsArray() {
+        $params = $this->params->getArray();
+        foreach ( $params as $key => $value ) {
+            $params[ $key ] = $this->resolve( $value );
         }
         return $params;
     }
