@@ -29,6 +29,4 @@
         'default'       => $D->get( 'site-tagline', '' ),
         'placeholder'   => 'Site Tagline',
     ] ); ?>
-
-    <button class="save button">Save</button>
 </div>
