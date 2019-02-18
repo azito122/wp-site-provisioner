@@ -8,11 +8,13 @@ use WPSP\SingleSiteEngine as SingleSiteEngine;
 abstract class SingleSiteEngineRenderer implements \WPSP\render\entity\EntityRenderer {
 
     public static function render( $instance ) {
-        $sitetitle = $instance->getConfig( 'title', false );
-        $sitetagline = $instance->getConfig( 'tagline', false );
+        $siteid = $instance->siteid;
+        $siteurl = $siteid ? get_blog_details($siteid)->siteurl : '';
         $data = array(
-            'site-title'   => $sitetitle,
-            'site-tagline' => $sitetagline,
+            'site-url'     => $siteurl,
+            'site-path'    => $instance->getConfig( 'path', false ),
+            'site-title'   => $instance->getConfig( 'title', false ),
+            'site-tagline' => $instance->getConfig( 'tagline', false ),
         );
         return Renderer::renderTemplate( 'entity', 'single-site-engine', $data );
     }

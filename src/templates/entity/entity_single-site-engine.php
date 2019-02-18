@@ -12,5 +12,23 @@
 
     <span><?php echo $D->get( 'owner', '(no owner)' ); ?></span>
 
+    <?php echo $W::textinput( [
+        'name'          => 'site-path',
+        'default'       => $D->get( 'site-path', '' ),
+        'placeholder'   => 'Site Path',
+    ] ); ?>
+
+    <?php echo $W::textinput( [
+        'name'          => 'site-title',
+        'default'       => $D->get( 'site-title', '' ),
+        'placeholder'   => 'Site Title',
+    ] ); ?>
+
+    <?php echo $W::textinput( [
+        'name'          => 'site-tagline',
+        'default'       => $D->get( 'site-tagline', '' ),
+        'placeholder'   => 'Site Tagline',
+    ] ); ?>
+
     <button class="save button">Save</button>
 </div>

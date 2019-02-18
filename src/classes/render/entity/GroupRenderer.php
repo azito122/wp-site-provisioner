@@ -32,13 +32,15 @@ abstract class GroupRenderer implements \WPSP\render\entity\EntityRenderer {
 
         $object = new Group();
 
+        $object->label = $data[ 'label' ];
+        $object->storeid = $data[ 'storeid' ];
+
         $siteengines = array_map( function( $se ) {
             return SiteEngineRenderer::derender( $se );
         }, $data[ 'site-engines' ]);
 
         $object->siteengines = $siteengines;
 
-        $object->storeid = $data[ 'storeid' ];
         return $object;
     }
 

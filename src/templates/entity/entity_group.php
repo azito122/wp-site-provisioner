@@ -1,5 +1,11 @@
 <div class="entity form-block" entity-type="group">
-    <h2><?php echo $D->get( 'label', 'Unlabeled Group' ); ?></h2>
+    <?php echo $W::textinput( array(
+        'name'        => 'label',
+        'default'     => $D->get( 'label' ),
+        'placeholder' =>'Label',
+        'required'    => true,
+        'class'       => 'label-input'
+    ) ); ?>
 
     <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ); ?>
 

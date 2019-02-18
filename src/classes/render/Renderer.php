@@ -97,7 +97,7 @@ abstract class Renderer {
         }
 
         $groupids = $Store->unstoreUserGroupIds();
-        $mygroups = $Store->unstoreEntity( 'Group', $groupids );
+        $mygroups = $Store->unstoreEntity( 'Group' );
         return Renderer::renderTemplate( 'page', 'entities', array(
             'existing-entities' => Renderer::renderEntity( $mygroups ),
             'entity-type'       => 'group',

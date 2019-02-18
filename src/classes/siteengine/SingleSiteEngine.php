@@ -6,6 +6,8 @@ use WPSP\siteengine\SiteEngine as SiteEngine;
 
 class SingleSiteEngine extends SiteEngine {
 
+    use \WPSP\traits\GetterSetter;
+
     protected $siteid;
     protected $owner;
     protected $config = array(
@@ -106,20 +108,21 @@ class SingleSiteEngine extends SiteEngine {
         return $users[0];
     }
 
-    public function getConfig( $cfgkey ) {
+    public function getConfig( $cfgkey, $resolve = true ) {
         $flagdata = $this->getFlagData();
 
-        if ( ! array_key_exists( $cfgkey, $this->siteprops ) ) {
+        if ( ! array_key_exists( $cfgkey, $this->config ) ) {
             return null;
         }
 
-        $cfgval = $this->siteprops[ $cfgkey ];
+        $cfgval = $this->config[ $cfgkey ];
 
-        $matches = array();
-        if ( preg_match( '/.*{([a-zA-Z0-9_]*)}.*/', $cfgval, $matches ) ) {
-            foreach ( $matches as $flag ) {
-                if ( array_key_exists( $flag, $flagdata ) ) {
-                    $cfgval = preg_replace( "/{$flag}/", $flagdata[ $flag ], $cfgval );
+        if ( $resolve ) {
+            $matches = array();
+            if ( preg_match_all( '/\{([a-zA-Z0-9_]*)\}/', $cfgval, $matches ) ) {
+                foreach ( $matches[1] as $flag ) {
+                    $replace = isset( $flagdata[ $flag ] ) ? $flagdata[ $flag ] : '';
+                    $cfgval = preg_replace( "/\{$flag\}/", $replace, $cfgval );
                 }
             }
         }
