@@ -7,6 +7,10 @@
   padding: 1rem;
   margin: 0.5rem;
   background: rgba(255, 255, 255, 0.856); }
+.wpsp-page.page-my_groups .entity[entity-type=group] {
+  display: block; }
+.wpsp-page.page-my_groups .entity[entity-type=single-site-engine] {
+  display: block; }
 .wpsp-page fieldset {
   display: inline-block;
   display: contents;

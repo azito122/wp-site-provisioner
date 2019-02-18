@@ -73,6 +73,18 @@ body:not(.wp-admin) .wpsp-page * {
     @include block();
   }
 
+  &.page-my_groups {
+
+    @include entity-type(group) {
+      display: block;
+    }
+
+    @include entity-type(single-site-engine) {
+      display: block;
+    }
+
+  }
+
   @import 'form-elements';
   // @import 'entity';
   @import 'entity/remote';
