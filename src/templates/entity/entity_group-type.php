@@ -1,4 +1,5 @@
 <div class="entity form-block" entity-type="group-type">
+    <span class="entity-type-label">Group Type</span>
     <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ); ?>
 
     <?php echo $W::textinput( array(

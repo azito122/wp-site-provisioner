@@ -20,6 +20,18 @@ label {
     font-weight: bold;
 }
 
+.entity-type-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 5px 10px;
+    letter-spacing: 3px;
+    color: rgb(190, 190, 190);
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
 button.loading {
     background: lightgrey !important;
     cursor: wait;

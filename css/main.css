@@ -24,6 +24,16 @@
 .wpsp-page label {
   margin-right: 0.5rem;
   font-weight: bold; }
+.wpsp-page .entity-type-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 5px 10px;
+  letter-spacing: 3px;
+  color: #bebebe;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 1.2rem; }
 .wpsp-page button.loading {
   background: lightgrey !important;
   cursor: wait; }

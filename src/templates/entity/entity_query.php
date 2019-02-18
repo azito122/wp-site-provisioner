@@ -1,4 +1,5 @@
 <div class="entity form-block" entity-type="query">
+    <span class="entity-type-label">Query</span>
     <h2 class="entity-label"><?php echo $D->get( 'label', 'Query' ) ?></h2>
 
     <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ); ?>

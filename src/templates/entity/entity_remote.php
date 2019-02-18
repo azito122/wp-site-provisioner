@@ -1,4 +1,5 @@
 <div class="entity form-block" entity-type="remote">
+    <span class="entity-type-label">Remote</span>
     <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ) ?>
 
     <?php echo $W::textinput( array(

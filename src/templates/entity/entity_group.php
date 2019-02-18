@@ -1,4 +1,6 @@
 <div class="entity form-block" entity-type="group">
+    <span class="entity-type-label">Group</span>
+
     <?php echo $W::textinput( array(
         'name'        => 'label',
         'default'     => $D->get( 'label' ),
