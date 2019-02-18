@@ -22,6 +22,7 @@ WPSP.renderEntity = function(entitytype, selector, id) {
             rendertype: 'entity',
         },
         success: function(response, status) {
+            console.log(response);
             if(status == 'success') {
                 $(selector).append(response);
             }

@@ -4,11 +4,9 @@ namespace WPSP\siteengine;
 
 abstract class SiteEngine {
 
+    protected $label;
     protected $config;
-
-    public function deleteSite( $id ) {
-        return wpmu_delete_blog( $id, true );
-    }
+    protected $grouptypemeta;
 
     abstract public function update(UserList $userlist );
 }

@@ -35,7 +35,11 @@ $(document).ready(function() {
         WPSP.renderEntity('QueryResponseMapping', $(e.target).parent().children('.mappings-list') );
     })
 
-    $(document).on( 'click', '.page-entities .add-button', function( e ) {
+    $(document).on( 'click', '.entity[entity-type="group"] .add-button', function( e ) {
+        WPSP.renderEntity('SingleSiteEngine', $(e.target).parents('.entity').children('.site-engines-list') );
+    })
+
+    $(document).on( 'click', '.page-entities .add-button[entity-type]', function( e ) {
         if ( $('.new-entity').has('.entity').length > 0 ) {
             return;
         }

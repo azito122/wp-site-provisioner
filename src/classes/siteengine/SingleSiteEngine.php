@@ -8,26 +8,25 @@ class SingleSiteEngine extends SiteEngine {
 
     protected $siteid;
     protected $owner;
-    protected $grouptypemeta;
-    protected $siteprops = array(
+    protected $config = array(
         'path'    => '',
         'title'   => '{owner_firstname} {owner_lastname}\'s Site',
         'tagline' => '',
     );
-    protected $config;
 
     protected $users;
 
     public function __sleep() {
         return array(
+            'label',
             'siteid',
             'owner',
-            'siteprops',
-            'config'
+            'config',
+            'grouptypemeta'
         );
     }
 
-    public function __construct( $initialusers, $ownerid = null ) {
+    public function __construct( $initialusers = null, $ownerid = null ) {
         if ( isset( $ownerid ) ) {
             $this->setOwner( $initialusers->findById( $ownerid ) );
         }
@@ -40,6 +39,10 @@ class SingleSiteEngine extends SiteEngine {
             $this->siteid = $this->createSite();
         }
         $this->updateSite( $userlist, $grouptypemeta );
+    }
+
+    public function deleteSite( $id ) {
+        return wpmu_delete_blog( $id, true );
     }
 
     public function createSite( $siteinfo = array() ) {
@@ -103,7 +106,7 @@ class SingleSiteEngine extends SiteEngine {
         return $users[0];
     }
 
-    public function resolveSiteProp( $cfgkey ) {
+    public function getConfig( $cfgkey ) {
         $flagdata = $this->getFlagData();
 
         if ( ! array_key_exists( $cfgkey, $this->siteprops ) ) {
