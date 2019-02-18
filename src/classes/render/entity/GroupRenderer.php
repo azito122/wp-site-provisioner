@@ -11,8 +11,10 @@ abstract class GroupRenderer implements \WPSP\render\entity\EntityRenderer {
     public static function render( $instance ) {
         $siteengines = $instance->siteengines;
         $siteenginesrendered = '';
-        foreach ( $siteengines as $siteengine ) {
-            $siteenginesrendered .= SingleSiteEngineRenderer::render( $siteengine );
+        if ( $siteengines ) {
+            foreach ( $siteengines as $siteengine ) {
+                $siteenginesrendered .= SingleSiteEngineRenderer::render( $siteengine );
+            }
         }
 
         $data = array(
