@@ -3,6 +3,7 @@
 namespace WPSP\siteengine;
 
 use WPSP\siteengine\SiteEngine as SiteEngine;
+use WPSP\User as User;
 
 class SingleSiteEngine extends SiteEngine {
 
@@ -28,10 +29,9 @@ class SingleSiteEngine extends SiteEngine {
         );
     }
 
-    public function __construct( $initialusers = null, $ownerid = null ) {
-        if ( isset( $ownerid ) ) {
-            $this->setOwner( $initialusers->findById( $ownerid ) );
-        }
+    public function __construct( $ownerid = null ) {
+        $owner = isset( $ownerid ) ? wp_get_user_by( 'ID', $ownerid ) : wp_get_current_user();
+        $this->owner = new User( $owner->data );
     }
 
     public function update( UserList $userlist ) {
@@ -88,10 +88,10 @@ class SingleSiteEngine extends SiteEngine {
     public function getOwnerData() {
         if ( $o = $this->owner ) {
             return array(
-                'owner_id'        => $o->getId(),
-                'owner_login'     => $o->getLogin(),
-                'owner_firstname' => $o->getFirstname(),
-                'owner_lastname'  => $o->getLastname(),
+                'owner_id'        => $o->id,
+                'owner_login'     => $o->login,
+                'owner_firstname' => $o->firstname,
+                'owner_lastname'  => $o->lastname,
                 'owner_fullname'  => $o->getFullname(),
             );
         }

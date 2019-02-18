@@ -11,7 +11,7 @@
 
     <a href="<?php echo $D->get( 'site-url' ); ?>"><?php echo $D->get( 'site-url', '(no site yet)' ); ?></a>
 
-    <span><?php echo $D->get( 'owner', '(no owner)' ); ?></span>
+    <span>Owner: <?php echo $D->get( 'owner_login', '(no owner)' ); ?></span>
 
     <?php echo $W::textinput( [
         'name'          => 'site-path',

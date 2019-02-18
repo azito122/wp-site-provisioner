@@ -46,7 +46,8 @@ class GroupType {
         $this->metaquery = new Query( 'Meta Query', $metamap );
     }
 
-    public function makeGroup( $meta ) {
+    public function makeGroup( $meta, $user = null ) {
+        $user = isset( $user ) ? $user : wp_get_current_user();
         $group = new Group( $meta, $this->userqueryid );
         return $group;
     }

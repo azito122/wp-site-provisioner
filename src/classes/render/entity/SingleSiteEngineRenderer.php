@@ -11,6 +11,7 @@ abstract class SingleSiteEngineRenderer implements \WPSP\render\entity\EntityRen
         $siteid = $instance->siteid;
         $siteurl = $siteid ? get_blog_details($siteid)->siteurl : '';
         $data = array(
+            'owner_login'  => $instance->owner->login,
             'site-url'     => $siteurl,
             'site-path'    => $instance->getConfig( 'path', false ),
             'site-title'   => $instance->getConfig( 'title', false ),
