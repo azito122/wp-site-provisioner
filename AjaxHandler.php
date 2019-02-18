@@ -44,7 +44,7 @@ abstract class AjaxHandler {
         header('Content-Type: application/json');
 
         $type = Renderer::classnameFrontToBack( $_REQUEST[ 'type' ] );
-        $data = $_REQUEST[ 'data' ];
+        $data = json_decode(stripslashes($_REQUEST[ 'data' ]), true);
 
         $derendered = Renderer::derenderEntity( $data, $type );
 

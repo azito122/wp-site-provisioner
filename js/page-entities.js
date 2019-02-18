@@ -16,10 +16,10 @@ $(document).ready(function() {
             }
         } else {
             callback = function(response, status) {
+                console.log(response);
                 rerenderel = WPSP.rerendermap[response['rerenderid']];
                 $(rerenderel).replaceWith(response['rerendered']);
                 $(element).removeClass('loading');
-                console.log(response);
             }
         }
 

@@ -12,7 +12,7 @@ class SingleSiteEngine extends SiteEngine {
     protected $owner;
     protected $config = array(
         'path'    => '',
-        'title'   => '{owner_firstname} {owner_lastname}\'s Site',
+        'title'   => "{owner_firstname} {owner_lastname}'s Site",
         'tagline' => '',
     );
 

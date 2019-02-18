@@ -48,7 +48,13 @@ WPSP.storeEntity = function(element, callback = function(){}, rerender = true) {
     $.ajax({
         type: 'post',
         url: WPSP_AJAX.ajaxurl,
-        data: {type: $(element).attr('entity-type'), action: 'wpsp_store', data: derendered, rerenderid: rerenderid},
+        // dataType: "JSON",
+        data: {
+            type: $(element).attr('entity-type'),
+            action: 'wpsp_store',
+            data: JSON.stringify(derendered),
+            rerenderid: rerenderid
+        },
         success: callback,
         error: function(xhr, status, error) {
             console.log(xhr, status, error);
