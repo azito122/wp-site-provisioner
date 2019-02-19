@@ -102,7 +102,7 @@ abstract class Renderer {
         // var_dump($mygroups[0]->siteengines[0]->siteid);
         // $mygroups[0]->siteengines[0]->update( $userlist );
         // var_dump($mygroups[0]->siteengines[0]->siteid);
-        // $Store->storeEntity($mygroups[0]);
+        // Renderer::derenderEntity($Store->storeEntity($mygroups[0]));
         return Renderer::renderTemplate( 'page', 'entities', array(
             'existing-entities' => Renderer::renderEntity( $mygroups ),
             'entity-type'       => 'group',

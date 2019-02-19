@@ -5,7 +5,9 @@ namespace WPSP\render\entity;
 use WPSP\render\Renderer as Renderer;
 use WPSP\siteengine\SingleSiteEngine as SingleSiteEngine;
 
-abstract class SingleSiteEngineRenderer implements \WPSP\render\entity\EntityRenderer {
+abstract class SingleSiteEngineRenderer extends \WPSP\render\entity\EntityRenderer {
+
+    protected static $type = 'SingleSiteEngine';
 
     public static function render( $instance ) {
         $siteid = $instance->siteid;
@@ -21,7 +23,7 @@ abstract class SingleSiteEngineRenderer implements \WPSP\render\entity\EntityRen
     }
 
     public static function derender( $data, $type  = '' ) {
-        $object = new SingleSiteEngine();
+        $object = self::getBaseObject( $data );
 
         $object->setConfig( 'path', $data[ 'site-path' ] );
         $object->setConfig( 'title', $data[ 'site-title' ] );

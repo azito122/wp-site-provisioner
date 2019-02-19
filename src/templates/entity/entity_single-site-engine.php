@@ -1,6 +1,5 @@
 <div class="entity form-block" entity-type="single-site-engine">
     <span class="entity-type-label">Site Engine</span>
-    <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ); ?>
 
     <?php echo $W::textinput( array(
         'name'        => 'label',

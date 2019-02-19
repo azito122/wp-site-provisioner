@@ -3,10 +3,11 @@
 namespace WPSP\render\entity;
 
 use WPSP\render\Renderer as Renderer;
-use WPSP\Group as Group;
 use WPSP\render\entity\SingleSiteEngineRenderer as SingleSiteEngineRenderer;
 
-abstract class GroupRenderer implements \WPSP\render\entity\EntityRenderer {
+abstract class GroupRenderer extends \WPSP\render\entity\EntityRenderer {
+
+    protected static $type = 'Group';
 
     public static function render( $instance ) {
         $siteengines = $instance->siteengines;
@@ -33,7 +34,7 @@ abstract class GroupRenderer implements \WPSP\render\entity\EntityRenderer {
             return false;
         }
 
-        $object = new Group();
+        $object = self::getBaseObject( $data );
 
         $object->label = $data[ 'label' ];
         $object->storeid = $data[ 'storeid' ];
