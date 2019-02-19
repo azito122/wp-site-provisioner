@@ -32,9 +32,9 @@ class Group {
         $this->query = $Store->unstoreEntity( 'Query', $this->queryid );
     }
 
-    public function __construct( $meta, $queryid ) {
+    public function __construct( $meta = null, $queryid = null ) {
         $this->meta = $meta;
-        $this->label = $meta['meta_displayname'];
+        $this->label = isset( $meta[ 'meta_displayname' ] ) ? $meta[ 'meta_displayname' ] : '';
         $this->queryid = $queryid;
         $this->siteengines = array();
     }

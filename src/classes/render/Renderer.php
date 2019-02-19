@@ -98,6 +98,7 @@ abstract class Renderer {
 
         $groupids = $Store->unstoreUserGroupIds();
         $mygroups = $Store->unstoreEntity( 'Group' );
+        // print_r(\WPSP\render\entity\GroupRenderer::getBaseObject( [] ));
         // $userlist = new \WPSP\UserList( $mygroups[0]->loadUsers() );
         // var_dump($mygroups[0]->siteengines[0]->siteid);
         // $mygroups[0]->siteengines[0]->update( $userlist );
