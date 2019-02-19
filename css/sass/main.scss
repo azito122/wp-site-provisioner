@@ -18,9 +18,16 @@ body:not(.wp-admin) .wpsp-page * {
   }
 }
 
+@mixin entity-types($types) {
+  @each $type in $types {
+    @include entity-type($type) {
+      @content;
+    }
+  }
+}
+
 @mixin block() {
-  display: inline-block;
-  border: 1px solid black;
+  border: 1px solid #bdbdbd;
   border-radius: 5px;
   padding: 1rem;
   margin: 0.5rem;

@@ -7,7 +7,7 @@
         'default'     => $D->get( 'label' ),
         'placeholder' =>'Label',
         'required'    => true,
-        'class'       => 'label-input'
+        'class'       => 'entity-label label-input'
     ) ); ?>
 
     <fieldset name="meta-query" data-type="subentity">

@@ -1,8 +1,7 @@
 .wpsp-page * {
   position: relative; }
 .wpsp-page .form-block {
-  display: inline-block;
-  border: 1px solid black;
+  border: 1px solid #bdbdbd;
   border-radius: 5px;
   padding: 1rem;
   margin: 0.5rem;
@@ -19,18 +18,30 @@
   margin: 0;
   min-width: 0; }
 .wpsp-page .form-wrapper {
-  display: content;
-  margin: 1.5rem 0.5rem; }
-.wpsp-page label {
-  margin-right: 0.5rem;
-  font-weight: bold; }
+  display: flex;
+  flex-flow: row nowrap;
+  align-content: stretch;
+  align-items: center;
+  margin: 1rem 0.5rem; }
+  .wpsp-page .form-wrapper label {
+    font-size: 1.15rem;
+    margin-right: 0.7rem;
+    font-weight: bold; }
+  .wpsp-page .form-wrapper input {
+    flex: 1; }
+.wpsp-page .entity .entity-label {
+  font-size: 2rem; }
+.wpsp-page .entity .entity .entity-label {
+  font-size: 1.5rem; }
+.wpsp-page .entity .entity .entity .entity-label {
+  font-size: 1rem; }
 .wpsp-page .entity-type-label {
   position: absolute;
   top: 0;
   left: 0;
   padding: 5px 10px;
   letter-spacing: 3px;
-  color: #bebebe;
+  color: #d1d1d1;
   text-transform: uppercase;
   font-weight: 600;
   font-size: 1.2rem; }
@@ -38,7 +49,12 @@
   background: lightgrey !important;
   cursor: wait; }
 .wpsp-page .devalidated {
-  border-color: red !important; }
+  transition: border-color .5s;
+  animation: blink .25s linear 5 alternate;
+  animation-fill-mode: forwards; }
+@keyframes blink {
+  to {
+    border-color: red; } }
 .wpsp-page .key-val-block-wrapper {
   display: grid;
   grid-template-columns: 5% auto;
@@ -73,10 +89,16 @@
   .wpsp-page .entity[entity-type=group-type] .label-input {
     margin: 1rem;
     font-size: 2.5rem; }
+  .wpsp-page .entity[entity-type=group-type] .entity[entity-type=query] {
+    display: block; }
   .wpsp-page .entity[entity-type=group-type] fieldset[name=meta-query] > .entity {
     border-left: 10px solid green; }
   .wpsp-page .entity[entity-type=group-type] fieldset[name=user-query] > .entity {
     border-left: 10px solid chartreuse; }
+.wpsp-page .entity[entity-type=query] .entity[entity-type=query-params] {
+  display: block; }
+.wpsp-page .entity[entity-type=query] .entity[entity-type=query-response-map] {
+  display: block; }
 .wpsp-page .entity[entity-type=query-params] {
   border-left: 10px solid purple; }
 .wpsp-page .entity[entity-type=query-response-map] {

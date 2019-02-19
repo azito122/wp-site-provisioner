@@ -6,7 +6,7 @@
         'name'        => 'label',
         'default'     => $D->get( 'label', 'A New Site Engine' ),
         'placeholder' => 'Label',
-        'class'       => 'label-input'
+        'class'       => 'entity-label label-input'
     ) ); ?>
 
     <a href="<?php echo $D->get( 'site-url' ); ?>"><?php echo $D->get( 'site-url', '(no site yet)' ); ?></a>

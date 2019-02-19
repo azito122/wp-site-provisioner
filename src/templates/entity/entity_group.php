@@ -6,7 +6,7 @@
         'default'     => $D->get( 'label' ),
         'placeholder' =>'Label',
         'required'    => true,
-        'class'       => 'label-input'
+        'class'       => 'entity-label label-input'
     ) ); ?>
 
     <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ); ?>

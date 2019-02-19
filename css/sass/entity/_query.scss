@@ -1,4 +1,5 @@
-.entity[entity-type=query] {
-
-    // @include colorbar($color-query);
+@include entity-type(query) {
+    @include entity-types((query-params,query-response-map)) {
+        display: block;
+    }
 }

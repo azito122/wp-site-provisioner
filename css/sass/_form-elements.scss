@@ -11,13 +11,33 @@ fieldset {
 }
 
 .form-wrapper {
-    display: content;
-    margin: 1.5rem 0.5rem;
+    display: flex;
+    flex-flow: row nowrap;
+    align-content: stretch;
+    align-items: center;
+    margin: 1rem 0.5rem;
+
+    label {
+        font-size: 1.15rem;
+        margin-right: 0.7rem;
+        font-weight: bold;
+    }
+
+    input {
+        flex: 1;
+    }
 }
 
-label {
-    margin-right: 0.5rem;
-    font-weight: bold;
+.entity .entity-label {
+    font-size: 2rem;
+}
+
+.entity .entity .entity-label {
+    font-size: 1.5rem;
+}
+
+.entity .entity .entity .entity-label {
+    font-size: 1rem;
 }
 
 .entity-type-label {
@@ -26,7 +46,7 @@ label {
     left: 0;
     padding: 5px 10px;
     letter-spacing: 3px;
-    color: rgb(190, 190, 190);
+    color: rgb(209, 209, 209);
     text-transform: uppercase;
     font-weight: 600;
     font-size: 1.2rem;
@@ -38,7 +58,15 @@ button.loading {
 }
 
 .devalidated {
-    border-color: red !important;
+    @keyframes blink {
+        to {
+            border-color: red;
+        }
+    }
+
+    transition: border-color .5s;
+    animation: blink .25s linear 5 alternate;
+    animation-fill-mode: forwards;
 }
 
 .key-val-block-wrapper {
