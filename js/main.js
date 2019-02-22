@@ -10,6 +10,51 @@ WPSP = {};
 
 WPSP.rerendermap = {};
 
+WPSP.ajax = function(args) {
+    let defaultargs = {
+        type: 'post',
+        url: WPSP_AJAX.ajaxurl,
+    }
+    $.ajax( Object.assign(defaultargs, args) );
+}
+
+WPSP.rerender = function(rerenderid, rerendered) {
+    rerenderel = WPSP.rerendermap[rerenderid];
+    $(rerenderel).replaceWith(rerendered);
+}
+
+WPSP.alterEntity = function(entity, action, extra) {
+    let entitytype = WPSP.getEntityType(entity);
+    let derendered = WPSP.derender(entity);
+    let rerenderid = Math.random();
+    WPSP.rerendermap[rerenderid] = entity;
+
+    let ajaxargs = {
+        data: {
+            rerenderid: rerenderid,
+        },
+    };
+
+    if ( action == 'addSubEntity' ) {
+        let subentitytype = extra;
+        if ( subentitytype == 'SingleSiteEngine' && entitytype == 'group' ) {
+            ajaxargs.data.action = 'wpsp_addsinglesiteengine';
+        }
+    }
+
+    ajaxargs.data.data = JSON.stringify(derendered);
+    Object.assign(ajaxargs, {
+        success: function(response, status) {
+            console.log(response);
+            if (status == 'success' && response && response['rerendered']) {
+                WPSP.rerender(response['rerenderid'], response['rerendered']);
+            }
+        }
+    });
+
+    WPSP.ajax(ajaxargs);
+}
+
 WPSP.renderEntity = function(entitytype, selector, id) {
     $.ajax({
         type: 'post',
@@ -74,10 +119,6 @@ WPSP.makeGroup = function(grouptypeid, metaid) {
             console.log(response);
         }
     })
-}
-
-WPSP.store = function( derendered, callback = function(){}, rerender ) {
-
 }
 
 WPSP.validate = function(element) {
@@ -147,6 +188,10 @@ WPSP.derender = function(html) {
         }
     })
     return result;
+}
+
+WPSP.getEntityType = function(entity) {
+    return $(entity).attr('entity-type');
 }
 
 WPSP.getElementByStoreId = function(id) {

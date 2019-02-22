@@ -36,7 +36,7 @@ $(document).ready(function() {
     })
 
     $(document).on( 'click', '.entity[entity-type="group"] .add-button', function( e ) {
-        WPSP.renderEntity('SingleSiteEngine', $(e.target).parents('.entity').children('.site-engines-list') );
+        WPSP.alterEntity($(e.target).parents('.entity'), 'addSubEntity', 'SingleSiteEngine');
     })
 
     $(document).on( 'click', '.page-entities .add-button[entity-type]', function( e ) {

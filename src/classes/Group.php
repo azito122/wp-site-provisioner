@@ -57,6 +57,12 @@ class Group {
         $this->siteengines[] = $newse;
     }
 
+    public function addSingleSiteEngine( $siteengine = null ) {
+        $siteengine = $siteengine ? $siteengine : new SingleSiteEngine();
+        array_push( $this->siteengines, $siteengine );
+        return $siteengine;
+    }
+
     public function loadUsers() {
         return $this->query->run( $this->meta );
     }

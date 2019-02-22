@@ -5,7 +5,7 @@ namespace WPSP;
 use \WPSP\render\Renderer as Renderer;
 
 abstract class AjaxHandler {
-    public static function makegroup() {
+    public static function makeGroup() {
         global $Store;
 
         $grouptypeid = $_REQUEST[ 'grouptypeid' ];
@@ -58,6 +58,28 @@ abstract class AjaxHandler {
         $return = array(
             'id' => $stored['id'],
         );
+
+        $rerenderid = $_REQUEST[ 'rerenderid' ];
+
+        if ( ! empty( $rerenderid ) ) {
+            $return[ 'rerenderid' ] = $rerenderid;
+            $return[ 'rerendered' ] = Renderer::renderEntity( $object );
+        }
+        echo json_encode( $return );
+
+        die();
+    }
+
+    public static function addSingleSiteEngine() {
+        global $Store;
+
+        header( 'Content-Type: application/json' );
+
+        $data = json_decode(stripslashes($_REQUEST[ 'data' ]), true);
+
+        $object = $Store->unstoreEntity( 'Group', $data[ 'storeid' ] );
+        $object->addSingleSiteEngine();
+        $Store->storeEntity( $object );
 
         $rerenderid = $_REQUEST[ 'rerenderid' ];
 

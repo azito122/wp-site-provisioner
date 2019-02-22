@@ -111,9 +111,10 @@ class SiteProvisioner {
         $this->add_shortcode( 'debug' );
 
         // Ajax backend wiring.
-        add_action('wp_ajax_wpsp_render', array( '\WPSP\AjaxHandler', 'render' ) );
-        add_action('wp_ajax_wpsp_store', array( '\WPSP\AjaxHandler', 'store' ) );
-        add_action('wp_ajax_wpsp_makegroup', array( '\WPSP\AjaxHandler', 'makegroup' ) );
+        add_action('wp_ajax_wpsp_render',              array( '\WPSP\AjaxHandler', 'render' ) );
+        add_action('wp_ajax_wpsp_store',               array( '\WPSP\AjaxHandler', 'store' ) );
+        add_action('wp_ajax_wpsp_makegroup',           array( '\WPSP\AjaxHandler', 'makeGroup' ) );
+        add_action('wp_ajax_wpsp_addsinglesiteengine', array( '\WPSP\AjaxHandler', 'addSingleSiteEngine' ) );
 
         // Assets (CSS & JS)
         add_action( 'init', array( $this, 'js_init' ) );
