@@ -18,6 +18,7 @@ abstract class SingleSiteEngineRenderer extends \WPSP\render\entity\EntityRender
             'site-path'    => $instance->getConfig( 'path', false ),
             'site-title'   => $instance->getConfig( 'title', false ),
             'site-tagline' => $instance->getConfig( 'tagline', false ),
+            'label'        => $instance->label,
         );
         return Renderer::renderTemplate( 'entity', 'single-site-engine', $data );
     }
@@ -25,6 +26,7 @@ abstract class SingleSiteEngineRenderer extends \WPSP\render\entity\EntityRender
     public static function derender( $data, $type  = '' ) {
         $object = self::getBaseObject( $data );
 
+        $object->label = $data[ 'label' ];
         $object->setConfig( 'path', $data[ 'site-path' ] );
         $object->setConfig( 'title', $data[ 'site-title' ] );
         $object->setConfig( 'tagline', $data[ 'site-tagline' ] );
