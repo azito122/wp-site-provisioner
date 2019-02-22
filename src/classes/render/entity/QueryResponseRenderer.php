@@ -6,7 +6,7 @@ use WPSP\render\Renderer as Renderer;
 use WPSP\render\entity\QueryResponseMappingRenderer as QueryResponseMappingRenderer;
 use WPSP\query\response\QueryResponse as QueryResponse;
 
-abstract class QueryResponseRenderer implements \WPSP\render\entity\EntityRenderer {
+abstract class QueryResponseRenderer extends \WPSP\render\entity\EntityRenderer {
 
     public static function render( $instance ) {
         $mappings = '';

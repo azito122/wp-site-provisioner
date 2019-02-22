@@ -6,7 +6,7 @@ use WPSP\render\Renderer as Renderer;
 use WPSP\render\entity\QueryRenderer as QueryRenderer;
 use WPSP\GroupType as GroupType;
 
-abstract class GroupTypeRenderer implements \WPSP\render\entity\EntityRenderer {
+abstract class GroupTypeRenderer extends \WPSP\render\entity\EntityRenderer {
 
     public static function render( $instance ) {
         $data = array(

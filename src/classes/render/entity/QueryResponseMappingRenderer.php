@@ -5,7 +5,7 @@ namespace WPSP\render\entity;
 use WPSP\render\Renderer as Renderer;
 use WPSP\query\response\QueryResponseMapping as QueryResponseMapping;
 
-abstract class QueryResponseMappingRenderer implements \WPSP\render\entity\EntityRenderer {
+abstract class QueryResponseMappingRenderer extends \WPSP\render\entity\EntityRenderer {
 
     public static function render( $instance ) {
         $data = array(

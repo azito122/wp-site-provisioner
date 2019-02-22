@@ -8,7 +8,7 @@ use WPSP\render\entity\QueryParamsRenderer as QueryParamsRenderer;
 use WPSP\render\entity\QueryResponseRenderer as QueryResponseRenderer;
 use WPSP\render\Writer as Writer;
 
-abstract class QueryRenderer implements \WPSP\render\entity\EntityRenderer {
+abstract class QueryRenderer extends \WPSP\render\entity\EntityRenderer {
 
     public static function render( $instance ) {
         global $Store;

@@ -5,7 +5,7 @@ namespace WPSP\render\entity;
 use WPSP\render\Renderer as Renderer;
 use WPSP\query\Remote as Remote;
 
-abstract class RemoteRenderer implements \WPSP\render\entity\EntityRenderer {
+abstract class RemoteRenderer extends \WPSP\render\entity\EntityRenderer {
 
     public static function render( $instance ) {
         $data = array(

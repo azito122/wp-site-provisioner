@@ -6,7 +6,7 @@ use WPSP\render\Renderer as Renderer;
 use WPSP\query\params\QueryParams as QueryParams;
 use WPSP\render\entity\QueryParamRenderer as QueryParamRenderer;
 
-abstract class QueryParamsRenderer implements \WPSP\render\entity\EntityRenderer {
+abstract class QueryParamsRenderer extends \WPSP\render\entity\EntityRenderer {
 
     public static function render( $instance ) {
         $params = '';

@@ -5,7 +5,7 @@ namespace WPSP\render\entity;
 use WPSP\render\Renderer as Renderer;
 use WPSP\query\params\QueryParam as QueryParam;
 
-abstract class QueryParamRenderer implements \WPSP\render\entity\EntityRenderer {
+abstract class QueryParamRenderer extends \WPSP\render\entity\EntityRenderer {
 
     public static function render( $instance ) {
         $data = array(
