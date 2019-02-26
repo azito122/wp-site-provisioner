@@ -1,6 +1,8 @@
 <div class="entity form-block" entity-type="single-site-engine">
     <span class="entity-type-label">Site Engine</span>
 
+    <?php echo $W::hidden( 'uid', $D->get( 'uid' ) ); ?>
+
     <?php echo $W::textinput( array(
         'name'        => 'label',
         'default'     => $D->get( 'label', 'A New Site Engine' ),

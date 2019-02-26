@@ -21,6 +21,9 @@ class Store {
         ),
         'Query' => array(
             'Remote',
+        ),
+        'Remote' => array(
+
         )
     );
 
@@ -101,6 +104,11 @@ class Store {
         // Get entity type.
         $reflect = new \ReflectionClass( $object );
         $type = $reflect->getShortName();
+
+        // If this is not a solo storable entity, die.
+        if ( ! in_array( $type, array_keys( $this->typemap ) ) ) {
+            return false;
+        }
 
         // Find any sub-entities that need stored first.
         if ( array_key_exists( $type, $this->subentitymap ) ) {

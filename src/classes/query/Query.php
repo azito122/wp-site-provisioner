@@ -21,14 +21,12 @@ class Query {
     protected $latest;
     protected $data;
 
-    public function __sleep() {
-        return array(
+    protected $sleeplist = [
             'remoteid',
             'extrapath',
             'params',
             'responsemap',
-        );
-    }
+    ];
 
     public function __wakeup() {
         global $Store;

@@ -8,8 +8,6 @@ use WPSP\UserList as UserList;
 
 class SingleSiteEngine extends SiteEngine {
 
-    use \WPSP\traits\GetterSetter;
-
     protected $siteid;
     protected $owner;
     protected $config = array(
@@ -20,15 +18,13 @@ class SingleSiteEngine extends SiteEngine {
 
     protected $users;
 
-    public function __sleep() {
-        return array(
-            'label',
-            'siteid',
-            'owner',
-            'config',
-            'grouptypemeta'
-        );
-    }
+    protected $sleeplist = [
+        'label',
+        'siteid',
+        'owner',
+        'config',
+        'grouptypemeta'
+    ];
 
     public function __construct( $ownerid = null ) {
         $owner = isset( $ownerid ) ? wp_get_user_by( 'ID', $ownerid ) : wp_get_current_user();

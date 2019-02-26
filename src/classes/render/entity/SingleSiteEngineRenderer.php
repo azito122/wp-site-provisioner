@@ -13,12 +13,13 @@ abstract class SingleSiteEngineRenderer extends \WPSP\render\entity\EntityRender
         $siteid = $instance->siteid;
         $siteurl = $siteid ? get_blog_details($siteid)->siteurl : '';
         $data = array(
-            'owner_login'  => $instance->owner->login,
+            'uid'          => $instance->uid,
+            'label'        => $instance->label,
+            'owner-login'  => $instance->owner->login,
             'site-url'     => $siteurl,
             'site-path'    => $instance->getConfig( 'path', false ),
             'site-title'   => $instance->getConfig( 'title', false ),
             'site-tagline' => $instance->getConfig( 'tagline', false ),
-            'label'        => $instance->label,
         );
         return Renderer::renderTemplate( 'entity', 'single-site-engine', $data );
     }
@@ -27,6 +28,7 @@ abstract class SingleSiteEngineRenderer extends \WPSP\render\entity\EntityRender
         $object = self::getBaseObject( $data );
 
         $object->label = $data[ 'label' ];
+        $object->uid   = $data[ 'uid' ];
         $object->setConfig( 'path', $data[ 'site-path' ] );
         $object->setConfig( 'title', $data[ 'site-title' ] );
         $object->setConfig( 'tagline', $data[ 'site-tagline' ] );

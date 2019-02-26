@@ -13,7 +13,7 @@ class Group {
     protected $label;
     protected $meta;
     protected $queryid;
-    protected $siteengines;
+    protected $siteengines = [];
 
     protected $query;
     protected $members;
