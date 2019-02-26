@@ -4,6 +4,10 @@ namespace WPSP\traits;
 
 trait GetterSetter {
 
+    function __isset( $name ) {
+        return isset( $this->$name );
+    }
+
     function __get( $name ) {
         $m = "get_$name";
         if ( method_exists( $this, $m ) ) {
