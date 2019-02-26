@@ -143,7 +143,7 @@ abstract class Renderer {
             ] );
 
             $grouptypeblocks .= Renderer::renderTemplate( 'special', 'my-group-type-block', array(
-                'group-type-id' => $grouptype->storeid,
+                'group-type-id' => $grouptype->uid,
                 'name' => $grouptype->label,
                 'possiblemetasmenu' => $possiblemetas,
             ));

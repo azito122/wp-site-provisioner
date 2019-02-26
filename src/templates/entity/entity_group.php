@@ -9,7 +9,7 @@
         'class'       => 'entity-label label-input'
     ) ); ?>
 
-    <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ); ?>
+    <?php echo $W::hidden( 'uid', $D->get( 'uid' ) ); ?>
     <?php echo $W::hidden( 'queryid', $D->get( 'queryid' ) ); ?>
     <?php echo $W::hidden( 'meta', $D->get( 'meta' ) ); ?>
 

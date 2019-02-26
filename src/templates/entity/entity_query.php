@@ -2,7 +2,7 @@
     <span class="entity-type-label">Query</span>
     <h2 class="entity-label"><?php echo $D->get( 'label', 'Query' ) ?></h2>
 
-    <?php echo $W::hidden( 'storeid', $D->get( 'storeid' ) ); ?>
+    <?php echo $W::hidden( 'uid', $D->get( 'uid' ) ); ?>
 
     <?php echo $D->get( 'remotesmenu' ) ?>
 

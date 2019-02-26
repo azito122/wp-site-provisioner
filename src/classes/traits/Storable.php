@@ -4,12 +4,23 @@ namespace WPSP\traits;
 
 trait Storable {
 
-    private $storeid;
+    protected $uid;
+    protected $sleeplist;
 
-    private function makeStoreId() {
+    public function __sleep() {
+        if ( ! is_null( $this->sleeplist ) ) {
+            return array_merge( $this->sleeplist, [
+                'uid'
+            ] );
+        } else {
+            return array_keys( get_object_vars( $this ) );
+        }
+    }
+
+    public function makeUID() {
         $prefix = str_replace( '\\', '_', strtolower( get_class( $this ) ) ) . '_';
         $id = uniqid( $prefix );
-        $this->storeid = $id;
+        $this->uid = $id;
         return $id;
     }
 }

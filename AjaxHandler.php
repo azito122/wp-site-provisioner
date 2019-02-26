@@ -15,7 +15,7 @@ abstract class AjaxHandler {
         $metas = $grouptype->generatePossibleMetas();
         $group = $grouptype->makeGroup( $metas[ $metaid ] );
         $Store->storeEntity( $group );
-        $Store->addUserGroupId( $group->storeid );
+        $Store->addUserGroupId( $group->uid );
         die();
     }
 
@@ -24,7 +24,7 @@ abstract class AjaxHandler {
 
         $type = $_REQUEST[ 'rendertype' ];
         if ( $type == 'template' ) {
-            echo Renderer::renderTemplate( $template );
+            // echo Renderer::renderTemplate( $template );
         } else if ( $type == 'entity' ) {
             $name = Renderer::classnameFrontToBack( $_REQUEST[ 'entity' ] );
             $classname = resolve_classname( $name );
@@ -77,7 +77,7 @@ abstract class AjaxHandler {
 
         $data = json_decode(stripslashes($_REQUEST[ 'data' ]), true);
 
-        $object = $Store->unstoreEntity( 'Group', $data[ 'storeid' ] );
+        $object = $Store->unstoreEntity( 'Group', $data[ 'uid' ] );
         $object->addSingleSiteEngine();
         $Store->storeEntity( $object );
 

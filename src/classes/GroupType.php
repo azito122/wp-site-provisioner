@@ -20,14 +20,11 @@ class GroupType {
     protected $metaquery;
     protected $userquery;
 
-    public function __sleep() {
-        return array(
-            'storeid',
-            'label',
-            'metaqueryid',
-            'userqueryid',
-        );
-    }
+    protected $sleeplist = [
+        'label',
+        'metaqueryid',
+        'userqueryid',
+    ];
 
     public function __wakeup() {
         global $Store;
@@ -92,12 +89,12 @@ class GroupType {
 
     // Getters & setters ------------------------
     public function set_metaquery( Query $query ) {
-        $this->metaqueryid = $query->storeid;
+        $this->metaqueryid = $query->uid;
         $this->metaquery = $query;
     }
 
     public function set_userquery( Query $query ) {
-        $this->userqueryid = $query->storeid;
+        $this->userqueryid = $query->uid;
         $this->userquery = $query;
     }
 

@@ -19,7 +19,7 @@ abstract class GroupRenderer extends \WPSP\render\entity\EntityRenderer {
         }
 
         $data = array(
-            'storeid'       => $instance->storeid,
+            'uid'       => $instance->uid,
             'label'         => $instance->label,
             'queryid'       => $instance->queryid,
             'meta'          => urlencode( json_encode( $instance->meta ) ),
@@ -37,7 +37,7 @@ abstract class GroupRenderer extends \WPSP\render\entity\EntityRenderer {
         $object = self::getBaseObject( $data );
 
         $object->label = $data[ 'label' ];
-        $object->storeid = $data[ 'storeid' ];
+        $object->uid = $data[ 'uid' ];
         $object->queryid = $data[ 'queryid' ];
         $object->meta = (array) json_decode( urldecode( $data[ 'meta' ] ) );
 

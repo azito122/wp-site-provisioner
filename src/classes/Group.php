@@ -18,14 +18,12 @@ class Group {
     protected $query;
     protected $members;
 
-    public function __sleep() {
-        return array(
-            'label',
-            'meta',
-            'queryid',
-            'siteengines',
-        );
-    }
+    protected $sleeplist = [
+        'label',
+        'meta',
+        'queryid',
+        'siteengines',
+    ];
 
     public function __wakeup() {
         global $Store;

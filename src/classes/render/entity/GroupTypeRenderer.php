@@ -10,7 +10,7 @@ abstract class GroupTypeRenderer extends \WPSP\render\entity\EntityRenderer {
 
     public static function render( $instance ) {
         $data = array(
-            'storeid' => $instance->storeid,
+            'uid' => $instance->uid,
             'label' => $instance->label,
             'meta-query' => Renderer::renderEntity( $instance->metaquery ),
             'user-query' => Renderer::renderEntity( $instance->userquery ),
@@ -30,7 +30,7 @@ abstract class GroupTypeRenderer extends \WPSP\render\entity\EntityRenderer {
 
         $object->userquery = QueryRenderer::derender( $data[ 'user-query' ] );
 
-        $object->storeid = $data[ 'storeid' ];
+        $object->uid = $data[ 'uid' ];
         return $object;
     }
 

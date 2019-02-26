@@ -16,7 +16,7 @@ abstract class QueryRenderer extends \WPSP\render\entity\EntityRenderer {
         $remotes = $Store->unstoreEntity( 'Remote' );
         $remotemenu = array();
         foreach ( $remotes as $remote ) {
-            $remotemenu[ $remote->storeid ] = $remote->label;
+            $remotemenu[ $remote->uid ] = $remote->label;
         }
 
         $remotemenustring = Writer::select( [
@@ -28,7 +28,7 @@ abstract class QueryRenderer extends \WPSP\render\entity\EntityRenderer {
 
         $data = array(
             'label'       => $instance->label,
-            'storeid'     => $instance->storeid,
+            'uid'     => $instance->uid,
             'remotesmenu' => $remotemenustring,
             'path'        => $instance->extrapath,
             'params'      => QueryParamsRenderer::render( $instance->params ),
@@ -54,7 +54,7 @@ abstract class QueryRenderer extends \WPSP\render\entity\EntityRenderer {
             $object->responsemap = $response;
         }
 
-        $object->storeid = $data[ 'storeid' ];
+        $object->uid = $data[ 'uid' ];
         return $object;
     }
 }

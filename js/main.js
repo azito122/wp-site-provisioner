@@ -194,8 +194,8 @@ WPSP.getEntityType = function(entity) {
     return $(entity).attr('entity-type');
 }
 
-WPSP.getElementByStoreId = function(id) {
-    return $('input[name="storeid"][value="' + id + '"]').parent();
+WPSP.getElementByuid = function(id) {
+    return $('input[name="uid"][value="' + id + '"]').parent();
 }
 
 })(jQuery)

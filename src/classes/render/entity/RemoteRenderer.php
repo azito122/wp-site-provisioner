@@ -9,7 +9,7 @@ abstract class RemoteRenderer extends \WPSP\render\entity\EntityRenderer {
 
     public static function render( $instance ) {
         $data = array(
-            'storeid' => $instance->storeid,
+            'uid' => $instance->uid,
             'label' => $instance->label,
             'url' => $instance->url,
         );
@@ -21,7 +21,7 @@ abstract class RemoteRenderer extends \WPSP\render\entity\EntityRenderer {
             return false;
         }
         $object = new Remote( $data[ 'label' ], $data[ 'url' ] );
-        $object->storeid = $data[ 'storeid' ];
+        $object->uid = $data[ 'uid' ];
         return $object;
     }
 

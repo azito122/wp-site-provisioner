@@ -41,7 +41,7 @@ class Store {
      * Unstore a storable Entity.
      *
      * @param string $type A string representing the type of the entity (matches class shortname).
-     * @param int|null $id The id of the entity to unstore.
+     * @param int|array|null $id The id of the entity to unstore.
      *
      * @return object|array The entity or entities matching the given criteria.
      */
@@ -92,9 +92,9 @@ class Store {
 
     public function storeEntity( $object ) {
         // If this is not a storable entity, die.
-        if ( ! property_exists( $object, 'storeid' ) && method_exists( $object, 'makeStoreId' ) ) {
-            $object->makeStoreId();
-        } else if ( ! property_exists( $object, 'storeid' ) ) {
+        if ( method_exists( $object, 'makeUID' ) && empty( $object->uid ) ) {
+            $object->makeUID();
+        } else if ( ! property_exists( $object, 'uid' ) ) {
             return false;
         }
 
@@ -112,7 +112,7 @@ class Store {
         }
 
         // Get entity id and serial.
-        $id = $object->storeid;
+        $id = $object->uid;
         $serial = serialize( $object );
 
         $storedid = $this->store( $serial, $type, $id );
@@ -125,7 +125,7 @@ class Store {
 
     public function reconstitute( $serial, $id ) {
         $object = unserialize( $serial );
-        $object->storeid = $id;
+        $object->uid = $id;
         return $object;
     }
 

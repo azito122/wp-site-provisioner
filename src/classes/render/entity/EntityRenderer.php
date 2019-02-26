@@ -17,8 +17,8 @@ abstract class EntityRenderer implements \WPSP\render\entity\InterfaceEntityRend
     public static function getBaseObject( $data ) {
         global $Store;
 
-        if ( isset( $data[ 'storeid' ] ) && ! empty( $data[ 'storeid' ] ) ) {
-            $object = $Store->unstoreEntity( static::$type, $data[ 'storeid' ] );
+        if ( isset( $data[ 'uid' ] ) && ! empty( $data[ 'uid' ] ) ) {
+            $object = $Store->unstoreEntity( static::$type, $data[ 'uid' ] );
         } else {
             $type = resolve_classname( static::$type );
             $object = new $type();

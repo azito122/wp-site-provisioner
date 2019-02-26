@@ -93,13 +93,13 @@ class Query {
         return $params;
     }
 
-    private function findParam( $id ) {
-        if ( ! array_key_exists( $id, $this->params ) ) {
-            return;
-        }
+    // private function findParam( $id ) {
+    //     if ( ! array_key_exists( $id, $this->params ) ) {
+    //         return;
+    //     }
 
-        return array( $id => $this->resolve( $this->params[ $id ] ) );
-    }
+    //     return array( $id => $this->resolve( $this->params[ $id ] ) );
+    // }
 
     // public function addParam( $param = null ) {
     //     if ( ! $param instanceof QueryParam ) {
@@ -109,16 +109,16 @@ class Query {
     //     return $param;
     // }
 
-    public function deleteParam( QueryParam $param ) {
-        unset( $this->params[ array_search( $param, $this->params ) ] );
-    }
+    // public function deleteParam( QueryParam $param ) {
+    //     unset( $this->params[ array_search( $param, $this->params ) ] );
+    // }
 
     public function get_url() {
         return $this->remote->url . $this->extrapath;
     }
 
     public function set_remote( $remote ) {
-        $this->remoteid = $remote->storeid;
+        $this->remoteid = $remote->uid;
         $this->remote = $remote;
     }
 }
