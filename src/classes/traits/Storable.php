@@ -5,10 +5,9 @@ namespace WPSP\traits;
 trait Storable {
 
     protected $uid;
-    protected $sleeplist;
 
     public function __sleep() {
-        if ( ! is_null( $this->sleeplist ) ) {
+        if ( isset( $this->sleeplist ) ) {
             return array_merge( $this->sleeplist, [
                 'uid'
             ] );
