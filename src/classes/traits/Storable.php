@@ -16,6 +16,14 @@ trait Storable {
         }
     }
 
+    public function get_uid() {
+        if ( isset( $this->uid ) ) {
+            return $this->uid;
+        } else {
+            return $this->makeUID();
+        }
+    }
+
     public function makeUID() {
         $prefix = str_replace( '\\', '_', strtolower( get_class( $this ) ) ) . '_';
         $id = uniqid( $prefix );

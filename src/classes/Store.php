@@ -95,9 +95,7 @@ class Store {
 
     public function storeEntity( $object ) {
         // If this is not a storable entity, die.
-        if ( method_exists( $object, 'makeUID' ) && empty( $object->uid ) ) {
-            $object->makeUID();
-        } else if ( ! property_exists( $object, 'uid' ) ) {
+        if ( ! property_exists( $object, 'uid' ) ) {
             return false;
         }
 
