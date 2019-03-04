@@ -14,6 +14,7 @@ WPSP.ajax = function(args) {
     let defaultargs = {
         type: 'post',
         url: WPSP_AJAX.ajaxurl,
+        success: WPSP.rerenderFromAJAX,
     }
     $.ajax( Object.assign(defaultargs, args) );
 }
@@ -21,6 +22,31 @@ WPSP.ajax = function(args) {
 WPSP.rerender = function(rerenderid, rerendered) {
     rerenderel = WPSP.rerendermap[rerenderid];
     $(rerenderel).replaceWith(rerendered);
+}
+
+WPSP.rerenderFromAJAX = function(response, status) {
+    console.log(response);
+    if (status == 'success' && response && response['rerendered']) {
+        WPSP.rerender(response['rerenderid'], response['rerendered']);
+    }
+}
+
+WPSP.removeSiteEngine = function(group, siteengine) {
+    let rerenderid = Math.random();
+    WPSP.rerendermap[rerenderid] = group;
+    let gderendered = WPSP.derender(group);
+    let sederendered = WPSP.derender(siteengine);
+
+    console.log(sederendered);
+
+    WPSP.ajax({
+        data: {
+            action: 'wpsp_removesiteengine',
+            rerenderid: rerenderid,
+            data: gderendered,
+            siteengineid: sederendered['uid'],
+        }
+    })
 }
 
 WPSP.alterEntity = function(entity, action, extra) {

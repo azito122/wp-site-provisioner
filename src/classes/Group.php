@@ -61,6 +61,15 @@ class Group {
         return $siteengine;
     }
 
+    public function removeSiteEngine( $id ) {
+        $siteengine = array_filter( $this->siteengines, function( $siteengine ) use ( $id ) {
+            return $siteengine->uid == $id;
+        } )[0];
+        $index = array_search( $siteengine, $this->siteengines );
+        unset( $this->siteengines[ $index ] );
+        array_values( $this->siteengines );
+    }
+
     public function loadUsers() {
         return $this->query->run( $this->meta );
     }

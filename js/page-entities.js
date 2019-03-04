@@ -38,6 +38,9 @@ $(document).ready(function() {
     $(document).on( 'click', '.entity[entity-type="group"] .add-button', function( e ) {
         WPSP.alterEntity($(e.target).parents('.entity'), 'addSubEntity', 'SingleSiteEngine');
     })
+    $(document).on( 'click', '.entity[entity-type="single-site-engine"] .trash', function(e) {
+        WPSP.removeSiteEngine($(e.target).parents('.entity[entity-type="group"]'), $(e.target).parents('.entity[entity-type="single-site-engine"]'));
+    })
 
     $(document).on( 'click', '.page-entities .add-button[entity-type]', function( e ) {
         if ( $('.new-entity').has('.entity').length > 0 ) {

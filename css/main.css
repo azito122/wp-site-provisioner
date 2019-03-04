@@ -79,6 +79,11 @@
     border-color: lightgrey; }
   .wpsp-page input.label-input:not(:focus) {
     background: none; }
+.wpsp-page .trash {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer; }
 .wpsp-page .entity[entity-type=remote] {
   border-left: 10px solid red; }
   .wpsp-page .entity[entity-type=remote] .label-input {

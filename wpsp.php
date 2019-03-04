@@ -115,6 +115,7 @@ class SiteProvisioner {
         add_action('wp_ajax_wpsp_store',               array( '\WPSP\AjaxHandler', 'store' ) );
         add_action('wp_ajax_wpsp_makegroup',           array( '\WPSP\AjaxHandler', 'makeGroup' ) );
         add_action('wp_ajax_wpsp_addsinglesiteengine', array( '\WPSP\AjaxHandler', 'addSingleSiteEngine' ) );
+        add_action('wp_ajax_wpsp_removesiteengine', array( '\WPSP\AjaxHandler', 'removeSiteEngine' ) );
 
         // Assets (CSS & JS)
         add_action( 'init', array( $this, 'js_init' ) );

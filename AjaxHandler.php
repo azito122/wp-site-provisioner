@@ -91,4 +91,27 @@ abstract class AjaxHandler {
 
         die();
     }
+
+    public static function removeSiteEngine() {
+        global $Store;
+
+        header( 'Content-Type: application/json' );
+
+        $data = json_decode(stripslashes($_REQUEST[ 'data' ]), true);
+        $siteengineid = $_REQUEST[ 'siteengineid' ];
+
+        $object = $Store->unstoreEntity( 'Group', $data[ 'storeid' ] )[0];
+        $object->removeSiteEngine( $siteengineid );
+        $Store->storeEntity( $object );
+
+        $rerenderid = $_REQUEST[ 'rerenderid' ];
+
+        if ( ! empty( $rerenderid ) ) {
+            $return[ 'rerenderid' ] = $rerenderid;
+            $return[ 'rerendered' ] = Renderer::renderEntity( $object );
+        }
+        echo json_encode( $return );
+
+        die();
+    }
 }
