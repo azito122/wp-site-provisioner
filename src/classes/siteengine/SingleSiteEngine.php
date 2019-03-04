@@ -74,7 +74,23 @@ class SingleSiteEngine extends SiteEngine {
     }
 
     public function updateSiteAccess() {
+        $upusers = $this->users->get( 'login' );
+        $exusers = array_map( function( $u ) {
+            return $u[ 'login' ];
+        }, get_users( [ 'blog_id' => $this->siteid ] ) );
 
+        $addusers = array_diff( $upusers, $exusers );
+        $removeusers = array_diff( $exusers, $upusers );
+
+        foreach ( $addusers as $login ) {
+            $u = get_user_by( 'login', $login );
+            add_user_to_blog( $this->siteid, $u[ 'ID' ], 'editor' );
+        }
+
+        foreach( $removeusers as $login ) {
+            $u = get_user_by( 'login', $login );
+            remove_user_from_blog( $u[ 'ID' ], $this->siteid );
+        }
     }
 
     public function getFlagData() {
