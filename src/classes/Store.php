@@ -60,7 +60,11 @@ class Store {
 
         if ( is_scalar( $id ) ) {
             // If unstoring a single entity, grab from cache.
-            return $this->reconstitute( $this->cache[ $id ][ 'serial' ], $id );
+            if ( array_key_exists( $id, $this->cache ) ) {
+                return $this->reconstitute( $this->cache[ $id ][ 'serial' ], $id );
+            } else { // If not found in cache, this entity hasn't been stored.
+                return false;
+            }
         } else {
             // Get data for all matching criteria.
             $cacheentries = array_filter( $this->cache, function( $cacheentry ) use ( $type, $id ) {
